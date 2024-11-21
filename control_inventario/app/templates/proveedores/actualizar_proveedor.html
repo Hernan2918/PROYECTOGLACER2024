@@ -1,0 +1,49 @@
+<div class="modal fade" id="editarModalProveedor" tabindex="-1" aria-labelledby="modalActualizarLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalRegistroLabel">Actualizar proveedor</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/actualizar_proveedor" method="post" enctype="multipart/form-data" onsubmit="return validarFormularioProveedorA() ">
+                    <input type="hidden" id="editarproveedorId" name="id_proveedor">
+                    <div class="mb-3">
+                        <label for="nombreeditar" class="form-label">Nombre</label>
+                        <input type="txt" class="form-control" id="nombreeditar" name="nombreeditar">
+                        <div class="invalid-feedback" id="nombreErrorA"></div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="telefonoeditar" class="form-label">Telefono</label>
+                        <input type="txt" class="form-control" id="telefonoeditar" name="telefonoeditar">
+                        <div class="invalid-feedback" id="telefonoErrorA"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="correoeditar" class="form-label">Correo</label>
+                        <input type="txt" class="form-control" id="correoeditar" name="correoeditar">
+                        <div class="invalid-feedback" id="correoErrorA"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="direccioneditar" class="form-label">Dirección</label>
+                        <input type="txt" class="form-control" id="direccioneditar" name="direccioneditar">
+                        <div class="invalid-feedback" id="direccionErrorA"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="fotoeditar" class="form-label">Foto</label>
+                        <input type="file" class="form-control" id="fotoeditar" name="fotoeditar">
+                        <div class="invalid-feedback" id="fotoErrorA"></div>
+                        <img id="previeweditar" src="" alt="previeweditar" style="display: block; max-width: 30%; height: auto;">
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-danger" id="Registrar" name="Registrar">Actualizar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+  </div>
+  
+

@@ -1,0 +1,155 @@
+<main role="main" id="TablaProductos" class="col-md-11">
+    <div class="encabezado">
+        <div class="elemento1">
+            {% if 'nombre' in session %}
+            <h5>¡Hola!, {{ session['nombre'] }} </h5>
+            
+        {% else %}
+            
+        {% endif %}
+        </div>
+        <div id="bienvenidoUduario">
+            <div class="elemento2">
+                <i id="Descargar" class="bi bi-download"></i>
+            </div>
+            <div class="elemento3">
+                <button type="button" id="registroProducto" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#productos">
+            
+                    <i class="fas fa-plus"></i> Producto
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="card  mt-10" id="contenido">
+        <div class="card-header text-center">
+            <h5>Consulta sanitarios</h5>
+        </div>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+     <div class="alert {% if category == 'success' %}alert-success{% elif category == 'error' %}alert-danger{% else %}alert-info{% endif %}" role="alert">
+        {{ message }}
+      </div>
+      <script>
+        // Cerrar automáticamente la alerta después de 5 segundos
+        setTimeout(function() {
+          $('.alert').alert('close');
+        }, 1500);
+      </script>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+        <div class="card-body">
+            <div class=" table-responsive">
+                <table  class="table table-striped  table-sm" id="tabla_productos">
+                    <thead>
+                        <tr>
+                            
+                            <th scope="col">Proveedor</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Existencia</th>
+                            <th scope="col">Rotas</th>
+                            <th scope="col">Precio</th>
+                            <th scope="col">Ubicación</th>
+                            <th scope="col">Categoría</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="product-table-body">
+                        {% for sanitario in sanitarios %}
+                        <tr>
+                            
+                            
+                            <td>{{sanitario.proveedor_nombre}}</td>
+                            <td>{{sanitario.nombre}}</td>
+                            <td>
+                                {% if sanitario.existencias < 10 %}
+                                    <span class="circulo-rojo">{{ sanitario.existencias }}</span>
+                                {% else %}
+                                    {{ sanitario.existencias }}
+                                {% endif %}
+                            </td>
+                            <td>{{sanitario.rotas}}</td>
+                            <td>{{sanitario.precio}}</td>
+                            <td>{{sanitario.ubicacion}}</td>
+                            <td>{{sanitario.categoria_nombre}}</td>
+                            <td>
+                                
+                                
+                                <button type="submit" class="btn btn-primary" id="btnactualizar" data-bs-toggle="modal" data-bs-target="#editarModalProductoSanitarios" data-id="{{ sanitario.id_sanitario }}"  data-proveedor="{{ sanitario.id_proveedor }}" data-producto="{{sanitario.nombre}}" data-existencias="{{sanitario.existencias}}" data-precio="{{sanitario.precio}}" data-rotas="{{ sanitario.rotas }}" data-ubicacion="{{sanitario.ubicacion}}" data-categoria="{{sanitario.id_categoria}}" value="#"><i class="bi bi-arrow-clockwise"></i></button>
+                                
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#eliminarSANITARIOS" value="{{ sanitario.id_sanitario }}" data-id="{{ sanitario.id_sanitario }}">
+                                    <i class="bi bi-trash3-fill"></i>
+                                </button>
+                                <button type="button" id="btnactualizar"  class="btn btn-primary"onclick="window.location.href='{{ url_for('main.descargar_etiqueta_sanitario', sanitario_id=sanitario.id_sanitario) }}'">
+                                    <i class="bi bi-printer-fill"></i>
+                                </button>
+                                
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        <script>
+                            
+                        </script>
+                        
+                        
+                    </tbody>
+                </table>
+                <div id="noMatches" class="alert alert-warning mt-3" style="display: none;">
+                    No se encontraron coincidencias.
+                </div>
+            </div>
+        </div>
+        <div class="card-footer text-muted ">
+            SISTEMA GLACER
+        </div>
+    </div>
+    
+</main>
+
+
+<style>
+    .pagination-number {
+        cursor: pointer;
+        padding: 5px 10px;
+        margin: 0 2px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+    }
+    
+    .pagination-number.active {
+        background-color: rgb(21, 110, 243);
+        color: white;
+        
+    }
+    .pagination-numbers{
+        margin-top: 3.5px;
+        
+    }
+    
+    .ellipsis {
+        padding: 5px 10px;
+        color: #aaa;
+        cursor: default;
+    }
+    
+    .pagination-btn{
+        border: 1px solid #ccc;
+        width: 30px;
+        height: 30px;
+        margin-bottom: 2px;
+    }
+
+</style>
+
+<div class="paginado">
+    <button class="pagination-btn" id="prev-page">
+        <i class="bi bi-chevron-left" style="color: #111;"></i>
+    </button>
+    <div id="pagination-numbers" class="pagination-numbers">
+        <!-- Los números de página se cargarán aquí -->
+    </div>
+    <button class="pagination-btn" id="Pagina_sig">
+        <i class="bi bi-chevron-right" style="color: #111;"></i>
+    </button>
+</div>

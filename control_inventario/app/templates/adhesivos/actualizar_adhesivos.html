@@ -1,0 +1,66 @@
+<div class="modal fade" id="editarModalProductoAdhesivos" tabindex="-1" aria-labelledby="modalActualizarLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalRegistroLabel">Actualizar producto</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/actualizar_adhesivos" method="post" onsubmit="return validarFormularioproductoA()">
+                    <input type="hidden" id="editarproductoId" name="id_producto">
+                    
+                    <div class="mb-3">
+                        <label for="proveedoreseditar" class="form-label">Proveedor</label><br>
+                        <select id="proveedoreseditar" name="proveedoreseditar" class="form-control">
+                            {% for proveedor in proveedores %}
+                            <option value="{{ proveedor.id_proveedor }}">{{ proveedor.nombre }}</option>
+                            {% endfor %}
+                        </select> 
+                        <div class="invalid-feedback" id="proveedoresErrorA"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="productoeditar" class="form-label">Nombre</label>
+                        <input type="txt" class="form-control" id="productoeditar" name="productoeditar">
+                        <div class="invalid-feedback" id="productoErrorA"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="kilogramoseditar" class="form-label">Kilogramos</label>
+                        <input type="txt" class="form-control" id="kilogramoseditar" name="kilogramoseditar">
+                        <div class="invalid-feedback" id="kilogramosErrorA"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="existenciaeditar" class="form-label">Existencia</label>
+                        <input type="txt" class="form-control" id="existenciaeditar" name="existenciaeditar">
+                        <div class="invalid-feedback" id="existenciaErrorA"></div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="precioeditar" class="form-label">Precio</label>
+                        <input type="txt" class="form-control" id="precioeditar" name="precioeditar">
+                        <div class="invalid-feedback" id="precioErrorA"></div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="ubicacioneditar" class="form-label">Ubicación</label>
+                        <input type="txt" class="form-control" id="ubicacioneditar" name="ubicacioneditar">
+                        <div class="invalid-feedback" id="ubicacionErrorA"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="categoriaseditar" class="form-label">Categoría</label><br>
+                        <select id="categoriaseditar" name="categoriaseditar" class="form-control">
+                            {% for categoria in categorias %}
+                            <option value="{{ categoria.id_categoria }}">{{ categoria.nombre }}</option>
+                            {% endfor %}
+                        </select> 
+                        <div class="invalid-feedback" id="categoriasErrorA"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-danger" id="Registrar" name="Registrar">Actualizar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+  </div>
+  

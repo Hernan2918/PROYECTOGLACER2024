@@ -1,0 +1,48 @@
+<div class="modal fade" id="modalRegistroProveedor" tabindex="-1" aria-labelledby="modalRegistroLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalRegistroLabel">Nuevo proveedor</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/registro_proveedor" method="post" enctype="multipart/form-data" onsubmit="return validarFormularioProveedor()">
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre</label>
+                        <input type="txt" class="form-control" id="nombre" name="nombre">
+                        <div class="invalid-feedback" id="nombreError"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="telefono" class="form-label">Telefono</label><br>
+                        <input type="text" class="form-control" id="telefono" name="telefono">
+                        <div class="invalid-feedback" id="telefonoError"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="correo" class="form-label">Correo</label>
+                        <input type="email" class="form-control" id="correo" name="correo">
+                        <div class="invalid-feedback" id="correoError"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="direccion" class="form-label">Dirección</label>
+                        <input type="txt" class="form-control" id="direccion" name="direccion">
+                        <div class="invalid-feedback" id="direccionError"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="foto" class="form-label">Foto</label>
+                        <input type="file" class="form-control" id="foto" name="foto" accept="image/*">
+                        <div class="invalid-feedback" id="fotoError"></div>
+                        <img id="preview" src="" alt="Preview" >
+                    </div>
+                    
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-danger" id="Registrar" name="Registrar">Registrar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+  </div>
+  
+

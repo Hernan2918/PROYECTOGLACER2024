@@ -1,0 +1,51 @@
+@font-face{
+    font-family: 'Montserrat';
+    src: url(../css/Montserrat/static/Montserrat-Regular.ttf);
+    font-weight: normal;
+    font-style: normal;
+}
+*{margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat';
+}
+.modal-content{
+    width: 35%;
+    height: 70%;
+    
+    margin: 0 0 10% 33%;
+    box-shadow: 3px 3px 10px #4e4d4d;
+    
+}
+.modal-header{
+    background-color: #d71111;
+    
+    padding: 15px;
+    color: #fff;
+    
+}
+.modal-title{
+    margin-left: 33%;
+}
+
+.modal-body{
+    padding: 25px;
+}
+.btn-close{
+    color: #fff;
+    background-color: #d71111;
+}
+
+#cerrar{
+    margin-right: 60%;
+    
+}
+
+.mensaje{
+    margin: 0;
+    padding: 0;
+    color: #d61313;
+    text-align: left;
+    margin-bottom: 5px;
+    
+}

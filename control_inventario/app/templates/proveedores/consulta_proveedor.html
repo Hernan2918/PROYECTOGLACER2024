@@ -1,0 +1,84 @@
+<main role="main" id="Tabla" class="col-md-10">
+
+    <div class="encabezadoPC">
+        <div class="elemento5">
+            {% if 'nombre' in session %}
+            <h5>¡Hola!, {{ session['nombre'] }} </h5>
+            
+        {% else %}
+            
+        {% endif %}
+        </div>
+        <div class="elemento6">
+            <button type="button" id="registroProveedor" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#productos">
+
+                <i class="fas fa-plus"></i> Proveedor</button>
+        </div>
+    </div>
+    
+    <div class="card  mt-10" id="contenido">
+        <div class="card-header text-center">
+            <h5>Consulta proveedores</h5>
+        </div>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+     <div class="alert {% if category == 'success' %}alert-success{% elif category == 'error' %}alert-danger{% else %}alert-info{% endif %}" role="alert">
+        {{ message }}
+      </div>
+      <script>
+        // Cerrar automáticamente la alerta después de 5 segundos
+        setTimeout(function() {
+          $('.alert').alert('close');
+        }, 1500);
+      </script>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+        <div class="card-body">
+            <div class=" table-responsive">
+                <table  class="table table-striped  table-sm" id="tabla_proveedores">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Telefono</th>
+                            <th scope="col">Correo</th>
+                            <th scope="col">Direccion</th>
+                            <th scope="col">Foto</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for proveedor in proveedores %}
+                        <tr>
+                            <td>{{proveedor.nombre}}</td>
+                            <td>{{proveedor.telefono}}</td>
+                            <td>{{proveedor.correo}}</td>
+                            <td>{{proveedor.direccion}}</td>
+                            <td><img src="{{ url_for('static', filename='uploads/' + proveedor.foto) }}"  alt="Foto de proveedor" style="width: 60px; height: auto;">
+                            </td>
+                            <td>
+                                <button type="submit" class="btn btn-primary" id="btnactualizar" data-bs-toggle="modal" data-bs-target="#editarModalProveedor" data-id="{{ proveedor.id_proveedor }}" data-nombre="{{ proveedor.nombre }}" data-telefono="{{ proveedor.telefono }}" data-correo="{{ proveedor.correo }}" data-direccion="{{ proveedor.direccion }}" data-foto="{{ proveedor.foto }}" value="#"><i class="bi bi-arrow-clockwise"></i></button>
+                                <button type="submit" class="btn btn-danger" id="btneliminar" data-bs-toggle="modal" data-bs-target="#eliminarProveedor" value="{{ proveedor.id_proveedor }}" data-id="{{ proveedor.id_proveedor }}"><i class="bi bi-trash3-fill"></i></button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        <script>
+                            
+                        </script>
+                        
+                        
+                    </tbody>
+                </table>
+                <div id="noMatches" class="alert alert-warning mt-3" style="display: none;">
+                    No se encontraron coincidencias.
+                </div>
+            </div>
+        </div>
+        <div class="card-footer text-muted ">
+            SISTEMA GLACER
+        </div>
+    </div>
+    
+</main>
+

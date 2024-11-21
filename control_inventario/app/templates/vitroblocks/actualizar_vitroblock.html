@@ -1,0 +1,213 @@
+<div class="modal fade" id="editarModalProductoVitroblock" tabindex="-1" aria-labelledby="modalActualizarLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalRegistroLabel">Actualizar producto</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/actualizar_vitroblocks" method="post" onsubmit="return validarFormularioproductoA()">
+                    <input type="hidden" id="editarproductoId" name="id_producto">
+                    
+                    <div class="mb-3">
+                        <label for="proveedoreseditar" class="form-label">Proveedor</label><br>
+                        <select id="proveedoreseditar" name="proveedoreseditar" class="form-control">
+                            {% for proveedor in proveedores %}
+                            <option value="{{ proveedor.id_proveedor }}">{{ proveedor.nombre }}</option>
+                            {% endfor %}
+                        </select> 
+                        <div class="invalid-feedback" id="proveedoresErrorA"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="tipoeditar" class="form-label">Tipo</label><br>
+                        <select id="tipoeditar" name="tipoeditar" class="form-control">
+                            <option  value="">Selecciona una opción</option>
+                            <option>Shade</option>
+                            <option>Transportado</option>
+                            <option>Perla</option>
+                            <option> </option>
+                        </select> 
+                        <div class="invalid-feedback" id="tiposErrorA"></div>
+                    </div>
+                   
+
+                    <div class="mb-3">
+                        <label for="medidaseditar" class="form-label">Medidas</label>
+                        <input type="txt" class="form-control" id="medidaseditar" name="medidaseditar">
+                        <div class="invalid-feedback" id="medidasErrorA"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="nombreeditar" class="form-label">Nombre</label>
+                        <input type="txt" class="form-control" id="nombreeditar" name="nombreeditar">
+                        <div class="invalid-feedback" id="nombreErrorA"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="existenciaeditar" class="form-label">Existencia</label>
+                        <input type="txt" class="form-control" id="existenciaeditar" name="existenciaeditar">
+                        <div class="invalid-feedback" id="existenciaErrorA"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="rotaseditar" class="form-label">Rotas</label>
+                        <input type="txt" class="form-control" id="rotaseditar" name="rotaseditar">
+                        <div class="invalid-feedback" id="rotasErrorA"></div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="precioeditar" class="form-label">Precio</label>
+                        <input type="txt" class="form-control" id="precioeditar" name="precioeditar">
+                        <div class="invalid-feedback" id="precioErrorA"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="ubicacioneditar" class="form-label">Ubicación</label>
+                        <input type="txt" class="form-control" id="ubicacioneditar" name="ubicacioneditar">
+                        <div class="invalid-feedback" id="ubicacionErrorA"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="categoriaseditar" class="form-label">Categoría</label><br>
+                        <select id="categoriaseditar" name="categoriaseditar" class="form-control">
+                            {% for categoria in categorias %}
+                            <option value="{{ categoria.id_categoria }}">{{ categoria.nombre }}</option>
+                            {% endfor %}
+                        </select> 
+                        <div class="invalid-feedback" id="categoriasErrorA"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-danger" id="Registrar" name="Registrar">Actualizar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+  
+
+<script>
+    function validarFormularioproductoA() {
+        var isValid = true;
+    
+        var medidaA = document.getElementById('medidaseditar').value;
+        var medidaErrorA = document.getElementById('medidasErrorA');
+        var expresionmeA = /^\d{2,3}x\d{2,3}x\d{2,3}$/;
+
+
+         if (!expresionmeA.test(medidaA)) {
+            medidaErrorA.textContent = 'Por favor, ingresa una medida valida, ejemplo 90x60x08.';
+            medidaErrorA.style.display = 'block';
+            isValid = false;
+        } else {
+            medidaErrorA.textContent = '';
+            medidaErrorA.style.display = 'none';
+        }
+
+        var productoA = document.getElementById('nombreeditar').value;
+        var productoErrorA = document.getElementById('nombreErrorA');
+        var expresionproA = /^[A-ZÁÉÍÓÚÜÑ][a-záéíóúüñ]+(?:\s[a-záéíóúüñ]+)?$/;
+
+         if (!expresionproA.test(productoA)) {
+            productoErrorA.textContent = 'Por favor, ingresa un nombre valido. Sin espacios.';
+            productoErrorA.style.display = 'block';
+            isValid = false;
+        } else {
+            productoErrorA.textContent = '';
+            productoErrorA.style.display = 'none';
+        }
+
+        
+
+        var existenciaA = document.getElementById('existenciaeditar').value;
+        var existenciaErrorA = document.getElementById('existenciaErrorA');
+        var expresionexiA = /^[0-9]{1,10}$/;
+
+         if (!expresionexiA.test(existenciaA)) {
+            existenciaErrorA.textContent = 'Por favor, ingresa un número. Sin espacios.';
+            existenciaErrorA.style.display = 'block';
+            isValid = false;
+        } else {
+            existenciaErrorA.textContent = '';
+            existenciaErrorA.style.display = 'none';
+        }
+
+        var rotasA = document.getElementById('rotaseditar').value;
+        var rotasErrorA = document.getElementById('rotasErrorA');
+        var expresionerotA = /^[0-9]{1,10}$/;
+
+         if (!expresionerotA.test(rotasA)) {
+            rotasErrorA.textContent = 'Por favor, ingresa un número. Sin espacios.';
+            rotasErrorA.style.display = 'block';
+            isValid = false;
+        } else {
+            rotasErrorA.textContent = '';
+            rotasErrorA.style.display = 'none';
+        }
+
+
+        var precioA = document.getElementById('precioeditar').value;
+        var precioErrorA = document.getElementById('precioErrorA');
+        var expresionpreA = /^\$[0-9]{1,10}$/;
+
+         if (!expresionpreA.test(precioA)) {
+            precioErrorA.textContent = 'Por favor, ingresa un precio iniciando con el símbolo $. Sin espacios.';
+            precioErrorA.style.display = 'block';
+            isValid = false;
+        } else {
+            precioErrorA.textContent = '';
+            precioErrorA.style.display = 'none';
+        }
+
+        
+
+
+        var ubicacionA = document.getElementById('ubicacioneditar').value;
+        var ubicacionErrorA = document.getElementById('ubicacionErrorA');
+        var expresionubiA = /^[A-Z](?:[a-zA-Z0-9áéíóúüñ]+(?:\s[a-zA-Z0-9áéíóúüñ]+)*)?$/;
+
+         if (!expresionubiA.test(ubicacionA)) {
+            ubicacionErrorA.textContent = 'Por favor, ingresa la referrencia donde se encuentra el producto. Sin espacios.';
+            ubicacionErrorA.style.display = 'block';
+            isValid = false;
+        } else {
+            ubicacionErrorA.textContent = '';
+            ubicacionErrorA.style.display = 'none';
+        }
+
+
+        var tipoA = document.getElementById('tipoeditar').value;
+        var tipoErrorA = document.getElementById('tiposErrorA');
+        if (tipoA === "") {
+            tipoErrorA.textContent = 'Por favor, selecciona un tipo de vitroblock.';
+            tipoErrorA.style.display = 'block';
+            isValid = false;
+        } else {
+            tipoErrorA.textContent = '';
+            tipoErrorA.style.display = 'none';
+        }
+
+        var proveedorA = document.getElementById('proveedoreseditar').value;
+        var proveedorErrorA = document.getElementById('proveedoresErrorA');
+        if (proveedorA === "") {
+            proveedorErrorA.textContent = 'Por favor, selecciona un proveedor.';
+            proveedorErrorA.style.display = 'block';
+            isValid = false;
+        } else {
+            proveedorErrorA.textContent = '';
+            proveedorErrorA.style.display = 'none';
+        }
+
+
+        var categoriasA = document.getElementById('categoriaseditar').value;
+        var categoriasErrorA = document.getElementById('categoriasErrorA');
+        if (categoriasA === "") {
+            categoriasErrorA.textContent = 'Por favor, selecciona una categoría.';
+            categoriasErrorA.style.display = 'block';
+            isValid = false;
+        } else {
+            categoriasErrorA.textContent = '';
+            categoriasErrorA.style.display = 'none';
+        }
+
+
+    
+        return isValid;
+    }
+</script>

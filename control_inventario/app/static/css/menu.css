@@ -1,0 +1,631 @@
+@font-face{
+    font-family: 'Montserrat';
+    src: url(../css/Montserrat/static/Montserrat-Regular.ttf);
+    font-weight: normal;
+    font-style: normal;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat';
+    
+}
+#tabla_productos button{
+    
+    width: 33px;
+    height: 33px;
+    align-items: center ;
+    justify-content: center;
+    padding: 0;
+}
+#tabla_categoria button{
+    width: 33px;
+    height: 33px;
+    align-items: center ;
+    justify-content: center;
+    padding: 0;
+}
+
+#tabla_proveedores button{
+    width: 33px;
+    height: 33px;
+    align-items: center ;
+    justify-content: center;
+    padding: 0;
+
+}
+
+body{
+    background-color: #fff;
+    
+
+}
+
+.menu .fondo1{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    height: 55px;
+    font-family: 'Droid Sans';
+    font-weight: bold;
+    box-shadow: 3px 3px 5px rgb(0 0 0 / 50%);
+    
+}
+
+.menu  ul a i{
+    color: #0e0d0d;
+    margin-left: 20%;
+}
+.menu ul li{
+    width: 30%;
+    padding: 16px;
+    margin: -50px 0 0 30%;
+    
+}
+.titulo{
+    color: #d61313;
+    translate: 110px -40px;
+    margin-left: 50%;
+    display: flex;
+    position: absolute;
+}
+.menu ul p{
+    float: right;
+    padding: 16px;
+    margin-left: 13%;
+}
+
+#Descargar{
+    
+    display: inline-block;
+    background-color: #020202;
+    font-size: 1.5em;
+    background-color: #fff;
+    
+    
+}
+.menu ul input{
+    border: 0.5px solid #000;
+    border-color: rgb(7, 7, 7);
+    padding: 16px;
+    width: 20%;
+    height: 6.5%;
+    margin: 10px auto ;
+    position: absolute;
+    border-radius: 10px;
+    margin-left: 78%;
+    translate: 0 -56px;
+
+}
+.menu ul input:focus{
+    outline: 0.5px solid #000;
+    
+
+}
+
+#buscarcatgorias{
+    border: 0.5px solid transparent;
+    border-color: rgb(8, 8, 8);
+    padding: 16px;
+    width: 20%;
+    height: 6.5%;
+    margin: -27px auto ;
+    position: absolute;
+    border-radius: 10px;
+    margin-left: 78%;
+    translate: 0 -19px;
+    padding-left: 40px;
+}
+
+#buscarproveedor{
+    border: 0.5px solid transparent;
+    border-color: rgb(10, 10, 10);
+    padding: 16px;
+    width: 20%;
+    height: 6.5%;
+    margin: -27px auto ;
+    position: absolute;
+    border-radius: 10px;
+    margin-left: 78%;
+    translate: 0 -19px;
+    padding-left: 40px;
+
+}
+
+.menu #buscar2{
+    color: #111;
+    width: 2.5%;
+    height: 31px;
+    border-radius: 5px;
+    translate: 1063px -43px;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.1em;
+    
+}
+
+.menu #buscar{
+    color: #111;
+    width: 2.5%;
+    height: 31px;
+    border-radius: 5px;
+    translate: 1080px -43px;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2em;
+    
+    
+}
+
+.menu #search-input{
+    padding-left: 40px;
+    height: 3px;
+}
+
+.menu ul i{
+    width: 5px;
+    height: 5px;
+}
+.menu li a{
+    color: black;
+    text-align: center;
+    padding: 2px;
+}
+.menu ul a{
+    margin-left: 2px;
+    float: left;
+    padding: 16px;
+    
+    
+}
+.menu{
+    box-shadow: 4px black;
+    position: relative;
+}
+
+
+
+/*------------------------------Menu dos----------------------*/
+
+
+.menu2{
+    
+    width: 95%;
+    height: 200px;
+    display: flex;
+    position: absolute;
+
+}
+
+.menu2 .fondo{
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    width: 5%;
+    height: 588px;
+    font-family: 'Droid Sans';
+    font-weight: bold;
+    box-shadow: 3px 3px 5px rgb(0 0 0 / 50%);
+   
+    
+}
+
+.menu2 ul a {
+    color: #fff;
+    padding: 1em;
+    text-align: center;
+    font-size: 1.1em;
+    margin-top: 6px;
+}
+
+.menu2 ul i {
+    margin-right: 5px;
+    color: #0e0d0d;
+    background-color: #fff;
+}
+
+.registro{
+    background-color: #fff;
+    color: #0e0d0d;
+    width: 70%;
+    margin: 8% 5% 15% 17%;
+    height: 350px;
+    box-shadow: 0px 7px 7px 1px rgb(0 0 0 / 50%);
+}
+
+h1{ 
+    margin: 3%;
+    translate: 1px 12px;
+}
+.registro p{
+    margin: 3%;
+    width: 7%;
+}
+.registro button a{
+    text-decoration: none;
+    color: #fff;
+    margin: 3px;
+}
+.registro button{
+    margin-left: 86%;
+    translate: 1px -40px;
+    background-color: #111;
+    color: #fff;
+}
+.registro table{
+    margin: auto;
+    width: 96%;
+    
+}
+
+
+thead tr:nth-child(odd){
+    background-color: #050505;
+    color: #fcfbfb;
+}
+ tbody tr:nth-child(odd){
+    background-color: #ccc;
+    color: #000;
+ }
+
+
+ @media screen and (max-width:700px) {
+    .menu ul{
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        background-color: white;
+        height: 55px;
+        font-family: 'Droid Sans';
+        font-weight: bold;
+        box-shadow: 2px rgb(0 0 0 / 50%);
+        margin-left: 4%;
+        
+    }
+    
+    .menu  ul a i{
+        color: #0e0d0d;
+    }
+    .menu ul li{
+        float: left;
+        padding: 16px;
+        margin-left: 5%;
+    }
+    .menu ul p{
+        float: right;
+        padding: 10px;
+        margin-left: 9%;
+        margin-right: 30%;
+        
+    }
+    .menu ul input{
+        border: 2px solid transparent;
+        border-color: rgb(243, 242, 242);
+        background-color: #e6e2e2;
+        padding: 16px;
+        width: 45%;
+        height: 50%;
+        margin: 10px auto ;
+        margin-left: 1%;
+        
+    }
+    .menu li a{
+        color: black;
+        text-align: center;
+        padding: 2px;
+    }
+    .menu ul a{
+        margin-left: 2px;
+        float: left;
+        padding: 16px;
+        
+        
+    }
+    .menu{
+        box-shadow: 4px black;
+        position: relative;
+    }
+    
+    /*------------------------------Menu dos----------------------*/
+    
+    
+    .menu2{
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+    
+    }
+    
+    .menu2 ul{
+        margin: 0;
+        padding: 0;
+        background-color: white;
+        width: 12%;
+        height: 618px;
+        margin-top: -54px;
+    }
+    
+    .menu2 ul a {
+        color: #fff;
+        padding: 1em;
+        text-align: center;
+        font-size: 1.1em;
+        margin-top: 6px;
+    }
+    
+    .menu2 ul i {
+        margin-right: 5px;
+        color: #0e0d0d;
+    }
+    
+    .registro{
+        background-color: #fff;
+        color: #0e0d0d;
+        width: 84%;
+        margin: 8% 5% 15% 14%;
+        height: 350px;
+        box-shadow: 0px 7px 7px 1px rgb(0 0 0 / 50%);
+    }
+    
+    h1{ 
+        margin: 1%;
+        translate: 1px 8px;
+        margin-left: 14%;
+        font-size: 20px;
+    }
+    .registro p{
+        margin: 3%;
+        width: 15em;
+        translate: 1px 10px;
+        
+    }
+    .registro button a{
+        text-decoration: none;
+        color: #fff;
+        margin: 3px;
+        
+    }
+    .registro button{
+        margin-left: 69%;
+        translate: 1px -26px;
+        background-color: #111;
+        color: #fff;
+        font-size: 10px;
+        width: 27%;
+        margin-right: 6%;
+    }
+    .registro table{
+        margin: auto;
+        width: 90%;
+        height: 10;
+
+        
+    }
+    .registro table .texto td{
+        width: 2%;
+        height: 3%;
+    
+    }
+}
+
+.Logovista{
+    width: 50px;
+    height: 50px;
+    margin-left: 10px;
+    translate: 0 3px;
+}
+
+
+/* ------------------------------------SECCION DE TABLAS------------------- */
+
+#Tabla{
+    margin: 2% 0 0 11%;
+    
+    padding: 0;
+    border: none;
+}
+
+#TablaProductos{
+    margin: 1% 0 0 6.5%;
+    
+    padding: 0;
+    border: none;
+}
+
+#contenido{
+    box-shadow: 3px 3px 8px #505050;
+}
+#registroProducto {
+    width: 100%;
+    height: 35px;
+    display: inline-block;
+    
+    
+}
+
+.elemento1{
+    display: inline-block;
+    translate: 0px 5px;
+    width: 40%;
+
+}
+
+
+
+.elemento3{
+    margin-left: 23%;
+    
+}
+
+
+
+#tabla_productos, #tabla_proveedores, #tabla_categorias th, td{
+    text-align: center;
+}
+
+.modal-header{
+    background-color: #d61313;
+    color: #fff;
+    
+    
+}
+
+#modalRegistroLabel, #modalRegistroCategoriaLabel{
+    margin-left: 34%;
+}
+
+#Registrar{
+    background-color: #d61313 ;
+}
+
+#modalElminarLabel{
+    margin-left: 32%;
+}
+
+.modal-body p {
+    text-align: center;
+}
+
+
+
+
+
+
+
+
+.menu2 ul {
+    list-style-type: none; /* Eliminar viñetas */
+    padding: 0; /* Quitar padding */
+}
+
+.menu2 li {
+    position: relative; 
+    
+
+    
+}
+
+#subcategories {
+    margin: 2px;
+    position: absolute; /* Posicionamiento absoluto */
+    top: 250%; /* Colocarlo justo debajo del elemento padre */
+    z-index: 100;
+    display: none; /* Ocultar por defecto */
+    left: -22.5px;
+    
+
+}
+
+
+
+#subcategories a {
+
+    padding: 4px 0 0 10px;
+    margin: 0px;
+    margin-left: 3px;
+    width: 120px;
+    height: 30px;
+    background-color: rgb(236, 236, 236);
+    color: #0e0d0d;
+    font-size: 0.9em;
+    text-align: left; 
+    text-decoration: none;
+    
+    
+    
+    
+}
+
+#subcategories a:hover {
+    background-color: #b8b7b7; /* Cambia el color de fondo */
+    transition: background-color 0.3s ease; /* Suaviza el cambio de color */
+}
+
+
+.menuProductos{
+   translate: -33px 0px;
+}
+
+#btnactualizar{
+    background-color: rgb(48, 122, 190);
+    border: 1px solid rgb(48, 122, 190) ;
+
+
+}
+
+#btneliminar{
+    background-color: #d61313;
+}
+
+#preview{
+    display: none;
+    margin-top: 10px;
+    max-width: 100px; /* Ajusta el ancho según sea necesario */
+    height: auto;
+    
+}
+
+#bienvenidoUduario{
+    display: flex;
+    margin-left: 50%;
+    width: 18%;
+
+}
+.encabezado{
+    margin-bottom: 10px;
+    display: flex;
+}
+
+.encabezadoPC{
+    
+    display: flex;
+    margin-top: -5px;
+}
+.elemento5{
+    
+    width: 40%;
+    margin-bottom: 8px;
+}
+
+.elemento6{
+    margin-top: -5px;
+    
+    width: auto;
+    margin-left: 540px;
+
+
+}
+
+.text-rojo {
+    color: #d61313;
+}
+
+
+.circulo-rojo {
+    display: inline-flex;
+    justify-content: center; 
+    align-items: center; 
+    width: 30px; 
+    height: 30px; 
+    background-color: #d61313; 
+    border-radius: 50%; 
+    color: white; 
+    margin-right: 5px; 
+}
+
+.paginado{
+ 
+    width: 20%;
+    display: inline-flex;
+    translate: 1000px -40px;
+}
+    
+
+
