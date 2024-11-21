@@ -221,7 +221,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         doc.text('Atlacomulco Vías', 195, 23, { align: 'right' });
                 
                         doc.autoTable({
-                            head: [['Proveedor', 'Nombre', 'Litros', 'Color', 'Existencia', 'Rotas', 'Precio', 'Ubicacion', 'Categoria']],
+                            head: [['Proveedor', 'Nombre', 'Litros', 'Color', 'Existencia', 'Rotas', 'Precio', 'Ubicación', 'Categoría']],
                             body: rows,
                             theme: 'grid',
                             styles: { halign: 'center' },

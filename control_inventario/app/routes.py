@@ -109,6 +109,8 @@ def registro_usuarios():
 
 
 @apps.route('/consulta_productos')
+@login_required
+@no_cache
 def consulta_productos():
     productos = Producto.query \
         .join(Proveedor, Producto.proveedor == Proveedor.id_proveedor) \
@@ -123,17 +125,16 @@ def consulta_productos():
             Producto.precio,
             Producto.embalaje,
             Producto.ubicacion,
-            Proveedor.nombre.label('proveedor_nombre'), 
-            Categoria.nombre.label('categoria_nombre')   
-        ) \
-        .all()
+            Proveedor.nombre.label('proveedor_nombre'), Proveedor.id_proveedor,
+            Categoria.nombre.label('categoria_nombre'), Categoria.id_categoria
+        ).all()
 
     proveedores = Proveedor.query.all()
     categorias = Categoria.query.all()
     return render_template('/productos/productos.html', productos=productos, proveedores=proveedores, categorias=categorias
     )
 
-from flask import jsonify
+
 
 
 @apps.route('/obtener_todos_productos')
@@ -169,6 +170,8 @@ def obtener_todos_productos():
 
 
 @apps.route('/registro_productos', methods=['POST'])
+@login_required
+@no_cache
 def registro_productos():
     if request.method == 'POST':
         medida = request.form['medida']
@@ -457,8 +460,8 @@ def consulta_muros():
                       .add_columns(
                           Muro.id_producto, Muro.medidas, Muro.producto, Muro.calidad,
                           Muro.existencias, Muro.rotas, Muro.precio, Muro.embalaje,
-                          Muro.ubicacion, Proveedor.nombre.label('proveedor_nombre'),
-                          Categoria.nombre.label('categoria_nombre')
+                          Muro.ubicacion, Proveedor.nombre.label('proveedor_nombre'), Proveedor.id_proveedor,
+                          Categoria.nombre.label('categoria_nombre'), Categoria.id_categoria
                       ).all()
 
    
@@ -1546,6 +1549,5 @@ def descargar_etiqueta_vitroblock(vitroblock_id):
 
 @apps.route('/logout')
 def logout():
-
     session.pop('logeado', None)
-    return redirect(url_for('home'))
+    return redirect(url_for('main.home'))

@@ -236,7 +236,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         doc.text('Atlacomulco Vías', 195, 23, { align: 'right' });
                 
                         doc.autoTable({
-                            head: [['Medida', 'Proveedor', 'Nombre', 'Calidad', 'Existencia', 'Rotas', 'Precio', 'Embalaje', 'Ubicacion', 'Categoria']],
+                            head: [['Medida', 'Proveedor', 'Nombre', 'Calidad', 'Existencia', 'Rotas', 'Precio', 'Embalaje', 'Ubicación', 'Categoría']],
                             body: rows,
                             theme: 'grid',
                             styles: { halign: 'center' },
@@ -269,7 +269,7 @@ document.addEventListener('DOMContentLoaded', function () {
             
             
                      if (!expresionme.test(medida)) {
-                        medidaError.textContent = 'Por favor, ingresa una medida valida, ejemplo 30x60.';
+                        medidaError.textContent = 'Por favor, ingresa una medida valida, ejemplo 30x60 0 20x100.';
                         medidaError.style.display = 'block';
                         isValid = false;
                     } else {
@@ -279,7 +279,7 @@ document.addEventListener('DOMContentLoaded', function () {
             
                     var producto = document.getElementById('producto').value;
                     var productoError = document.getElementById('productoError');
-                    var expresionpro = /^[A-ZÁÉÍÓÚÜÑ][a-záéíóúüñ]+(?:\s[a-záéíóúüñ]+)?$/;
+                    var expresionpro = /^[A-ZÁÉÍÓÚÜÑ][a-záéíóúüñ]*(?:\s[A-Za-záéíóúüñ]+)*$/;
             
                      if (!expresionpro.test(producto)) {
                         productoError.textContent = 'Por favor, ingresa un nombre valido. Sin espacios.';
@@ -295,7 +295,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     var expresioncal = /^[0-9]+[a-z]{2,3}$/;
             
                      if (!expresioncal.test(calidad)) {
-                        calidadError.textContent = 'Por favor, ingresa una calidad correcta, primero un numero seguido de la abreviatura de ese número.';
+                        calidadError.textContent = 'Por favor, ingresa una calidad correcta, primero un número seguido de la abreviatura de ese número.';
                         calidadError.style.display = 'block';
                         isValid = false;
                     } else {
@@ -362,7 +362,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     var expresionubi = /^[A-Z](?:[a-zA-Z0-9áéíóúüñ]+(?:\s[a-zA-Z0-9áéíóúüñ]+)*)?$/;
             
                      if (!expresionubi.test(ubicacion)) {
-                        ubicacionError.textContent = 'Por favor, ingresa la ubicacion del producto. Sin multiples espacios.';
+                        ubicacionError.textContent = 'Por favor, ingresa la ubicación del producto. Sin múltiples espacios.';
                         ubicacionError.style.display = 'block';
                         isValid = false;
                     } else {
@@ -414,7 +414,7 @@ document.addEventListener('DOMContentLoaded', function () {
             
             
                      if (!expresionmeA.test(medidaA)) {
-                        medidaErrorA.textContent = 'Por favor, ingresa una medida valida, ejemplo 30x60.';
+                        medidaErrorA.textContent = 'Por favor, ingresa una medida valida, ejemplo 30x60 o 20x100.';
                         medidaErrorA.style.display = 'block';
                         isValid = false;
                     } else {
@@ -424,7 +424,7 @@ document.addEventListener('DOMContentLoaded', function () {
             
                     var productoA = document.getElementById('productoeditar').value;
                     var productoErrorA = document.getElementById('productoErrorA');
-                    var expresionproA = /^[A-ZÁÉÍÓÚÜÑ][a-záéíóúüñ]+(?:\s[a-záéíóúüñ]+)?$/;
+                    var expresionproA = /^[A-ZÁÉÍÓÚÜÑ][a-záéíóúüñ]*(?:\s[A-Za-záéíóúüñ]+)*$/;
             
                      if (!expresionproA.test(productoA)) {
                         productoErrorA.textContent = 'Por favor, ingresa un nombre valido. Sin espacios.';
@@ -440,7 +440,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     var expresioncalA = /^[0-9]+[a-z]{2,3}$/;
             
                      if (!expresioncalA.test(calidadA)) {
-                        calidadErrorA.textContent = 'Por favor, ingresa una calidad correcta, primero un numero seguido de la abreviatura de ese número.';
+                        calidadErrorA.textContent = 'Por favor, ingresa una calidad correcta, primero un número seguido de la abreviatura de ese número.';
                         calidadErrorA.style.display = 'block';
                         isValid = false;
                     } else {
@@ -507,7 +507,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     var expresionubiA = /^[A-Z](?:[a-zA-Z0-9áéíóúüñ]+(?:\s[a-zA-Z0-9áéíóúüñ]+)*)?$/;
             
                      if (!expresionubiA.test(ubicacionA)) {
-                        ubicacionErrorA.textContent = 'Por favor, ingresa la ubicacion del producto. Sin multiples espacios.';
+                        ubicacionErrorA.textContent = 'Por favor, ingresa la ubicación del producto. Sin múltiples espacios.';
                         ubicacionErrorA.style.display = 'block';
                         isValid = false;
                     } else {

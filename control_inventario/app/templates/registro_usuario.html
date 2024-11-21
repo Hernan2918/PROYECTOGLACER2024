@@ -38,8 +38,8 @@
                         </div>
                         <div class="mb-3">
                             <label for="registrargenero" class="form-label">Género</label>
-                            <select class="form-control" name="registrargenero" id="registrargenero">Selecciona tú género
-                                <option value="">Selecciona tú género</option>
+                            <select class="form-control" name="registrargenero" id="registrargenero">Selecciona un género
+                                <option value="">Selecciona un género</option>
                                 <option value="Masculino">Masculino</option>
                                 <option value="Femenino">Femenino</option>
                                 
@@ -81,7 +81,7 @@
 
 
                      if (!expresionnom.test(nombre)) {
-                        nombreError.textContent = 'Por favor, ingresa un nombre válido. Sin multiples espacios';
+                        nombreError.textContent = 'Por favor, ingresa un nombre válido. Sin multiples espacios.';
                         nombreError.style.display = 'block';
                         isValid = false;
                     } else {
@@ -107,7 +107,7 @@
                     var genero = document.getElementById('registrargenero').value;
                     var generoError = document.getElementById('generoError');
                     if (genero === "") {
-                        generoError.textContent = 'Por favor, selecciona un gánero.';
+                        generoError.textContent = 'Por favor, selecciona un género.';
                         generoError.style.display = 'block';
                         isValid = false;
                     } else {

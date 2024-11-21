@@ -199,7 +199,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         doc.text('Atlacomulco Vías', 195, 23, { align: 'right' });
                 
                         doc.autoTable({
-                            head: [['Proveedor', 'Tipo', 'Medidas', 'Nombre', 'Existencia', 'Rotas', 'Precio', 'Ubicacion', 'Categoria']],
+                            head: [['Proveedor', 'Tipo', 'Medidas', 'Nombre', 'Existencia', 'Rotas', 'Precio', 'Ubicación', 'Categoría']],
                             body: rows,
                             theme: 'grid',
                             styles: { halign: 'center' },
@@ -240,7 +240,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     var producto = document.getElementById('nombre').value;
                     var productoError = document.getElementById('nombreError');
-                    var expresionpro = /^[A-ZÁÉÍÓÚÜÑ][a-záéíóúüñ]+(?:\s[a-záéíóúüñ]+)?$/;
+                    var expresionpro = /^[A-ZÁÉÍÓÚÜÑ][a-záéíóúüñ]*(?:\s[A-Za-záéíóúüñ]+)*$/;
 
                     if (!expresionpro.test(producto)) {
                         productoError.textContent = 'Por favor, ingresa un nombre valido. Sin espacios.';

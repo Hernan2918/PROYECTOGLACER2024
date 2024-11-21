@@ -160,7 +160,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     
                     var nombre = document.getElementById('nombre').value;
                     var nombreError = document.getElementById('nombreError');
-                    var expresionnom = /^[A-ZÁÉÍÓÚÜÑ][a-záéíóúüñ]+(?:\s[a-záéíóúüñ]+)?$/;
+                    var expresionnom = /^[A-ZÁÉÍÓÚÜÑ][a-záéíóúüñ]*(?:\s[A-Za-záéíóúüñ]+)*$/;
             
                     if (!expresionnom.test(nombre)){
                         nombreError.textContent = 'Por favor ingresa un nombre de categoría valido.';
@@ -199,7 +199,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     
                     var nombreA = document.getElementById('nombreeditar').value;
                     var nombreErrorA = document.getElementById('nombreErrorA');
-                    var expresionnomA = /^[A-ZÁÉÍÓÚÜÑ][a-záéíóúüñ]+(?:\s[a-záéíóúüñ]+)?$/;
+                    var expresionnomA = /^[A-ZÁÉÍÓÚÜÑ][a-záéíóúüñ]*(?:\s[A-Za-záéíóúüñ]+)*$/;
             
                     if (!expresionnomA.test(nombreA)){
                         nombreErrorA.textContent = 'Por favor ingresa un nombre de categoría valido.';

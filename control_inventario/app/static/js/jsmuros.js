@@ -252,7 +252,7 @@ document.addEventListener('DOMContentLoaded', function () {
             
                     var producto = document.getElementById('producto').value;
                     var productoError = document.getElementById('productoError');
-                    var expresionpro = /^[A-ZÁÉÍÓÚÜÑ][a-záéíóúüñ]+(?:\s[a-záéíóúüñ]+)?$/;
+                    var expresionpro = /^[A-ZÁÉÍÓÚÜÑ][a-záéíóúüñ]*(?:\s[A-Za-záéíóúüñ]+)*$/;
             
                      if (!expresionpro.test(producto)) {
                         productoError.textContent = 'Por favor, ingresa un nombre valido. Sin espacios.';
@@ -398,7 +398,7 @@ document.addEventListener('DOMContentLoaded', function () {
             
                     var productoA = document.getElementById('productoeditar').value;
                     var productoErrorA = document.getElementById('productoErrorA');
-                    var expresionproA = /^[A-ZÁÉÍÓÚÜÑ][a-záéíóúüñ]+(?:\s[a-záéíóúüñ]+)?$/;
+                    var expresionproA = /^[A-ZÁÉÍÓÚÜÑ][a-záéíóúüñ]*(?:\s[A-Za-záéíóúüñ]+)*$/;
             
                      if (!expresionproA.test(productoA)) {
                         productoErrorA.textContent = 'Por favor, ingresa un nombre valido. Sin espacios.';

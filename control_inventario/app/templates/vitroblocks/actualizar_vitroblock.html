@@ -102,7 +102,7 @@
 
         var productoA = document.getElementById('nombreeditar').value;
         var productoErrorA = document.getElementById('nombreErrorA');
-        var expresionproA = /^[A-ZÁÉÍÓÚÜÑ][a-záéíóúüñ]+(?:\s[a-záéíóúüñ]+)?$/;
+        var expresionproA = /^[A-ZÁÉÍÓÚÜÑ][a-záéíóúüñ]*(?:\s[A-Za-záéíóúüñ]+)*$/;
 
          if (!expresionproA.test(productoA)) {
             productoErrorA.textContent = 'Por favor, ingresa un nombre valido. Sin espacios.';

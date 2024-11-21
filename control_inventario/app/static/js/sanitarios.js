@@ -188,7 +188,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         doc.text('Atlacomulco Vías', 195, 23, { align: 'right' });
                 
                         doc.autoTable({
-                            head: [['Proveedor', 'Nombre', 'Existencia', 'Rotas', 'Precio', 'Ubicacion', 'Categoria']],
+                            head: [['Proveedor', 'Nombre', 'Existencia', 'Rotas', 'Precio', 'Ubicación', 'Categoría']],
                             body: rows,
                             theme: 'grid',
                             styles: { halign: 'center' },
@@ -220,7 +220,7 @@ document.addEventListener('DOMContentLoaded', function () {
             
                     var producto = document.getElementById('producto').value;
                     var productoError = document.getElementById('productoError');
-                    var expresionpro = /^[A-ZÁÉÍÓÚÜÑ][a-záéíóúüñ]+(?:\s[a-záéíóúüñ]+)?$/;
+                    var expresionpro = /^[A-ZÁÉÍÓÚÜÑ][a-záéíóúüñ]*(?:\s[A-Za-záéíóúüñ]+)*$/;
             
                      if (!expresionpro.test(producto)) {
                         productoError.textContent = 'Por favor, ingresa un nombre valido. Sin espacios.';
@@ -323,7 +323,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     var isValid = true;
                     var productoA = document.getElementById('productoeditar').value;
                     var productoErrorA = document.getElementById('productoErrorA');
-                    var expresionproA = /^[A-ZÁÉÍÓÚÜÑ][a-záéíóúüñ]+(?:\s[a-záéíóúüñ]+)?$/;
+                    var expresionproA = /^[A-ZÁÉÍÓÚÜÑ][a-záéíóúüñ]*(?:\s[A-Za-záéíóúüñ]+)*$/;
 
                     if (!expresionproA.test(productoA)) {
                         productoErrorA.textContent = 'Por favor, ingresa un nombre valido. Sin espacios.';
