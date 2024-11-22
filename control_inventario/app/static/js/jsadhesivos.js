@@ -283,7 +283,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     var expresionubi = /^[A-Z](?:[a-zA-Z0-9áéíóúüñ]+(?:\s[a-zA-Z0-9áéíóúüñ]+)*)?$/;
             
                      if (!expresionubi.test(ubicacion)) {
-                        ubicacionError.textContent = 'Por favor, ingresa un número decimal seguido de "CJ". Sin espacios.';
+                        ubicacionError.textContent = 'Por favor, ingresa la ubicación del producto. Sin múltiples espacios.';
                         ubicacionError.style.display = 'block';
                         isValid = false;
                     } else {
@@ -390,7 +390,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     var expresionubiA = /^[A-Z](?:[a-zA-Z0-9áéíóúüñ]+(?:\s[a-zA-Z0-9áéíóúüñ]+)*)?$/;
             
                      if (!expresionubiA.test(ubicacionA)) {
-                        ubicacionErrorA.textContent = 'Por favor, ingresa un número decimal seguido de "CJ". Sin espacios.';
+                        ubicacionErrorA.textContent = 'Por favor, ingresa la ubicación del producto. Sin múltiples espacios.';
                         ubicacionErrorA.style.display = 'block';
                         isValid = false;
                     } else {

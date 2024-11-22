@@ -335,7 +335,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     var expresionpre = /^\$[0-9]{1,10}$|^\$[0-9]{1,10} m2$/;
             
                      if (!expresionpre.test(precio)) {
-                        precioError.textContent = 'Por favor, ingresa un precio iniciando con el símbolo $. Sin espacios.';
+                        precioError.textContent = 'Por favor, ingresa un precio iniciando con el símbolo $ y terminando con los m2.';
                         precioError.style.display = 'block';
                         isValid = false;
                     } else {
@@ -480,7 +480,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     var expresionpreA = /^\$[0-9]{1,10}$|^\$[0-9]{1,10} m2$/;
             
                      if (!expresionpreA.test(precioA)) {
-                        precioErrorA.textContent = 'Por favor, ingresa un precio iniciando con el símbolo $. Sin espacios.';
+                        precioErrorA.textContent = 'Por favor, ingresa un precio iniciando con el símbolo $ y terminando con los m2.';
                         precioErrorA.style.display = 'block';
                         isValid = false;
                     } else {
