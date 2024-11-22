@@ -305,7 +305,7 @@ document.addEventListener('DOMContentLoaded', function () {
             
                     var precio = document.getElementById('precio').value;
                     var precioError = document.getElementById('precioError');
-                    var expresionpre = /^\$[0-9]{1,10}$/;
+                    var expresionpre = /^\$[0-9]{1,10}$|^\$[0-9]{1,10} m2$/;
             
                      if (!expresionpre.test(precio)) {
                         precioError.textContent = 'Por favor, ingresa un precio iniciando con el símbolo $. Sin espacios.';
@@ -451,7 +451,7 @@ document.addEventListener('DOMContentLoaded', function () {
             
                     var precioA = document.getElementById('precioeditar').value;
                     var precioErrorA = document.getElementById('precioErrorA');
-                    var expresionpreA = /^\$[0-9]{1,10}$/;
+                    var expresionpreA = /^\$[0-9]{1,10}$|^\$[0-9]{1,10} m2$/;
             
                      if (!expresionpreA.test(precioA)) {
                         precioErrorA.textContent = 'Por favor, ingresa un precio iniciando con el símbolo $. Sin espacios.';
