@@ -33,7 +33,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="registrarapellido" class="form-label">Apellidos</label>
-                            <input type="text" class="form-control" id="registrarapellido" name="registrarapellido" required>
+                            <input type="text" class="form-control" id="registrarapellido" name="registrarapellido">
                             <div class="invalid-feedback" id="apellidoError"></div>
                         </div>
                         <div class="mb-3">
@@ -45,6 +45,16 @@
                                 
                             </select>
                             <div class="invalid-feedback" id="generoError"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="registrarprivilegio" class="form-label">Privilegio</label>
+                            <select class="form-control" name="registrarprivilegio" id="registrarprivilegio">Selecciona un privilegio
+                                <option value="">Selecciona un privilegio</option>
+                                <option value="Administrador">Administrador</option>
+                                <option value="Sub-Administrador">Sub-Administrador</option>
+                                
+                            </select>
+                            <div class="invalid-feedback" id="privilegioError"></div>
                         </div>
                         <div class="mb-3">
                             <label for="registrarusuario" class="form-label">Usuario</label>
@@ -113,6 +123,17 @@
                     } else {
                         generoError.textContent = '';
                         generoError.style.display = 'none';
+                    }
+
+                    var privilegio = document.getElementById('registrarprivilegio').value;
+                    var privilegioError = document.getElementById('privilegioError');
+                    if (privilegio === "") {
+                        privilegioError.textContent = 'Por favor, selecciona un privilegio.';
+                        privilegioError.style.display = 'block';
+                        isValid = false;
+                    } else {
+                        privilegioError.textContent = '';
+                        privilegioError.style.display = 'none';
                     }
 
                     var usuario = document.getElementById('registrarusuario').value;

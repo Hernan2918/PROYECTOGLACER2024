@@ -463,6 +463,9 @@ thead tr:nth-child(odd){
     margin-left: 23%;
     
 }
+#botonUsr{
+    margin-left: 45%;
+}
 
 
 
@@ -494,7 +497,10 @@ thead tr:nth-child(odd){
 }
 
 
-
+#mensajesAlertas{
+    margin: 20px 20px 0 20px;
+    text-align: center;
+}
 
 
 

@@ -32,7 +32,7 @@
                 
                 <li class="menu5">
                     <a class="menuProductos" href="#" id="home-link" class="current scroll">
-                        <i class="fa fa-home" aria-hidden="true"></i>
+                        <i class="bi bi-list" style="font-size: 1.5em; margin: 0 10px 0 -3px;"></i>
                     </a>
                     <ul id="subcategories"> 
                         <li>
@@ -66,8 +66,10 @@
                 </li>
                 <a href="/consulta_proveedores" class="scroll"><i class="bi bi-people-fill"></i></a>
                 <a href="/consulta_categorias" class="scroll"><i class="bi bi-bookmark-fill"></i></a>
-                <a href="#" class="scroll"><i class="bi bi-cart-plus-fill"></i></a>
-                <a href="#" class="scroll"><i class="bi bi-cart-check-fill"></i></a>
+                <a href="/entradas" class="scroll"><i class="bi bi-cart-plus-fill"></i></a>
+                <a href="/salidas" class="scroll"><i class="bi bi-cart-check-fill"></i></a>
+                <a href="/consulta_usuarios" class="scroll"><i class="bi bi-person-fill-add" style="font-size: 1.3em; margin: 0 3px 0 0;"></i></a>
+
                 <a class="scroll" href="{{ url_for('main.logout') }}"><i class="bi bi-power"></i></a>
             </ul>
         </div>

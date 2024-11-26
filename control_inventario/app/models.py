@@ -1,5 +1,6 @@
 from app import db
 
+
 class Proveedor(db.Model):
     __tablename__ = 'proveedores'
     id_proveedor = db.Column(db.Integer, primary_key=True)
@@ -39,9 +40,10 @@ class Usuario(db.Model):
     nombre = db.Column(db.String(50), unique=True, nullable=False)
     apellidos = db.Column(db.String(50), unique=True, nullable=False)
     genero = db.Column(db.String(20), unique=True, nullable=False)
+    privilegio = db.Column(db.String(20), unique=True, nullable=False)
     usuario = db.Column(db.String(100), unique=True, nullable=False)
     contrasena = db.Column(db.String(255), nullable=False)
-    nombre = db.Column(db.String(100), nullable=False)
+    
 
 
 class Muro(db.Model):

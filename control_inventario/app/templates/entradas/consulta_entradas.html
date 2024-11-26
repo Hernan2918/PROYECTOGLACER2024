@@ -1,4 +1,5 @@
 <main role="main" id="TablaProductos" class="col-md-11">
+
     <div class="encabezado">
         <div class="elemento1">
             {% if 'nombre' in session %}
@@ -12,17 +13,12 @@
             <div class="elemento2">
                 <i id="Descargar" class="bi bi-download"></i>
             </div>
-            <div class="elemento3">
-                <button type="button" id="registroProducto" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#productos">
             
-                    <i class="fas fa-plus"></i> Producto
-                </button>
-            </div>
         </div>
     </div>
     <div class="card  mt-10" id="contenido">
         <div class="card-header text-center">
-            <h5>Consulta de muros</h5>
+            <h5>Consulta de entradas</h5>
         </div>
         {% with messages = get_flashed_messages(with_categories=true) %}
   {% if messages %}
@@ -58,41 +54,51 @@
                         </tr>
                     </thead>
                     <tbody id="product-table-body">
-                        {% for muro in muros %}
+                        {% for producto in productos %}
                         <tr>
                             
-                            <td>{{muro.medidas}}</td>
-                            <td>{{muro.proveedor_nombre}}</td>
-                            <td>{{muro.producto}}</td>
-                            <td >{{muro.calidad}}</td>
+                            <td>{{producto.medidas}}</td>
+                            <td>{{producto.proveedor_nombre}}</td>
+                            <td>{{producto.producto}}</td>
+                            <td>{{producto.calidad}}</td>
                             <td>
-                                {% if muro.existencias < 10 %}
-                                    <span class="circulo-rojo">{{ muro.existencias }}</span>
+                                {% if producto.existencias < 10 %}
+                                    <span class="circulo-rojo">{{ producto.existencias }}</span>
                                 {% else %}
-                                    {{ muro.existencias }}
+                                    {{ producto.existencias }}
                                 {% endif %}
                             </td>
-                            <td>{{muro.rotas}}</td>
-                            <td>{{muro.precio}}</td>
-                            <td>{{muro.embalaje}}</td>
-                            <td>{{muro.ubicacion}}</td>
-                            <td>{{muro.categoria_nombre}}</td>
-
+                            <td>{{producto.rotas}}</td>
+                            <td>{{producto.precio}}</td>
+                            <td>{{producto.embalaje}}</td>
+                            <td>{{producto.ubicacion}}</td>
+                            <td>{{producto.categoria_nombre}}</td>
                             <td>
-                                <button type="submit" class="btn btn-primary" id="btnactualizar" data-bs-toggle="modal" data-bs-target="#editarModalProductoMuros" data-id="{{ muro.id_producto }}" data-medidas="{{ muro.medidas }}" data-proveedor="{{ muro.id_proveedor }}" data-producto="{{muro.producto}}" data-calidad="{{ muro.calidad }}" data-existencias="{{ muro.existencias }}" data-rotas="{{muro.rotas}}" data-precio="{{muro.precio}}" data-embalaje="{{muro.embalaje}}" data-ubicacion="{{muro.ubicacion}}" data-categoria="{{muro.id_categoria}}" value="#"><i class="bi bi-arrow-clockwise"></i></button>
-                                <button type="submit" class="btn btn-danger" id="btneliminar" data-bs-toggle="modal" data-bs-target="#eliminarM" value="{{ muro.id_producto }}" data-id="{{ muro.id_producto }}"><i class="bi bi-trash3-fill"></i></button>
-                                <button type="submit" class="btn btn-success" id="btnentradas" data-bs-toggle="modal" data-bs-target="#editarModalProducto" value="#"><i class="bi bi-box-arrow-left"></i></button>
-                                <button type="submit" class="btn btn-danger" id="btneliminar" data-bs-toggle="modal" data-bs-target="#eliminarP" ><i class="bi bi-box-arrow-right"></i></button>
-                                <button type="button" id="btnactualizar"  class="btn btn-primary"onclick="window.location.href='{{ url_for('main.descargar_etiqueta_muro', muro_id=muro.id_producto) }}'">
+                                <button type="button" class="btn btn-primary" id="btnactualizar" 
+    data-bs-toggle="modal" data-bs-target="#editarModalProducto"
+    data-id="{{ producto.id_producto }}" 
+    data-medidas="{{ producto.medidas }}" 
+    data-proveedor="{{ producto.id_proveedor }}"  
+    data-producto="{{ producto.producto }}" 
+    data-calidad="{{ producto.calidad }}" 
+    data-existencias="{{ producto.existencias }}" 
+    data-rotas="{{ producto.rotas }}" 
+    data-precio="{{ producto.precio }}" 
+    data-embalaje="{{ producto.embalaje }}" 
+    data-ubicacion="{{ producto.ubicacion }}" 
+    data-categoria="{{ producto.id_categoria }}"> <!-- Esto debería ser "Sanitarios" -->
+    <i class="bi bi-arrow-clockwise" id="i"></i>
+</button>
+                                <button type="submit" class="btn btn-danger" id="btneliminar" data-bs-toggle="modal" data-bs-target="#eliminarP" value="{{ producto.id_producto }}" data-id="{{ producto.id_producto }}"><i class="bi bi-trash3-fill"></i></button>
+                                 <button type="button" id="btnactualizar"  class="btn btn-primary"onclick="window.location.href='{{ url_for('main.descargar_etiqueta_producto', producto_id=producto.id_producto) }}'">
                                     <i class="bi bi-printer-fill"></i>
-                                 </button>
+                                 </button> 
+
+            
                             </td>
-                                                
                         </tr>
                         {% endfor %}
-                        <script>
-                            
-                        </script>
+                        
                         
                         
                     </tbody>
@@ -104,9 +110,10 @@
         </div>
         <div class="card-footer text-muted ">
             SISTEMA GLACER
+            
         </div>
     </div>
-    
+
 </main>
 
 <style>
@@ -154,3 +161,6 @@
         <i class="bi bi-chevron-right" style="color: #111;"></i>
     </button>
 </div>
+
+
+

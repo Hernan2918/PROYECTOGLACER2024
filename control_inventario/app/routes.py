@@ -18,7 +18,7 @@ def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if 'logeado' not in session:
-            return redirect(url_for('home'))
+            return redirect(url_for('main.home'))
         return f(*args, **kwargs)
     return decorated_function
 
@@ -45,6 +45,7 @@ def registro():
 
 
 @apps.route('/acceso', methods=["GET", "POST"])
+
 def acceso():
     if request.method == 'POST' and 'txtusuario' in request.form and 'txtcontrasena' in request.form:
         usuario = request.form['txtusuario']
@@ -80,6 +81,7 @@ def registro_usuarios():
             nombre = request.form['registarnombre']
             apellidos = request.form['registrarapellido']
             genero = request.form['registrargenero']
+            privilegio = request.form['registrarprivilegio']
             usuario = request.form['registrarusuario']
             contrasena = request.form['registrarcontraseña']
             
@@ -90,6 +92,7 @@ def registro_usuarios():
                 nombre=nombre,
                 apellidos=apellidos,
                 genero=genero,
+                privilegio=privilegio,
                 usuario=usuario,
                 contrasena=hashed_contrasena
             )
@@ -107,6 +110,82 @@ def registro_usuarios():
     
     return render_template('login.html')
 
+
+
+
+
+@apps.route('/consulta_usuarios')
+@login_required
+@no_cache
+def consulta_usuarios():
+    usuarios = Usuario.query.all()
+    
+    return render_template('/usuarios/usuarios.html', usuarios=usuarios)
+
+@apps.route('/registro_usuariosModal', methods=['POST'])
+def registro_usuariosModal():
+    if request.method == 'POST':
+        try:
+            nombre = request.form['registarnombre']
+            apellidos = request.form['registrarapellido']
+            genero = request.form['registrargenero']
+            privilegio = request.form['registrarprivilegio']
+            usuario = request.form['registrarusuario']
+            contrasena = request.form['registrarcontraseña']
+            
+            hashed_contrasena = generate_password_hash(contrasena)
+            print(f"Hash almacenado: {hashed_contrasena}")  
+            
+            nuevo_usuario = Usuario(
+                nombre=nombre,
+                apellidos=apellidos,
+                genero=genero,
+                privilegio=privilegio,
+                usuario=usuario,
+                contrasena=hashed_contrasena
+            )
+            
+            db.session.add(nuevo_usuario)
+            db.session.commit()
+
+            flash('Usuario registrado exitosamente!', 'success')
+            return redirect(url_for('main.consulta_usuarios'))
+        
+        except Exception as e:
+            db.session.rollback()  
+            flash(f"Error al registrar el usuario: {str(e)}", 'danger')
+            return redirect('/registro')
+    
+    return redirect(url_for('main.consulta_usuarios'))
+
+
+@apps.route('/eliminar_usuario/<int:usuario_id>', methods=['POST'])
+def eliminar_usuario(usuario_id):
+    if request.method == 'POST':
+        usuario = Usuario.query.get(usuario_id)
+
+        if usuario:
+            db.session.delete(usuario)
+            db.session.commit()
+            flash('Usuario eliminado correctamente!', 'error')
+        else:
+            flash('Usuario no encontrado.', 'danger')
+    
+    return redirect(url_for('main.consulta_usuarios'))
+
+
+@apps.route('/salidas')
+@login_required
+@no_cache
+def salidas():
+    return render_template('/salidas/salidas.html')
+
+
+@apps.route('/entradas')
+@login_required
+@no_cache
+def entradas():
+    return render_template('/entradas/entradas.html')
 
 @apps.route('/consulta_productos')
 @login_required
@@ -156,7 +235,7 @@ def obtener_todos_productos():
             'proveedor_nombre': p.proveedor_nombre,
             'producto': p.producto,
             'calidad': p.calidad,
-            'existencia': p.existencias,
+            'existencias': p.existencias,
             'rotas': p.rotas,
             'precio': p.precio,
             'embalaje': p.embalaje,
@@ -170,8 +249,7 @@ def obtener_todos_productos():
 
 
 @apps.route('/registro_productos', methods=['POST'])
-@login_required
-@no_cache
+
 def registro_productos():
     if request.method == 'POST':
         medida = request.form['medida']
@@ -228,7 +306,7 @@ def actualizar_producto():
             producto_a_actualizar.proveedor = proveedor_id
             producto_a_actualizar.producto = producto
             producto_a_actualizar.calidad = calidad
-            producto_a_actualizar.existencia = existencia
+            producto_a_actualizar.existencias = existencia
             producto_a_actualizar.rotas = rotas
             producto_a_actualizar.precio = precio
             producto_a_actualizar.embalaje = embalaje
@@ -264,7 +342,8 @@ def eliminar_producto(producto_id):
 
 
 @apps.route('/consulta_proveedores')
-
+@login_required
+@no_cache
 def consulta_proveedores():
     proveedores = Proveedor.query.all()
     
@@ -379,6 +458,8 @@ def eliminar_proveedor(proveedor_id):
 
     
 @apps.route('/consulta_categorias')
+@login_required
+@no_cache
 def consulta_categorias():
     categorias = Categoria.query.all()
     
@@ -452,7 +533,8 @@ def eliminar_categoria(categoria_id):
 
 
 @apps.route('/consulta_muros')
-
+@login_required
+@no_cache
 def consulta_muros():
     
     muros = Muro.query.join(Proveedor, Muro.proveedor == Proveedor.id_proveedor) \
@@ -653,7 +735,8 @@ def eliminar_muros(muro_id):
 
 
 @apps.route('/consulta_adhesivos')
-
+@login_required
+@no_cache
 def consulta_adhesivos():
     # Consulta de adhesivos con sus relaciones
     adhesivos = Adhesivo.query \
@@ -999,6 +1082,7 @@ def consulta_tinacos():
 
 @apps.route('/obtener_todos_tinacos')
 @login_required
+@no_cache
 def obtener_todos_tinacos():
     try:
         # Consultar todos los tinacos con sus relaciones (proveedores y categorías)

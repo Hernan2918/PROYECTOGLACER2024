@@ -48,8 +48,8 @@ body {
     }
     
     .login{
-        width: 23%;
-        height: 70%;
+        width: 22%;
+        height: 65%;
         background-color:#F5F5F5;
         display: grid;
         place-items: center;
@@ -63,7 +63,7 @@ body {
     }
     
     .Imagen{
-       translate: 60px -135px ;
+       translate: 60px -128px ;
     }
     
     img{
@@ -79,7 +79,7 @@ body {
         border-radius: 5px;
         width: 60%;
         height: 28px;
-        translate: 0px -60px;
+        translate: 0px -50px;
         
     }
     
@@ -106,8 +106,8 @@ body {
       width: 9.5%;
       height: 29px;
       position: absolute;
-      left: 62px; 
-      top: 50%;
+      left: 58px; 
+      top: 87%;
       transform: translateY(-257%);
       pointer-events: none; 
       color: #050505; 
@@ -138,8 +138,8 @@ body {
       width: 9.5%;
       height: 29px;
       position: absolute;
-      left: 62px; 
-      top: 50%;
+      left: 58px; 
+      top: 68%;
       transform: translateY(-213%);
       pointer-events: none; 
       color: #050505; 
@@ -151,19 +151,20 @@ body {
     
     .Registro{
         translate: 0 8px;
-        margin-left: 26px;
+        margin-left: 55px;
     }
     .Boton{
         translate: 0 -20px;
         width: 30%;
         height: 50px;
-        margin-left: 100px;
+        margin-left: 90px;
     }
     .mensaje{
         width: 96%;
         margin-left: 6px;
         text-align: center;
         color: #d61313;
+        font-size: 0.9em;
     }
     
     button{
@@ -183,7 +184,7 @@ body {
         
     }
     #texto{
-        font-size: 1.1em;
+        font-size: 1em;
     }
 
 
@@ -191,6 +192,7 @@ body {
    
     width: 96%;
     margin-left: 6px;
+    font-size: 0.9em;
     
 }
 
