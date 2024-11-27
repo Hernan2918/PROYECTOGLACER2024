@@ -139,41 +139,6 @@ document.addEventListener('DOMContentLoaded', function () {
            
 
 
-            $(document).ready(function(){
-                $("#buscarproducto").on("keyup", function() {
-                    // Obtén el valor del input sin eliminar los espacios al inicio y al final
-                    var value = $(this).val();
-                    var noMatch = true;
-            
-                    // Si el input está vacío, muestra todas las filas y oculta el mensaje de "sin coincidencias"
-                    if (value === "") {
-                        $("#tabla_productos tbody tr").show();
-                        $("#noMatches").hide();
-                        return;
-                    }
-            
-                    // Si el input contiene solo espacios, oculta todas las filas y muestra el mensaje "sin coincidencias"
-                    if (value.trim() === "") {
-                        $("#tabla_productos tbody tr").hide();
-                        $("#noMatches").show();
-                        return;
-                    }
-            
-                    // Filtra las filas en función del texto ingresado
-                    $("#tabla_productos tbody tr").filter(function() {
-                        var match = $(this).text().toLowerCase().indexOf(value.trim().toLowerCase()) > -1;
-                        $(this).toggle(match);
-                        if (match) noMatch = false;
-                    });
-            
-                    // Muestra el mensaje si no hubo coincidencias; oculta si las hubo
-                    if (noMatch) {
-                        $("#noMatches").show();
-                    } else {
-                        $("#noMatches").hide();
-                    }
-                });
-            });
             
             
 

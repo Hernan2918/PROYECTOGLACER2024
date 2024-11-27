@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set VIRTUAL_ENV=C:\Users\Ryzen\Documents\RECIDENCIA\PROYECTOGLACER\control_inventario\venv
+set VIRTUAL_ENV=C:\Users\Ryzen\SISTEMAGLACER\PROYECTOGLACER2024\control_inventario\venv
 
 if not defined PROMPT set PROMPT=$P$G
 

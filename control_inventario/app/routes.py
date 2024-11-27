@@ -371,7 +371,6 @@ def registro_proveedor():
                 foto_db = filename
 
         try:
-            # Crear el nuevo proveedor
             nuevo_proveedor = Proveedor(
                 nombre=nombre,
                 telefono=telefono,
@@ -399,13 +398,11 @@ def actualizar_proveedor():
         correo = request.form['correoeditar']
         direccion = request.form['direccioneditar']
 
-        # Buscar el proveedor por ID
         proveedor = Proveedor.query.get(id_proveedor)
         if not proveedor:
             flash('Proveedor no encontrado', 'error')
             return redirect(url_for('main.consulta_proveedores'))
 
-        # Manejar la actualización de la foto
         if 'fotoeditar' in request.files and request.files['fotoeditar'].filename != '':
             foto = request.files['fotoeditar']
             filename = secure_filename(foto.filename)
@@ -413,20 +410,19 @@ def actualizar_proveedor():
             new_file_path = os.path.join(upload_folder, filename)
 
             try:
-                foto.save(new_file_path)  # Guardar nueva foto
-                proveedor.foto = filename  # Actualizar el campo de la foto
+                foto.save(new_file_path)  
+                proveedor.foto = filename  
             except Exception as e:
                 flash(f'Error al guardar la nueva foto: {e}', 'error')
                 return redirect(url_for('main.consulta_proveedores'))
 
-        # Actualizar otros campos
         proveedor.nombre = nombre
         proveedor.telefono = telefono
         proveedor.correo = correo
         proveedor.direccion = direccion
 
         try:
-            db.session.commit()  # Guardar cambios en la base de datos
+            db.session.commit()  
             flash('Proveedor actualizado exitosamente!', 'info')
         except Exception as e:
             db.session.rollback()
@@ -437,14 +433,12 @@ def actualizar_proveedor():
 @apps.route('/eliminar_proveedor/<int:proveedor_id>', methods=['POST'])
 def eliminar_proveedor(proveedor_id):
     try:
-        # Buscar el proveedor por ID
         proveedor = Proveedor.query.get(proveedor_id)
         
         if not proveedor:
             flash('Proveedor no encontrado', 'error')
             return redirect(url_for('main.consulta_proveedores'))
 
-        # Eliminar el proveedor
         db.session.delete(proveedor)
         db.session.commit()
 
@@ -604,17 +598,14 @@ def descargar_etiqueta_muro(muro_id):
     muro = Muro.query.get_or_404(muro_id)
     proveedor = Proveedor.query.get(muro.proveedor)
 
-    # Crear el PDF
     pdf = FPDF()
     pdf.add_page()
     pdf.set_line_width(1)
     pdf.rect(10, 10, 90, 50)
 
-    # Obtener la ruta de la imagen
     nombre_imagen = proveedor.foto
     ruta_imagen = os.path.join(os.getcwd(), 'app', 'static', 'uploads', nombre_imagen)
 
-    # Verificar si la imagen existe
     if os.path.exists(ruta_imagen):
         pdf.image(ruta_imagen, x=11, y=11, w=30)
     else:
@@ -623,7 +614,6 @@ def descargar_etiqueta_muro(muro_id):
         pdf.set_xy(11, 11)
         pdf.cell(30, 10, "Imagen no disponible", border=1, align="C")
 
-    # Agregar datos al PDF
     pdf.set_font("Arial", "B", size=15)
     pdf.set_xy(75, 15)
     pdf.cell(0, 10, txt=f"{muro.medidas}")
@@ -637,7 +627,6 @@ def descargar_etiqueta_muro(muro_id):
     pdf.set_xy(15, 48)
     pdf.cell(0, 10, txt=f"{muro.embalaje}")
 
-    # Crear el archivo PDF en memoria y devolverlo como respuesta
     output_pdf = BytesIO()
     pdf.output(output_pdf)
     output_pdf.seek(0)
