@@ -62,11 +62,20 @@
                         <li><a href="/consulta_vitroblocks">Vitroblock</a></li>
                     </ul>
                 </li>
+                {% if session.get('privilegio') == 'Administrador' %}
                 <a href="/consulta_proveedores" class="scroll"><i class="bi bi-people-fill"></i></a>
+                {% endif %}
+
+                {% if session.get('privilegio') == 'Administrador' %}
                 <a href="/consulta_categorias" class="scroll"><i class="bi bi-bookmark-fill"></i></a>
+                {% endif %}
+
                 <a href="/entradas" class="scroll"><i class="bi bi-cart-plus-fill"></i></a>
                 <a href="/salidas" class="scroll"><i class="bi bi-cart-check-fill"></i></a>
+
+                {% if session.get('privilegio') == 'Administrador' %}
                 <a href="/consulta_usuarios" class="scroll"><i class="bi bi-person-fill-add" style="font-size: 1.3em; margin: 0 3px 0 0;"></i></a>
+                {% endif %}
                 <a class="scroll" href="{{ url_for('main.logout') }}"><i class="bi bi-power"></i></a>
             </ul>
         </div>

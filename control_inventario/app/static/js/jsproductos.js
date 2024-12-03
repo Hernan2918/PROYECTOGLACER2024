@@ -116,7 +116,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     option.selected = option.value === proveedor;
                 });
         
-                // Seleccionar la categoría registrada
                 Array.from(inputCategoria.options).forEach(option => {
                     option.selected = option.value === categoria;
                 });
@@ -134,6 +133,23 @@ document.addEventListener('DOMContentLoaded', function () {
                     formEliminar.action = '/eliminar_producto/' + productoId;
                 });
             });
+
+
+
+            function changePage(pageNumber) {
+                const url = new URL(window.location.href);
+                url.searchParams.set('page', pageNumber);
+                url.searchParams.set('per_page', recordsPerPage);
+                window.location.href = url;
+            }
+
+            document.querySelectorAll('.pagination-number').forEach(button => {
+                button.addEventListener('click', () => {
+                    const page = parseInt(button.textContent);
+                    changePage(page);
+                });
+            });
+
             
 
            
@@ -146,7 +162,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     const { jsPDF } = window.jspdf;
                     const doc = new jsPDF();
                 
-                    // Agregar el logo
                     const imgUrl1 = '/static/img/logov.jpeg';
                 
                     async function getBase64ImageFromUrl(url) {
@@ -511,8 +526,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
 
 
+
+
+
                 
-
-
-
-        

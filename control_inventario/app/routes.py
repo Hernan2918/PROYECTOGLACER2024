@@ -38,10 +38,6 @@ def no_cache(view):
 def home():
     return render_template('login.html')
 
-@apps.route('/registro')
-def registro():
-    return render_template('registro_usuario.html')
-
 
 
 @apps.route('/acceso', methods=["GET", "POST"])
@@ -50,6 +46,7 @@ def acceso():
     if request.method == 'POST' and 'txtusuario' in request.form and 'txtcontrasena' in request.form:
         usuario = request.form['txtusuario']
         contrasena = request.form['txtcontrasena']
+        
 
         acceder = Usuario.query.filter_by(usuario=usuario).first()
 
@@ -64,6 +61,8 @@ def acceso():
                 session['id_usuario'] = acceder.id_usuario
                 session['usuario'] = acceder.usuario
                 session['nombre'] = acceder.nombre
+                session['privilegio'] = acceder.privilegio
+                
 
                 return redirect(url_for('main.consulta_productos'))
             else:
@@ -74,41 +73,7 @@ def acceso():
     return redirect('/')
 
 
-@apps.route('/registro_usuarios', methods=['POST'])
-def registro_usuarios():
-    if request.method == 'POST':
-        try:
-            nombre = request.form['registarnombre']
-            apellidos = request.form['registrarapellido']
-            genero = request.form['registrargenero']
-            privilegio = request.form['registrarprivilegio']
-            usuario = request.form['registrarusuario']
-            contrasena = request.form['registrarcontraseña']
-            
-            hashed_contrasena = generate_password_hash(contrasena)
-            print(f"Hash almacenado: {hashed_contrasena}")  
-            
-            nuevo_usuario = Usuario(
-                nombre=nombre,
-                apellidos=apellidos,
-                genero=genero,
-                privilegio=privilegio,
-                usuario=usuario,
-                contrasena=hashed_contrasena
-            )
-            
-            db.session.add(nuevo_usuario)
-            db.session.commit()
 
-            flash('Usuario registrado exitosamente!', 'success')
-            return redirect(url_for('main.acceso'))
-        
-        except Exception as e:
-            db.session.rollback()  
-            flash(f"Error al registrar el usuario: {str(e)}", 'danger')
-            return redirect('/registro')
-    
-    return render_template('login.html')
 
 
 
@@ -119,7 +84,6 @@ def registro_usuarios():
 @no_cache
 def consulta_usuarios():
     usuarios = Usuario.query.all()
-    
     return render_template('/usuarios/usuarios.html', usuarios=usuarios)
 
 @apps.route('/registro_usuariosModal', methods=['POST'])
@@ -187,11 +151,17 @@ def salidas():
 def entradas():
     return render_template('/entradas/entradas.html')
 
+
+
 @apps.route('/consulta_productos')
 @login_required
 @no_cache
 def consulta_productos():
-    productos = Producto.query \
+    page = request.args.get('page', 1, type=int)
+    per_page = request.args.get('per_page', 6, type=int)
+    search_term = request.args.get('search', '', type=str).strip()
+
+    productos_query = Producto.query \
         .join(Proveedor, Producto.proveedor == Proveedor.id_proveedor) \
         .join(Categoria, Producto.categoria == Categoria.id_categoria) \
         .add_columns(
@@ -206,12 +176,38 @@ def consulta_productos():
             Producto.ubicacion,
             Proveedor.nombre.label('proveedor_nombre'), Proveedor.id_proveedor,
             Categoria.nombre.label('categoria_nombre'), Categoria.id_categoria
-        ).all()
+        )
+
+    if search_term:
+        productos_query = productos_query.filter(
+            db.or_(
+                Producto.medidas.ilike(f"%{search_term}%"),
+                Proveedor.nombre.ilike(f"%{search_term}%"),
+                Producto.producto.ilike(f"%{search_term}%"),
+                Producto.existencias.ilike(f"%{search_term}%"),
+                Producto.embalaje.ilike(f"%{search_term}%"),
+                Producto.precio.ilike(f"%{search_term}%"),
+                Producto.rotas.ilike(f"%{search_term}%"),
+                Producto.calidad.ilike(f"%{search_term}%"),
+                Categoria.nombre.ilike(f"%{search_term}%")
+            )
+        )
+
+    productos_paginados = productos_query.paginate(page=page, per_page=per_page, error_out=False)
 
     proveedores = Proveedor.query.all()
     categorias = Categoria.query.all()
-    return render_template('/productos/productos.html', productos=productos, proveedores=proveedores, categorias=categorias
+
+    return render_template(
+        '/productos/productos.html',
+        productos=productos_paginados.items, max=max, min=min,  
+        proveedores=proveedores,
+        categorias=categorias,
+        pagination=productos_paginados,  
+        search=search_term  
     )
+
+
 
 
 
@@ -345,9 +341,37 @@ def eliminar_producto(producto_id):
 @login_required
 @no_cache
 def consulta_proveedores():
-    proveedores = Proveedor.query.all()
+    page = request.args.get('page', 1, type=int)  
+    per_page = request.args.get('per_page', 6, type=int) 
+    search = request.args.get('search', '', type=str) 
+
+    proveedores_query = Proveedor.query.add_columns(
+        Proveedor.id_proveedor,
+        Proveedor.nombre,
+        Proveedor.telefono,
+        Proveedor.correo,
+        Proveedor.direccion,
+        Proveedor.foto
+    )
+
+    if search:
+        proveedores_query = proveedores_query.filter(
+            Proveedor.nombre.ilike(f"%{search}%") |
+            Proveedor.telefono.ilike(f"%{search}%") |
+            Proveedor.correo.ilike(f"%{search}%") |
+            Proveedor.direccion.ilike(f"%{search}%")
+        )
+
     
-    return render_template('/proveedores/proveedores.html', proveedores=proveedores)
+    proveedores_paginated = proveedores_query.paginate(page=page, per_page=per_page, error_out=False)
+
+    return render_template(
+        '/proveedores/proveedores.html',
+        proveedores=proveedores_paginated.items,
+        pagination=proveedores_paginated,
+        search=search  
+    )
+
 
 
 
@@ -429,6 +453,7 @@ def actualizar_proveedor():
             flash(f'Error al actualizar el proveedor: {e}', 'error')
 
         return redirect(url_for('main.consulta_proveedores'))
+    
 
 @apps.route('/eliminar_proveedor/<int:proveedor_id>', methods=['POST'])
 def eliminar_proveedor(proveedor_id):
@@ -449,15 +474,31 @@ def eliminar_proveedor(proveedor_id):
     
     return redirect(url_for('main.consulta_proveedores'))
 
-
-    
 @apps.route('/consulta_categorias')
 @login_required
 @no_cache
 def consulta_categorias():
-    categorias = Categoria.query.all()
-    
-    return render_template('/categorias/categorias.html', categorias=categorias)
+   
+    page = request.args.get('page', 1, type=int)  
+    per_page = request.args.get('per_page', 6, type=int)  
+    search = request.args.get('search', '', type=str) 
+
+    categorias_query = Categoria.query
+
+    if search:
+        categorias_query = categorias_query.filter(
+            Categoria.nombre.ilike(f"%{search}%")
+            )
+
+    categorias_paginated = categorias_query.paginate(page=page, per_page=per_page, error_out=False)
+
+    return render_template(
+        '/categorias/categorias.html',
+        categorias=categorias_paginated.items,
+        pagination=categorias_paginated,
+        search=search  
+    )
+
 
 
 @apps.route('/registro_categorias', methods=['POST'])
@@ -530,22 +571,47 @@ def eliminar_categoria(categoria_id):
 @login_required
 @no_cache
 def consulta_muros():
-    
-    muros = Muro.query.join(Proveedor, Muro.proveedor == Proveedor.id_proveedor) \
+    page = request.args.get('page', 1, type=int)  
+    per_page = request.args.get('per_page', 6, type=int)  
+    search_term = request.args.get('search', '', type=str)  
+
+    query = Muro.query.join(Proveedor, Muro.proveedor == Proveedor.id_proveedor) \
                       .join(Categoria, Muro.categoria == Categoria.id_categoria) \
                       .add_columns(
                           Muro.id_producto, Muro.medidas, Muro.producto, Muro.calidad,
                           Muro.existencias, Muro.rotas, Muro.precio, Muro.embalaje,
-                          Muro.ubicacion, Proveedor.nombre.label('proveedor_nombre'), Proveedor.id_proveedor,
-                          Categoria.nombre.label('categoria_nombre'), Categoria.id_categoria
-                      ).all()
+                          Muro.ubicacion, Proveedor.nombre.label('proveedor_nombre'),
+                          Categoria.nombre.label('categoria_nombre')
+                      )
 
-   
+    if search_term:
+        query = query.filter(
+            Muro.medidas.ilike(f'%{search_term}%') | 
+            Muro.producto.ilike(f'%{search_term}%') | 
+            Muro.calidad.ilike(f'%{search_term}%') | 
+            Muro.existencias.ilike(f'%{search_term}%') |
+            Muro.rotas.ilike(f'%{search_term}%') |
+            Muro.precio.ilike(f'%{search_term}%') | 
+            Muro.embalaje.ilike(f'%{search_term}%') | 
+            Muro.ubicacion.ilike(f'%{search_term}%') | 
+            Proveedor.nombre.ilike(f'%{search_term}%') |  
+            Categoria.nombre.ilike(f'%{search_term}%')   
+        )
+
+    pagination = query.paginate(page=page, per_page=per_page, error_out=False)
+    muros = pagination.items
+
     proveedores = Proveedor.query.all()
     categorias = Categoria.query.all()
 
-    return render_template('/muros/muros.html',muros=muros, proveedores=proveedores, categorias=categorias)
-
+    return render_template(
+        '/muros/muros.html',
+        muros=muros, max=max, min=min,
+        proveedores=proveedores,
+        categorias=categorias,
+        pagination=pagination,
+        search_term=search_term
+    )
 
 
 
@@ -553,7 +619,7 @@ def consulta_muros():
 @apps.route('/obtener_todos_muros')
 @login_required
 def obtener_todos_muros():
-    # Consulta con relaciones
+    
     muros = Muro.query.join(Proveedor).join(Categoria).add_columns(
         Muro.id_producto, 
         Muro.medidas, 
@@ -679,13 +745,11 @@ def actualizar_muros():
     if request.method == 'POST':
         id_producto = request.form['id_producto']
         
-        # Recuperar el producto desde la base de datos
         muro = Muro.query.get(id_producto)
         if not muro:
             flash('El producto no existe.', 'error')
             return redirect(url_for('consulta_muros'))
         
-        # Actualizar los datos del producto
         muro.medidas = request.form['medidaeditar']
         muro.proveedor = request.form['proveedoreseditar']
         muro.producto = request.form['productoeditar']
@@ -697,7 +761,6 @@ def actualizar_muros():
         muro.ubicacion = request.form['ubicacioneditar']
         muro.categoria = request.form['categoriaseditar']
 
-        # Guardar los cambios en la base de datos
         db.session.commit()
 
         flash('Producto actualizado exitosamente!', 'info')
@@ -706,15 +769,12 @@ def actualizar_muros():
 
 @apps.route('/eliminar_muros/<int:muro_id>', methods=['POST'])
 def eliminar_muros(muro_id):
-    # Buscar el registro que quieres eliminar
     muro = Muro.query.get(muro_id)
     
     if not muro:
-        # Si no existe el registro, muestra un mensaje de error
         flash('El muro no existe o ya ha sido eliminado.', 'error')
         return redirect(url_for('main.consulta_muros'))
 
-    # Eliminar el registro encontrado
     db.session.delete(muro)
     db.session.commit()
 
@@ -727,24 +787,43 @@ def eliminar_muros(muro_id):
 @login_required
 @no_cache
 def consulta_adhesivos():
-    # Consulta de adhesivos con sus relaciones
-    adhesivos = Adhesivo.query \
+    page = request.args.get('page', 1, type=int)  
+    per_page = request.args.get('per_page', 6, type=int)  
+    search = request.args.get('search', '', type=str)  
+
+    adhesivos_query = Adhesivo.query \
         .join(Proveedor, Adhesivo.proveedor == Proveedor.id_proveedor) \
         .join(Categoria, Adhesivo.categoria == Categoria.id_categoria) \
         .add_columns(
             Adhesivo.id_adhesivos, Adhesivo.nombre, Adhesivo.kilogramos, Adhesivo.existencia,
-            Adhesivo.precio, Adhesivo.ubicacion, 
+            Adhesivo.precio, Adhesivo.ubicacion,
             Proveedor.nombre.label('proveedor_nombre'), Proveedor.id_proveedor,
             Categoria.nombre.label('categoria_nombre'), Categoria.id_categoria
-        ).all()
+        )
+
+    if search:  
+        adhesivos_query = adhesivos_query.filter(
+            Adhesivo.nombre.ilike(f"%{search}%") |
+            Adhesivo.kilogramos.ilike(f"%{search}%") |
+            Adhesivo.existencia.ilike(f"%{search}%") |
+            Adhesivo.precio.ilike(f"%{search}%") |
+            Adhesivo.ubicacion.ilike(f"%{search}%") |
+            Proveedor.nombre.ilike(f"%{search}%") |
+            Categoria.nombre.ilike(f"%{search}%")
+        )
+
+    adhesivos_paginated = adhesivos_query.paginate(page=page, per_page=per_page)
 
     proveedores = Proveedor.query.all()
     categorias = Categoria.query.all()
 
-    
-
-    return render_template('/adhesivos/adhesivos.html', adhesivos=adhesivos, proveedores=proveedores, categorias=categorias)
-
+    return render_template(
+        '/adhesivos/adhesivos.html',
+        adhesivos=adhesivos_paginated.items,  
+        pagination=adhesivos_paginated,  
+        proveedores=proveedores,
+        categorias=categorias, max=max, min=min
+    )
 
 
 @apps.route('/obtener_todos_adhesivos')
@@ -765,7 +844,6 @@ def obtener_todos_adhesivos():
      .join(Categoria, Adhesivo.categoria == Categoria.id_categoria) \
      .all()
 
-    # Formatear los resultados en una lista de diccionarios
     productos_list = [
         {
             'id_adhesivos': producto.id_adhesivos,
@@ -788,7 +866,6 @@ def obtener_todos_adhesivos():
 @apps.route('/registro_adhesivos', methods=['POST'])
 def registro_adhesivos():
     if request.method == 'POST':
-        # Obtener los datos del formulario
         proveedor_id = request.form['proveedores']
         nombre = request.form['producto']
         kilogramos = request.form['kilogramos']
@@ -798,7 +875,6 @@ def registro_adhesivos():
         categoria_id = request.form['categorias']
 
         try:
-            # Crear un nuevo objeto Adhesivo
             nuevo_adhesivo = Adhesivo(
                 proveedor=proveedor_id,
                 nombre=nombre,
@@ -825,7 +901,6 @@ def registro_adhesivos():
 @apps.route('/actualizar_adhesivos', methods=['POST'])
 def actualizar_adhesivos():
     if request.method == 'POST':
-        # Obtener los datos del formulario
         id_producto = request.form['id_producto']
         proveedor_id = request.form['proveedoreseditar']
         producto = request.form['productoeditar']
@@ -836,10 +911,8 @@ def actualizar_adhesivos():
         categoria_id = request.form['categoriaseditar']
 
         try:
-            # Buscar el registro existente
             adhesivo = Adhesivo.query.get(id_producto)
             
-            # Actualizar los campos del adhesivo
             adhesivo.proveedor = proveedor_id
             adhesivo.nombre = producto
             adhesivo.kilogramos = kilogramos
@@ -884,29 +957,49 @@ def eliminar_adhesivos(adhesivo_id):
 @login_required
 @no_cache
 def consulta_sanitarios():
+    page = request.args.get('page', 1, type=int)  
+    per_page = request.args.get('per_page', 6, type=int)  
+    search = request.args.get('search', '', type=str)  
+
+    sanitarios_query = Sanitario.query.join(Proveedor, Sanitario.proveedor_id == Proveedor.id_proveedor)\
+        .join(Categoria, Sanitario.categoria_id == Categoria.id_categoria)\
+        .add_columns(
+            Sanitario.id_sanitario,
+            Sanitario.nombre,
+            Sanitario.existencias,
+            Sanitario.rotas,
+            Sanitario.precio,
+            Sanitario.ubicacion,
+            Proveedor.nombre.label('proveedor_nombre'),
+            Proveedor.id_proveedor,
+            Categoria.nombre.label('categoria_nombre'),
+            Categoria.id_categoria
+        )
+
+    if search:
+        sanitarios_query = sanitarios_query.filter(
+            Sanitario.nombre.ilike(f"%{search}%") |
+            Sanitario.existencias.ilike(f"%{search}%") |
+            Sanitario.rotas.ilike(f"%{search}%") |
+            Sanitario.precio.ilike(f"%{search}%") |
+            Sanitario.ubicacion.ilike(f"%{search}%") |
+            Proveedor.nombre.ilike(f"%{search}%") |
+            Categoria.nombre.ilike(f"%{search}%")
+        )
+
     
-        sanitarios = Sanitario.query.join(Proveedor, Sanitario.proveedor_id == Proveedor.id_proveedor)\
-            .join(Categoria, Sanitario.categoria_id == Categoria.id_categoria)\
-                .add_columns(
-                    Sanitario.id_sanitario,
-                    Sanitario.nombre,
-                    Sanitario.existencias,
-                    Sanitario.rotas,
-                    Sanitario.precio,
-                    Sanitario.ubicacion,
-                    Proveedor.nombre.label('proveedor_nombre'),
-                    Proveedor.id_proveedor,
-                    Categoria.nombre.label('categoria_nombre'),
-                    Categoria.id_categoria
-                ).all()
+    sanitarios_paginated = sanitarios_query.paginate(page=page, per_page=per_page)
 
-        proveedores = Proveedor.query.all()
-        categorias = Categoria.query.all()
+    proveedores = Proveedor.query.all()
+    categorias = Categoria.query.all()
 
-        
-
-        return render_template('/sanitarios/sanitarios.html', sanitarios=sanitarios, proveedores=proveedores, categorias=categorias,)
-
+    return render_template(
+        '/sanitarios/sanitarios.html',
+        sanitarios=sanitarios_paginated.items,  
+        pagination=sanitarios_paginated,  
+        proveedores=proveedores,
+        categorias=categorias
+    )
 
 
 
@@ -1007,7 +1100,6 @@ def actualizar_sanitarios():
                 sanitario.ubicacion = ubicacion
                 sanitario.categoria_id = categoria_id
 
-                # Guardar los cambios en la base de datos
                 db.session.commit()
 
                 flash('Producto actualizado exitosamente!', 'info')
@@ -1046,27 +1138,54 @@ def eliminar_sanitarios(sanitario_id):
 @login_required
 @no_cache
 def consulta_tinacos():
-        tinacos = Tinaco.query.join(Proveedor).join(Categoria).add_columns(
-            Tinaco.id_tinaco, 
-            Tinaco.nombre, 
-            Tinaco.litros, 
-            Tinaco.color, 
-            Tinaco.existencias, 
-            Tinaco.rotas, 
-            Tinaco.precio, 
+    page = request.args.get('page', 1, type=int)  
+    per_page = request.args.get('per_page', 6, type=int)  
+    search = request.args.get('search', '', type=str)  
+
+    tinacos_query = Tinaco.query.join(Proveedor, Tinaco.proveedor_id == Proveedor.id_proveedor)\
+        .join(Categoria, Tinaco.categoria_id == Categoria.id_categoria)\
+        .add_columns(
+            Tinaco.id_tinaco,
+            Tinaco.nombre,
+            Tinaco.litros,
+            Tinaco.color,
+            Tinaco.existencias,
+            Tinaco.rotas,
+            Tinaco.precio,
             Tinaco.ubicacion,
             Proveedor.nombre.label('proveedor_nombre'),
             Proveedor.id_proveedor,
             Categoria.nombre.label('categoria_nombre'),
             Categoria.id_categoria
-        ).all()
+        )
 
-        proveedores = Proveedor.query.all()
-        categorias = Categoria.query.all()
+    if search:
+        tinacos_query = tinacos_query.filter(
+            Tinaco.nombre.ilike(f"%{search}%") |
+            Proveedor.nombre.ilike(f"%{search}%") |
+            Categoria.nombre.ilike(f"%{search}%") |
+            Tinaco.existencias.ilike(f"%{search}%") |
+            Tinaco.rotas.ilike(f"%{search}%") |
+            Tinaco.precio.ilike(f"%{search}%") |
+            Tinaco.color.ilike(f"%{search}%") |
+            Tinaco.ubicacion.ilike(f"%{search}%") |
+            Tinaco.litros.ilike(f"%{search}%")
+        )
 
+    
+    tinacos_paginated = tinacos_query.paginate(page=page, per_page=per_page)
 
-        return render_template('/tinacos/tinacos.html', tinacos=tinacos, proveedores=proveedores, categorias=categorias)
-   
+    proveedores = Proveedor.query.all()
+    categorias = Categoria.query.all()
+
+    return render_template(
+        '/tinacos/tinacos.html',
+        tinacos=tinacos_paginated.items,  
+        pagination=tinacos_paginated,  
+        proveedores=proveedores,
+        categorias=categorias
+    )
+
 
 
 @apps.route('/obtener_todos_tinacos')
@@ -1074,7 +1193,6 @@ def consulta_tinacos():
 @no_cache
 def obtener_todos_tinacos():
     try:
-        # Consultar todos los tinacos con sus relaciones (proveedores y categorías)
         tinacos = Tinaco.query.join(Proveedor).join(Categoria).add_columns(
             Tinaco.id_tinaco,
             Tinaco.nombre,
@@ -1090,7 +1208,6 @@ def obtener_todos_tinacos():
             Categoria.id_categoria
         ).all()
 
-        # Crear una lista de diccionarios para convertir a JSON
         productos = [
             {
                 'id_tinaco': tinaco.id_tinaco,
@@ -1220,27 +1337,50 @@ def eliminar_tinacos(tinaco_id):
 @login_required
 @no_cache
 def consulta_vitroblocks():
-        vitroblocks = Vitroblock.query.join(Proveedor).join(Categoria).add_columns(
-            Vitroblock.id_vitroblock,
-            Vitroblock.tipo,
-            Vitroblock.medidas,
-            Vitroblock.nombre,
-            Vitroblock.existencias,
-            Vitroblock.rotas,
-            Vitroblock.precio,
-            Vitroblock.ubicacion,
-            Proveedor.nombre.label('proveedor_nombre'),
-            Proveedor.id_proveedor,
-            Categoria.nombre.label('categoria_nombre'),
-            Categoria.id_categoria
-        ).all()
+    page = request.args.get('page', 1, type=int)  
+    per_page = request.args.get('per_page', 6, type=int) 
+    search = request.args.get('search', '', type=str)  
 
-        proveedores = Proveedor.query.all()
-        categorias = Categoria.query.all()
+    vitroblocks_query = Vitroblock.query.join(Proveedor).join(Categoria).add_columns(
+        Vitroblock.id_vitroblock,
+        Vitroblock.tipo,
+        Vitroblock.medidas,
+        Vitroblock.nombre,
+        Vitroblock.existencias,
+        Vitroblock.rotas,
+        Vitroblock.precio,
+        Vitroblock.ubicacion,
+        Proveedor.nombre.label('proveedor_nombre'),
+        Categoria.nombre.label('categoria_nombre')
+    )
 
+    if search:
+        vitroblocks_query = vitroblocks_query.filter(
+            Vitroblock.nombre.ilike(f"%{search}%") |
+            Vitroblock.tipo.ilike(f"%{search}%") |
+            Vitroblock.medidas.ilike(f"%{search}%") |
+            Vitroblock.existencias.ilike(f"%{search}%") |
+            Vitroblock.rotas.ilike(f"%{search}%") |
+            Vitroblock.precio.ilike(f"%{search}%") |
+            Vitroblock.ubicacion.ilike(f"%{search}%") |
+            Proveedor.nombre.ilike(f"%{search}%") |
+            Categoria.nombre.ilike(f"%{search}%")
+        )
 
-        return render_template('/vitroblocks/vitroblock.html', vitroblocks=vitroblocks, proveedores=proveedores, categorias=categorias)
-   
+    vitroblocks_paginated = vitroblocks_query.paginate(page=page, per_page=per_page, error_out=False)
+
+    proveedores = Proveedor.query.all()
+    categorias = Categoria.query.all()
+
+    return render_template(
+        '/vitroblocks/vitroblock.html',
+        vitroblocks=vitroblocks_paginated.items,
+        pagination=vitroblocks_paginated,
+        proveedores=proveedores,
+        categorias=categorias,
+        search=search  
+    )
+
 
 
 @apps.route('/obtener_todos_vitroblocks')
@@ -1290,7 +1430,6 @@ def registro_vitroblocks():
         ubicacion = request.form['ubicacion']
         categoria_id = request.form['categorias']
         
-        # Crear una nueva instancia de Vitroblock con los datos del formulario
         nuevo_vitroblock = Vitroblock(
             proveedor=proveedor_id,
             tipo=tipo,
@@ -1303,7 +1442,6 @@ def registro_vitroblocks():
             categoria=categoria_id
         )
 
-        # Agregarlo a la sesión y hacer el commit
         db.session.add(nuevo_vitroblock)
         db.session.commit()
 
@@ -1325,11 +1463,9 @@ def actualizar_vitroblocks():
         ubicacion = request.form['ubicacioneditar']
         categoria_id = request.form['categoriaseditar']
 
-        # Buscar el producto por su ID
         producto = Vitroblock.query.get(id_vitroblock)
         
         if producto:
-            # Actualizar los atributos del producto con los nuevos valores
             producto.proveedor = proveedor_id
             producto.tipo = tipo
             producto.medidas = medidas
@@ -1340,7 +1476,6 @@ def actualizar_vitroblocks():
             producto.ubicacion = ubicacion
             producto.categoria = categoria_id
             
-            # Guardar los cambios en la base de datos
             db.session.commit()
             flash('Producto actualizado exitosamente!', 'info')
         else:
@@ -1373,21 +1508,17 @@ def eliminar_vitroblocks(vitroblock_id):
 
 @apps.route('/descargar_etiqueta_producto/<int:producto_id>')
 def descargar_etiqueta_producto(producto_id):
-    # Obtener el producto y su proveedor de la base de datos
     producto = Producto.query.get_or_404(producto_id)
     proveedor = Proveedor.query.get_or_404(producto.proveedor)
 
-    # Crear el PDF
     pdf = FPDF()
     pdf.add_page()
     pdf.set_line_width(1)
     pdf.rect(10, 10, 90, 50)
 
-    # Obtener la ruta de la imagen
     nombre_imagen = proveedor.foto
     ruta_imagen = os.path.join(os.getcwd(), 'app', 'static', 'uploads', nombre_imagen)
 
-    # Verificar si la imagen existe
     if os.path.exists(ruta_imagen):
         pdf.image(ruta_imagen, x=11, y=11, w=30)
     else:
@@ -1396,7 +1527,6 @@ def descargar_etiqueta_producto(producto_id):
         pdf.set_xy(11, 11)
         pdf.cell(30, 10, "Imagen no disponible", border=1, align="C")
 
-    # Agregar datos al PDF
     pdf.set_font("Arial", "B", size=15)
     pdf.set_xy(75, 15)
     pdf.cell(0, 10, txt=f"{producto.medidas}")
@@ -1413,7 +1543,6 @@ def descargar_etiqueta_producto(producto_id):
     pdf.set_xy(15, 48)
     pdf.cell(0, 10, txt=f"{producto.embalaje}")
 
-    # Crear el archivo PDF en memoria y devolverlo como respuesta
     output_pdf = BytesIO()
     pdf.output(output_pdf)
     output_pdf.seek(0)

@@ -12,15 +12,10 @@
 }
 body {
     background: url(/static/img/FondoLogin.jpg);
-    background-size:  100% 100%; /*vbcdhvdvj Asegura que la imagen cubra todo el fondo */
+    background-size:  100% 100%; 
     background-position: center;
     background-repeat: no-repeat;
-   
-    /* Asegura que el ancho sea completo */
-
-    
 }
-
 
     body, html {
         
@@ -29,7 +24,6 @@ body {
         height: 100%;
         font-family: Arial, sans-serif;
         overflow: hidden;
-        
     }
     
     .fondo-cuadros {

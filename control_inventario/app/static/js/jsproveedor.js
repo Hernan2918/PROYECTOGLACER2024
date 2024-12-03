@@ -76,36 +76,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         
-        $(document).ready(function(){
-            $("#buscarproveedor").on("keyup", function() {
-                var value = $(this).val();
-                var noMatch = true;
-        
-                if (value === "") {
-                    $("#tabla_proveedores tbody tr").show();
-                    $("#noMatches").hide();
-                    return;
-                }
-        
-                if (value.trim() === "") {
-                    $("#tabla_proveedores tbody tr").hide();
-                    $("#noMatches").show();
-                    return;
-                }
-        
-                $("#tabla_proveedores tbody tr").filter(function() {
-                    var match = $(this).text().toLowerCase().indexOf(value.trim().toLowerCase()) > -1;
-                    $(this).toggle(match);
-                    if (match) noMatch = false;
-                });
-        
-                if (noMatch) {
-                    $("#noMatches").show();
-                } else {
-                    $("#noMatches").hide();
-                }
-            });
-        });
+       
         
 
         document.getElementById('foto').addEventListener('change', function(event) {
@@ -191,9 +162,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
         
-        document.getElementById("buscar2").addEventListener("click", function() {
-            document.getElementById("buscarproveedor").focus();
-        });
+        
 
 
         // FUNCION DE VALIDACION PARA EL REGSITRO DE UN PROVEEFOR
@@ -338,5 +307,32 @@ document.addEventListener('DOMContentLoaded', function () {
     
         }
 
-           
+        // FUNCION PARA EL PAGINADO Y BUSQUEDA
+        document.getElementById('search-input').addEventListener('input', function () {
+            const searchTerm = this.value.trim();
+            const page = 1; 
+            const perPage = 6; 
+            const url = `/consulta_proveedores?page=${page}&per_page=${perPage}&search=${encodeURIComponent(searchTerm)}`;
+        
+            fetch(url)
+                .then(response => response.text())
+                .then(html => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+        
+                    document.querySelector('#product-table-body').innerHTML = doc.querySelector('#product-table-body').innerHTML;
+        
+                    document.querySelector('.pagination').innerHTML = doc.querySelector('.pagination').innerHTML;
+                    const noMatchesDiv = document.getElementById('noMatches');
+                    const rows = document.querySelectorAll('#product-table-body tr');
+                    if (rows.length === 0) {
+                        noMatchesDiv.style.display = 'block';
+                        noMatchesDiv.textContent = `No se encontraron coincidencias para: "${searchTerm}"`;
+                    } else {
+                        noMatchesDiv.style.display = 'none';
+                    }
+                })
+                .catch(error => console.error('Error al realizar la búsqueda:', error));
+        });
+        
                 
