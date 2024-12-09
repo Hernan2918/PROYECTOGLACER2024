@@ -52,7 +52,8 @@
                         </tr>
                     </thead>
                     <tbody id="product-table-body">
-                        {% for usuario in usuarios %}
+                    {% for usuario in usuarios %}
+                        {% if usuario.id_usuario not in usuarios_activos %}
                         <tr>
                             
                             <td>{{usuario.nombre}}</td>
@@ -60,14 +61,20 @@
                             <td>{{usuario.genero}}</td>
                             <td>{{usuario.privilegio}}</td>
                             <td>{{usuario.usuario}}</td>
+                            
+
                             <td>
+                                
                                 <button type="submit" class="btn btn-danger" id="btneliminar" data-bs-toggle="modal" data-bs-target="#eliminarU" value="{{ usuario.id_usuario }}" data-id="{{ usuario.id_usuario }}"><i class="bi bi-trash3-fill"></i></button>
+
                             </td>
                             
             
                         
                         </tr>
-                        {% endfor %}
+                        {% endif %}
+
+                    {% endfor %}
                         
                         
                         

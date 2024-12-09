@@ -84,9 +84,10 @@
             </ul>
         </div>
          
-        
+        {% include 'entradas/registro_entradas.html' %}
         {% include 'muros/consulta_muros.html'%}
         {% include 'muros/registrar_muros.html' %}
+        {% include 'salidas/registro_salidas_muros.html' %}
         {% include 'muros/actualizar_muros.html' %}
         {% include 'muros/eliminar_muro.html' %}
         
@@ -101,7 +102,8 @@
     <script src="/static/js/jsmuros.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.17/jspdf.plugin.autotable.min.js"></script>
-    
+    <script src="/static/js/entradas.js"></script>
+    <script src="/static/js/salidas_muros.js"></script>
     
 
     

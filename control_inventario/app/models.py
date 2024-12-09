@@ -126,3 +126,13 @@ class Vitroblock(db.Model):
 
     proveedor_rel = db.relationship('Proveedor', backref='vitroblocks')
     categoria_rel = db.relationship('Categoria', backref='vitroblocks')
+
+class Salida(db.Model):
+    __tablename__ = 'salidas'
+    id_salida = db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.String(100), nullable=False)
+    salida = db.Column(db.Integer, nullable=False)
+    fecha = db.Column(db.String(100), nullable=False)
+    destino = db.Column(db.String(50),  nullable=False)
+    estatus = db.Column(db.String(50),  nullable=False)
+    

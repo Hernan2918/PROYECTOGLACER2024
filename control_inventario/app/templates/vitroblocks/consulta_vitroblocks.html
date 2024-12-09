@@ -79,9 +79,18 @@
                             <td>{{vitroblock.categoria_nombre}}</td>
                             <td>
                                 <button type="submit" class="btn btn-primary" id="btnactualizar" data-bs-toggle="modal" data-bs-target="#editarModalProductoVitroblock" data-id="{{ vitroblock.id_vitroblock }}"  data-proveedor="{{vitroblock.id_proveedor}}" data-tipo="{{vitroblock.tipo}}" data-medidas="{{vitroblock.medidas}}" data-nombre="{{vitroblock.nombre}}" data-existencias="{{vitroblock.existencias}}" data-precio="{{vitroblock.precio}}" data-rotas="{{ vitroblock.rotas }}" data-ubicacion="{{vitroblock.ubicacion}}" data-categoria="{{vitroblock.id_categoria}}" value="#"><i class="bi bi-arrow-clockwise"></i></button>
+                                {% if session.get('privilegio') == 'Administrador' %}
                                 <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#eliminarVitroblocks" value="{{ vitroblock.id_vitroblock }}" data-id="{{ vitroblock.id_vitroblock }}">
                                     <i class="bi bi-trash3-fill"></i>
                                 </button>
+                                {% endif %}
+                                <button type="submit" class="btn btn-danger" id="btnsalidas" data-bs-toggle="modal" data-bs-target="#Salidas" data-id="{{ vitroblock.id_vitroblock }}" 
+                                data-proveedorV="{{ vitroblock.id_proveedor }}" 
+                                data-tipo="{{ vitroblock.tipo }}"   
+                                data-medidas="{{ vitroblock.medidas }}"  
+                                data-nombre="{{ vitroblock.nombre }}" 
+                                data-categoria="{{ vitroblock.id_categoria }}" ><i class="bi bi-box-arrow-right"></i></button>
+                                
                                 <button type="button" id="btnactualizar"  class="btn btn-primary"onclick="window.location.href='{{ url_for('main.descargar_etiqueta_vitroblock', vitroblock_id=vitroblock.id_vitroblock) }}'">
                                     <i class="bi bi-printer-fill"></i>
                                  </button>

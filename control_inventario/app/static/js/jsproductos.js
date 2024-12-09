@@ -70,6 +70,11 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('registroProducto').addEventListener('click', function() {
           abrirModalRegistro();
         });
+
+        
+
+
+          
     
         
 

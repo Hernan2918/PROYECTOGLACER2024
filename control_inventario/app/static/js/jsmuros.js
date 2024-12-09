@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function () {
         
                 var inputId = editarProductoModal.querySelector('#editarproductoId');
                 var inputMedida = editarProductoModal.querySelector('#medidaeditar');
-                var inputproveedor = editarProductoModal.querySelector('#proveedoreseditar');
+                var inputProveedor = editarProductoModal.querySelector('#proveedoreseditar');
                 var inputproducto = editarProductoModal.querySelector('#productoeditar');
                 var inputCalidad = editarProductoModal.querySelector('#calidadeditar');
                 var inputExistencias = editarProductoModal.querySelector('#existenciaeditar');
@@ -112,21 +112,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 inputEmbalaje.value = embalaje;
                 inputUbicacion.value = ubicacion;
                 
-              Array.from(inputproveedor.options).forEach(option => {
-                  if (option.value == proveedor) {
-                      option.selected = true;
-                  } else {
-                      option.selected = false;
-                  }
-              });
-      
-              Array.from(inputCategoria.options).forEach(option => {
-                  if (option.value == categoria) {
-                      option.selected = true;
-                  } else {
-                      option.selected = false;
-                  }
-              });
+                Array.from(inputProveedor.options).forEach(option => {
+                    option.selected = option.value === proveedor;
+                });
+        
+                Array.from(inputCategoria.options).forEach(option => {
+                    option.selected = option.value === categoria;
+                });
             });
         });
         

@@ -79,9 +79,16 @@
 
                             <td>
                                 <button type="submit" class="btn btn-primary" id="btnactualizar" data-bs-toggle="modal" data-bs-target="#editarModalProductoMuros" data-id="{{ muro.id_producto }}" data-medidas="{{ muro.medidas }}" data-proveedor="{{ muro.id_proveedor }}" data-producto="{{muro.producto}}" data-calidad="{{ muro.calidad }}" data-existencias="{{ muro.existencias }}" data-rotas="{{muro.rotas}}" data-precio="{{muro.precio}}" data-embalaje="{{muro.embalaje}}" data-ubicacion="{{muro.ubicacion}}" data-categoria="{{muro.id_categoria}}" value="#"><i class="bi bi-arrow-clockwise"></i></button>
+                                {% if session.get('privilegio') == 'Administrador' %}
                                 <button type="submit" class="btn btn-danger" id="btneliminar" data-bs-toggle="modal" data-bs-target="#eliminarM" value="{{ muro.id_producto }}" data-id="{{ muro.id_producto }}"><i class="bi bi-trash3-fill"></i></button>
-                                <button type="submit" class="btn btn-success" id="btnentradas" data-bs-toggle="modal" data-bs-target="#editarModalProducto" value="#"><i class="bi bi-box-arrow-left"></i></button>
-                                <button type="submit" class="btn btn-danger" id="btneliminar" data-bs-toggle="modal" data-bs-target="#eliminarP" ><i class="bi bi-box-arrow-right"></i></button>
+                                {% endif %}
+                                <button type="submit" class="btn btn-success" id="btnentradas" data-bs-toggle="modal" data-bs-target="#Entradas" value="#"><i class="bi bi-box-arrow-left"></i></button>
+                                <button type="submit" class="btn btn-danger" id="btnsalidas" data-bs-toggle="modal" data-bs-target="#Salidas" data-id="{{ muro.id_producto }}"  data-medidas="{{ muro.medidas }}" 
+                                data-proveedor="{{ muro.id_proveedor }}"  
+                                data-producto="{{ muro.producto }}" 
+                                data-calidad="{{ muro.calidad }}" 
+                                data-categoria="{{ muro.id_categoria }}" ><i class="bi bi-box-arrow-right"></i></button>
+                                
                                 <button type="button" id="btnactualizar"  class="btn btn-primary"onclick="window.location.href='{{ url_for('main.descargar_etiqueta_muro', muro_id=muro.id_producto) }}'">
                                     <i class="bi bi-printer-fill"></i>
                                  </button>
@@ -89,9 +96,7 @@
                                                 
                         </tr>
                         {% endfor %}
-                        <script>
-                            
-                        </script>
+                    
                         
                         
                     </tbody>
@@ -184,9 +189,10 @@
         font-size: 16px;
     }
     .pagination .page-item.active .page-link {
-        background-color: #1354e0; 
+        
+        background-color: rgb(48, 122, 190); 
         color: #fff; 
-        border-color: #111;
+        border-color: rgb(48, 122, 190);
   
     }
     

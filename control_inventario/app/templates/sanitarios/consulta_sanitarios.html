@@ -76,10 +76,16 @@
                                 
                                 
                                 <button type="submit" class="btn btn-primary" id="btnactualizar" data-bs-toggle="modal" data-bs-target="#editarModalProductoSanitarios" data-id="{{ sanitario.id_sanitario }}"  data-proveedor="{{ sanitario.id_proveedor }}" data-producto="{{sanitario.nombre}}" data-existencias="{{sanitario.existencias}}" data-precio="{{sanitario.precio}}" data-rotas="{{ sanitario.rotas }}" data-ubicacion="{{sanitario.ubicacion}}" data-categoria="{{sanitario.id_categoria}}" value="#"><i class="bi bi-arrow-clockwise"></i></button>
-                                
+                                {% if session.get('privilegio') == 'Administrador' %}
                                 <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#eliminarSANITARIOS" value="{{ sanitario.id_sanitario }}" data-id="{{ sanitario.id_sanitario }}">
                                     <i class="bi bi-trash3-fill"></i>
                                 </button>
+                                {% endif %}
+                                <button type="submit" class="btn btn-danger" id="btnsalidas" data-bs-toggle="modal" data-bs-target="#Salidas" data-id="{{ sanitario.id_sanitario }}" 
+                                data-proveedor="{{ sanitario.id_proveedor }}"  
+                                data-nombre="{{ sanitario.nombre }}" 
+                                data-categoria="{{ sanitario.id_categoria }}" ><i class="bi bi-box-arrow-right"></i></button>
+                                
                                 <button type="button" id="btnactualizar"  class="btn btn-primary"onclick="window.location.href='{{ url_for('main.descargar_etiqueta_sanitario', sanitario_id=sanitario.id_sanitario) }}'">
                                     <i class="bi bi-printer-fill"></i>
                                 </button>

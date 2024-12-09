@@ -1,5 +1,5 @@
 from flask import Blueprint, current_app
-from app.models import Producto, Proveedor, Categoria, Usuario, db, Muro, Adhesivo, Sanitario, Tinaco, Vitroblock
+from app.models import Producto, Proveedor, Categoria, Usuario, db, Salida, Muro, Adhesivo, Sanitario, Tinaco, Vitroblock
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask import request, session, redirect, url_for, render_template, flash, make_response
 from app import db
@@ -39,43 +39,42 @@ def home():
     return render_template('login.html')
 
 
+usuarios_en_sesion = set()
+
 
 @apps.route('/acceso', methods=["GET", "POST"])
-
 def acceso():
     if request.method == 'POST' and 'txtusuario' in request.form and 'txtcontrasena' in request.form:
         usuario = request.form['txtusuario']
         contrasena = request.form['txtcontrasena']
-        
 
         acceder = Usuario.query.filter_by(usuario=usuario).first()
 
-        print(f"Usuario encontrado: {acceder}") 
-        
-        if acceder:
-            print(f"Contraseña ingresada: {contrasena}") 
-            print(f"Hash de la contraseña: {acceder.contrasena}") 
+        if acceder and check_password_hash(acceder.contrasena, contrasena):
+            session['logeado'] = True
+            session['id_usuario'] = acceder.id_usuario
+            session['usuario'] = acceder.usuario
+            session['nombre'] = acceder.nombre
+            session['privilegio'] = acceder.privilegio
 
-            if check_password_hash(acceder.contrasena, contrasena):
-                session['logeado'] = True
-                session['id_usuario'] = acceder.id_usuario
-                session['usuario'] = acceder.usuario
-                session['nombre'] = acceder.nombre
-                session['privilegio'] = acceder.privilegio
-                
+            # Registrar usuario en las sesiones activas
+            usuarios_en_sesion.add(acceder.id_usuario)
 
-                return redirect(url_for('main.consulta_productos'))
-            else:
-                return render_template('login.html', mensaje='Usuario o contraseña incorrectos.')
+            return redirect(url_for('main.consulta_productos'))
         else:
             return render_template('login.html', mensaje='Usuario o contraseña incorrectos.')
-    
+
     return redirect('/')
 
 
-
-
-
+@apps.route('/logout')
+def logout():
+    usuario_id = session.pop('id_usuario', None)
+    session.clear()  # Limpiar la sesión
+    if usuario_id:
+        usuarios_en_sesion.discard(usuario_id)  # Eliminar de las sesiones activas
+    flash('Sesión cerrada correctamente.', 'success')
+    return redirect(url_for('main.home'))
 
 
 
@@ -84,7 +83,7 @@ def acceso():
 @no_cache
 def consulta_usuarios():
     usuarios = Usuario.query.all()
-    return render_template('/usuarios/usuarios.html', usuarios=usuarios)
+    return render_template('/usuarios/usuarios.html', usuarios=usuarios, usuarios_activos=usuarios_en_sesion)
 
 @apps.route('/registro_usuariosModal', methods=['POST'])
 def registro_usuariosModal():
@@ -122,19 +121,25 @@ def registro_usuariosModal():
     
     return redirect(url_for('main.consulta_usuarios'))
 
+usuarios_en_sesion = set()
 
 @apps.route('/eliminar_usuario/<int:usuario_id>', methods=['POST'])
 def eliminar_usuario(usuario_id):
     if request.method == 'POST':
-        usuario = Usuario.query.get(usuario_id)
+        # Verificar si el usuario está en sesión activa
+        if usuario_id in usuarios_en_sesion:
+            flash('No puedes eliminar a un usuario que está en sesión activa.', 'danger')
+            return redirect(url_for('main.consulta_usuarios'))
 
+        # Buscar el usuario en la base de datos
+        usuario = Usuario.query.get(usuario_id)
         if usuario:
             db.session.delete(usuario)
             db.session.commit()
-            flash('Usuario eliminado correctamente!', 'error')
+            flash('Usuario eliminado correctamente!', 'success')
         else:
             flash('Usuario no encontrado.', 'danger')
-    
+
     return redirect(url_for('main.consulta_usuarios'))
 
 
@@ -142,7 +147,252 @@ def eliminar_usuario(usuario_id):
 @login_required
 @no_cache
 def salidas():
-    return render_template('/salidas/salidas.html')
+    salidas = Salida.query.all()
+    return render_template('/salidas/salidas.html', salidas=salidas)
+
+@apps.route('/registro_productos_salidas', methods=['POST'])
+def registro_productos_salidas():
+    try:
+        id_producto = request.form.get('id_producto')  
+        cantidad_salida = int(request.form.get('salida'))  
+        fecha = request.form.get('fecha')
+        destino = request.form.get('destino')
+        estatus = request.form.get('estatus')
+
+        producto = Producto.query.get(id_producto)
+        if not producto:
+            flash("Producto no encontrado", "warning")
+            return redirect(url_for('main.consulta_productos'))
+
+        medida = producto.medidas
+        proveedor = producto.proveedor_rel.nombre if producto.proveedor_rel else "Sin proveedor"
+        categoria = producto.categoria_rel.nombre if producto.categoria_rel else "Sin categoría"
+        calidad = producto.calidad
+        nombre_producto = producto.producto
+
+        nombre_salida = f"{medida}   {proveedor}   {nombre_producto}   {calidad}   {categoria} "
+
+        if producto.existencias < cantidad_salida:
+            flash("No hay suficientes existencias para realizar la salida", "error")
+            return redirect(url_for('main.consulta_productos'))
+
+        producto.existencias -= cantidad_salida
+
+        nueva_salida = Salida(
+            nombre=nombre_salida,  
+            salida=cantidad_salida,
+            fecha=fecha,
+            destino=destino,
+            estatus=estatus
+        )
+
+        db.session.add(nueva_salida)
+        db.session.commit()
+
+        flash("Salida registrada exitosamente", "success")
+        return redirect(url_for('main.consulta_productos'))
+    except Exception as e:
+        flash(f"Error al registrar salida: {e}", "danger")
+        return redirect(url_for('main.consulta_productos'))
+
+
+
+@apps.route('/eliminar_producto_salidas/<int:salida_id>', methods=['POST'])
+def eliminar_producto_salidas(salida_id):
+    if request.method == 'POST':
+        salida = Salida.query.get(salida_id)
+
+        if salida:
+            db.session.delete(salida)
+            db.session.commit()
+            flash('Producto eliminado correctamente!', 'error')
+        else:
+            flash('Producto no encontrado.', 'danger')
+    
+    return redirect(url_for('main.salidas'))
+
+
+
+@apps.route('/registro_adhesivos_salidas', methods=['POST'])
+def registro_adhesivos_salidas():
+    try:
+        id_adhesivo = request.form.get('id_producto')  
+        cantidad_salida = int(request.form.get('salida')) 
+        fecha = request.form.get('fecha')
+        destino = request.form.get('destino')
+        estatus = request.form.get('estatus')
+
+        adhesivo = Adhesivo.query.get(id_adhesivo)
+        if not adhesivo:
+            flash("Producto no encontrado", "warning")
+            return redirect(url_for('main.consulta_productos'))
+
+        nombre = adhesivo.nombre
+        proveedor = adhesivo.proveedor_rel.nombre if adhesivo.proveedor_rel else "Sin proveedor"
+        categoria = adhesivo.categoria_rel.nombre if adhesivo.categoria_rel else "Sin categoría"
+        kilogramos = adhesivo.kilogramos
+
+        nombre_salida = f"{proveedor}   {nombre}     {kilogramos}   {categoria} "
+
+        if adhesivo.existencia < cantidad_salida:
+            flash("No hay suficientes existencias para realizar la salida", "error")
+            return redirect(url_for('main.consulta_adhesivos'))
+
+        adhesivo.existencia -= cantidad_salida
+
+        nueva_salida = Salida(
+            nombre=nombre_salida, 
+            salida=cantidad_salida,
+            fecha=fecha,
+            destino=destino,
+            estatus=estatus
+        )
+
+        db.session.add(nueva_salida)
+        db.session.commit()
+
+        flash("Salida registrada exitosamente", "success")
+        return redirect(url_for('main.consulta_adhesivos'))
+    except Exception as e:
+        flash(f"Error al registrar salida: {e}", "danger")
+        return redirect(url_for('main.consulta_adhesivos'))
+
+
+@apps.route('/registro_sanitarios_salidas', methods=['POST'])
+def registro_sanitarios_salidas():
+    try:
+        id_sanitario = request.form.get('id_producto')  
+        cantidad_salida = int(request.form.get('salida')) 
+        fecha = request.form.get('fecha')
+        destino = request.form.get('destino')
+        estatus = request.form.get('estatus')
+
+        sanitario = Sanitario.query.get(id_sanitario)
+        if not sanitario:
+            flash("Producto no encontrado", "warning")
+            return redirect(url_for('main.consulta_sanitarios'))
+
+        nombre = sanitario.nombre
+        proveedor = sanitario.proveedor_rel.nombre if sanitario.proveedor_rel else "Sin proveedor"
+        categoria = sanitario.categoria_rel.nombre if sanitario.categoria_rel else "Sin categoría"
+
+        nombre_salida = f"{proveedor}   {nombre}        {categoria} "
+
+        if sanitario.existencias < cantidad_salida:
+            flash("No hay suficientes existencias para realizar la salida", "error")
+            return redirect(url_for('main.consulta_sanitarios'))
+
+        sanitario.existencias -= cantidad_salida
+
+        nueva_salida = Salida(
+            nombre=nombre_salida, 
+            salida=cantidad_salida,
+            fecha=fecha,
+            destino=destino,
+            estatus=estatus
+        )
+
+        db.session.add(nueva_salida)
+        db.session.commit()
+
+        flash("Salida registrada exitosamente", "success")
+        return redirect(url_for('main.consulta_sanitarios'))
+    except Exception as e:
+        flash(f"Error al registrar salida: {e}", "danger")
+        return redirect(url_for('main.consulta_sanitarios'))
+    
+
+@apps.route('/registro_tinacos_salidas', methods=['POST'])
+def registro_tinacos_salidas():
+    try:
+        id_tinaco = request.form.get('id_producto')  
+        cantidad_salida = int(request.form.get('salida')) 
+        fecha = request.form.get('fecha')
+        destino = request.form.get('destino')
+        estatus = request.form.get('estatus')
+
+        tinaco = Tinaco.query.get(id_tinaco)
+        if not tinaco:
+            flash("Producto no encontrado", "warning")
+            return redirect(url_for('main.consulta_tinacos'))
+
+        nombre = tinaco.nombre
+        proveedor = tinaco.proveedor_rel.nombre if tinaco.proveedor_rel else "Sin proveedor"
+        categoria = tinaco.categoria_rel.nombre if tinaco.categoria_rel else "Sin categoría"
+        litros = tinaco.litros
+        color = tinaco.color
+
+        nombre_salida = f"{proveedor}   {nombre}    {litros}   {color}  {categoria} "
+
+        if tinaco.existencias < cantidad_salida:
+            flash("No hay suficientes existencias para realizar la salida", "error")
+            return redirect(url_for('main.consulta_tinacos'))
+
+        tinaco.existencias -= cantidad_salida
+
+        nueva_salida = Salida(
+            nombre=nombre_salida, 
+            salida=cantidad_salida,
+            fecha=fecha,
+            destino=destino,
+            estatus=estatus
+        )
+
+        db.session.add(nueva_salida)
+        db.session.commit()
+
+        flash("Salida registrada exitosamente", "success")
+        return redirect(url_for('main.consulta_tinacos'))
+    except Exception as e:
+        flash(f"Error al registrar salida: {e}", "danger")
+        return redirect(url_for('main.consulta_tinacos'))
+    
+
+
+@apps.route('/registro_vitroblock_salidas', methods=['POST'])
+def registro_vitroblock_salidas():
+    try:
+        id_vitroblock = request.form.get('id_vitroblock')  
+        cantidad_salida = int(request.form.get('salida')) 
+        fecha = request.form.get('fecha')
+        destino = request.form.get('destino')
+        estatus = request.form.get('estatus')
+
+        vitroblock = Vitroblock.query.get(id_vitroblock)
+        if not vitroblock:
+            flash("Producto no encontrado", "warning")
+            return redirect(url_for('main.consulta_vitroblocks'))
+
+        nombre = vitroblock.nombre
+        proveedor = vitroblock.proveedor_rel.nombre if vitroblock.proveedor_rel else "Sin proveedor"
+        categoria = vitroblock.categoria_rel.nombre if vitroblock.categoria_rel else "Sin categoría"
+        tipo = vitroblock.tipo
+        medidas = vitroblock.medidas
+
+        nombre_salida = f"{proveedor}    {tipo}   {medidas}   {nombre}     {categoria} "
+
+        if vitroblock.existencias < cantidad_salida:
+            flash("No hay suficientes existencias para realizar la salida", "error")
+            return redirect(url_for('main.consulta_vitroblocks'))
+
+        vitroblock.existencias -= cantidad_salida
+
+        nueva_salida = Salida(
+            nombre=nombre_salida, 
+            salida=cantidad_salida,
+            fecha=fecha,
+            destino=destino,
+            estatus=estatus
+        )
+
+        db.session.add(nueva_salida)
+        db.session.commit()
+
+        flash("Salida registrada exitosamente", "success")
+        return redirect(url_for('main.consulta_vitroblocks'))
+    except Exception as e:
+        flash(f"Error al registrar salida: {e}", "danger")
+        return redirect(url_for('main.consulta_vitroblocks'))
 
 
 @apps.route('/entradas')
@@ -168,6 +418,7 @@ def consulta_productos():
             Producto.id_producto,
             Producto.medidas,
             Producto.producto,
+
             Producto.calidad,
             Producto.existencias,
             Producto.rotas,
@@ -198,6 +449,7 @@ def consulta_productos():
     proveedores = Proveedor.query.all()
     categorias = Categoria.query.all()
 
+    
     return render_template(
         '/productos/productos.html',
         productos=productos_paginados.items, max=max, min=min,  
@@ -206,7 +458,7 @@ def consulta_productos():
         pagination=productos_paginados,  
         search=search_term  
     )
-
+    
 
 
 
@@ -333,9 +585,6 @@ def eliminar_producto(producto_id):
             flash('Producto no encontrado.', 'danger')
     
     return redirect(url_for('main.consulta_productos'))
-
-
-
 
 @apps.route('/consulta_proveedores')
 @login_required
@@ -468,9 +717,9 @@ def eliminar_proveedor(proveedor_id):
         db.session.commit()
 
         flash('Proveedor eliminado correctamente!', 'error')
-    except Exception as e:
+    except Exception:
         db.session.rollback()
-        flash(f'Error al eliminar el proveedor: {e}', 'error')
+        flash(f'No puedes eliminar este proveedor ya que esta relacionado con un producto:', 'error')
     
     return redirect(url_for('main.consulta_proveedores'))
 
@@ -560,9 +809,9 @@ def eliminar_categoria(categoria_id):
         db.session.commit()
 
         flash('Categoría eliminada correctamente!', 'success')
-    except Exception as e:
+    except Exception:
         db.session.rollback()  
-        flash(f'Error al eliminar la categoría: {e}', 'error')
+        flash(f'No puedes eliminar esta categoría ya que esta relacionado con un producto.', 'error')
 
     return redirect(url_for('main.consulta_categorias'))
 
@@ -1749,7 +1998,3 @@ def descargar_etiqueta_vitroblock(vitroblock_id):
     return response
 
 
-@apps.route('/logout')
-def logout():
-    session.pop('logeado', None)
-    return redirect(url_for('main.home'))

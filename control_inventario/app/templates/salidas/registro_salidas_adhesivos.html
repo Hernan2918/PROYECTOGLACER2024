@@ -1,0 +1,76 @@
+<div class="modal fade" id="Salidas" tabindex="-1" aria-labelledby="modalRegistroLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalRegistroLabel">Nueva salida</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/registro_adhesivos_salidas" method="post" >
+                    <input type="hidden" id="id_producto" name="id_producto">
+                    
+                    <div class="mb-3">
+                        <label for="proveedores" class="form-label">Proveedor</label><br>
+                        <select id="proveedores" name="proveedores" class="form-control" >
+                            <option value="" id="proveedores">Selecciona una opción</option>
+                            {% for proveedor in proveedores %}
+                            <option value="{{ proveedor.id_proveedor }}">{{ proveedor.nombre }}</option>
+                            {% endfor %}
+                        </select> 
+                        <div class="invalid-feedback" id="proveedoresError"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="color" class="form-label">Color</label>
+                        <input type="txt" class="form-control" id="color" name="color" readonly>
+                        <div class="invalid-feedback" id="medidaError"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Kilogramos" class="form-label">Kilogramos</label>
+                        <input type="txt" class="form-control" id="Kilogramos" name="Kilogramos" readonly>
+                        <div class="invalid-feedback" id="productoError"></div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="categorias" class="form-label">Categoría</label><br>
+                        <select id="categorias" name="categorias" class="form-control" readonly>
+                            <option value="" id="categorias">Selecciona una opción</option>
+                            {% for categoria in categorias %}
+                            <option value="{{ categoria.id_categoria }}">{{ categoria.nombre }}</option>
+                            {% endfor %}
+                        </select> 
+                        <div class="invalid-feedback" id="categoriasError"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="salida" class="form-label">Cantidad de salida</label>
+                        <input type="txt" class="form-control" id="salida" name="salida">
+                        <div class="invalid-feedback" id="entradaError"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="fecha" class="form-label">Fecha</label>
+                        <input type="date" class="form-control" id="fecha" name="fecha">
+                        <div class="invalid-feedback" id="fechaError"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="destino" class="form-label">Destino</label>
+                        <input type="txt" class="form-control" id="destino" name="destino">
+                        <div class="invalid-feedback" id="origenError"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="estatus" class="form-label">Estatus</label><br>
+                        <select id="estatus" name="estatus" class="form-control">
+                            <option value="" id="salidas">Selecciona una opción</option>
+                            <option>Realizado</option>
+                            <option>No realizado</option>
+                            
+                        </select> 
+                        <div class="invalid-feedback" id="estatusError"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-danger" id="Registrar" name="Registrar">Registrar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+  </div>

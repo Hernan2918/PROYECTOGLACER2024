@@ -153,7 +153,7 @@ body{
     width: 2.5%;
     height: 31px;
     border-radius: 5px;
-    translate: 1080px -43px;
+    translate: 1075px -43px;
     display: flex;
     text-align: center;
     justify-content: center;
@@ -624,6 +624,13 @@ thead tr:nth-child(odd){
     border-radius: 50%; 
     color: white; 
     margin-right: 5px; 
+}
+
+#activo{
+    
+    color: #069619;
+    font-size: 1.8em;
+    
 }
 
 .paginado{

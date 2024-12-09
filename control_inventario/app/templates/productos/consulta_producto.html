@@ -96,8 +96,12 @@
 </button>                       {% if session.get('privilegio') == 'Administrador' %}
                                 <button type="submit" class="btn btn-danger" id="btneliminar" data-bs-toggle="modal" data-bs-target="#eliminarP" value="{{ producto.id_producto }}" data-id="{{ producto.id_producto }}"><i class="bi bi-trash3-fill"></i></button>
                                 {% endif %}
-                                <button type="submit" class="btn btn-success" id="btnentradas" data-bs-toggle="modal" data-bs-target="#editarModalProducto" value="#"><i class="bi bi-box-arrow-left"></i></button>
-                                <button type="submit" class="btn btn-danger" id="btneliminar" data-bs-toggle="modal" data-bs-target="#eliminarP" value="{{ producto.id_producto }}" data-id="{{ producto.id_producto }}"><i class="bi bi-box-arrow-right"></i></button>
+                                <button type="submit" class="btn btn-success" id="btnentradas" data-bs-toggle="modal" data-bs-target="#Entradas" value="#"><i class="bi bi-box-arrow-left"></i></button>
+                                <button type="submit" class="btn btn-danger" id="btnsalidas" data-bs-toggle="modal" data-bs-target="#Salidas" data-id="{{ producto.id_producto }}"  data-medidas="{{ producto.medidas }}" 
+                                data-proveedor="{{ producto.id_proveedor }}"  
+                                data-producto="{{ producto.producto }}" 
+                                data-calidad="{{ producto.calidad }}" 
+                                data-categoria="{{ producto.id_categoria }}" ><i class="bi bi-box-arrow-right"></i></button>
                                 <button type="button" id="btnactualizar"  class="btn btn-primary"onclick="window.location.href='{{ url_for('main.descargar_etiqueta_producto', producto_id=producto.id_producto) }}'">
                                     <i class="bi bi-printer-fill"></i>
                                  </button> 
