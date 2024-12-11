@@ -1,9 +1,9 @@
-function abrirModalRegistro() {
+function abrirModalRegistroMurosSalidas() {
     var modal = new bootstrap.Modal(document.getElementById('modalRegistroSalidas'));
     modal.show();
   }
   document.getElementById('btnsalidas').addEventListener('click', function() {
-    abrirModalRegistro();
+    abrirModalRegistroMurosSalidas();
   });
 
 

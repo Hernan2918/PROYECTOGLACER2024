@@ -86,6 +86,16 @@ body{
     
     
 }
+
+#DescargarSalidas{
+
+    display: inline-block;
+    background-color: #020202;
+    font-size: 1.5em;
+    background-color: #fff;
+    
+
+}
 .menu ul input{
     border: 0.5px solid #000;
     border-color: rgb(7, 7, 7);
@@ -153,7 +163,7 @@ body{
     width: 2.5%;
     height: 31px;
     border-radius: 5px;
-    translate: 1075px -43px;
+    translate: 1080px -43px;
     display: flex;
     text-align: center;
     justify-content: center;
@@ -459,6 +469,8 @@ thead tr:nth-child(odd){
 
 
 
+
+
 .elemento3{
     margin-left: 23%;
     
@@ -584,7 +596,64 @@ thead tr:nth-child(odd){
     width: 18%;
 
 }
+
+.elemento1Salida{
+    display: inline-block;
+    translate: 0px 5px;
+    width: 40%;
+
+}
+
+#Fechas{
+    display: flex;
+    
+    width: 48%;
+    margin-left: 150px;
+}
+#Fechas label{
+    width: 70%;
+    padding: 3px 0px 0 10px ;
+}
+
+#Fechas input{
+    width: 55%;
+    height: 30px;
+}
+#DescargarPorFechas{
+    width: 30px;
+    height: 30px;
+    
+}
+#DescargarPorFechas {
+    
+    display: flex; /* Habilita el modelo de caja flex */
+    align-items: center; /* Centra el contenido verticalmente */
+    justify-content: center; /* Centra el contenido horizontalmente */
+    padding: 5px; /* Ajusta el espacio interno según sea necesario */
+    width: 30px; /* Ajusta el tamaño del botón */
+    height: 30px; /* Ajusta el tamaño del botón */
+    
+}
+.inicio{
+    display: flex;
+
+
+}
+
+.final{
+    display: flex;
+}
+.descragarF{
+    margin-left: 10px;
+}
+
+
 .encabezado{
+    margin-bottom: 10px;
+    display: flex;
+}
+
+.encabezadoSalida{
     margin-bottom: 10px;
     display: flex;
 }

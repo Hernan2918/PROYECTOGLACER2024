@@ -1,20 +1,17 @@
-function abrirModalRegistroSanitariosSalidas() {
-    var modal = new bootstrap.Modal(document.getElementById('modalRegistroSalidas'));
+function abrirModalRegistroSanitariosEntradas() {
+    var modal = new bootstrap.Modal(document.getElementById('Entradas'));
     modal.show();
   }
-  document.getElementById('btnsalidas').addEventListener('click', function() {
-    abrirModalRegistroSanitariosSalidas();
+  document.getElementById('btnentradas').addEventListener('click', function() {
+    abrirModalRegistroSanitariosEntradas();
   });
 
 
   document.addEventListener('DOMContentLoaded', function () {
-    const modalSalidas = document.getElementById('Salidas');
+    const modalSalidas = document.getElementById('Entradas');
 
-    // Evento que se dispara cuando se abre el modal
     modalSalidas.addEventListener('show.bs.modal', function (event) {
-        // Botón que dispara el modal
         const button = event.relatedTarget;
-
 
         const id_producto = button.getAttribute('data-id');
         

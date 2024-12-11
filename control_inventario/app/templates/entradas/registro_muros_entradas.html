@@ -1,12 +1,12 @@
-<div class="modal fade" id="Salidas" tabindex="-1" aria-labelledby="modalRegistroLabel" aria-hidden="true">
+<div class="modal fade" id="Entradas" tabindex="-1" aria-labelledby="modalRegistroLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalRegistroLabel">Nueva salida</h5>
+                <h5 class="modal-title" id="modalRegistroLabel">Nueva entrada</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="/registro_productos_salidas" method="post" >
+                <form action="/registro_muros_entradas" method="post" >
                     <input type="hidden" id="id_producto" name="id_producto">
                     <div class="mb-3">
                         <label for="medida" class="form-label">Media</label>
@@ -45,8 +45,8 @@
                         <div class="invalid-feedback" id="categoriasError"></div>
                     </div>
                     <div class="mb-3">
-                        <label for="salida" class="form-label">Cantidad de salida</label>
-                        <input type="txt" class="form-control" id="salida" name="salida">
+                        <label for="entrada" class="form-label">Cantidad de entrada</label>
+                        <input type="txt" class="form-control" id="entrada" name="entrada">
                         <div class="invalid-feedback" id="entradaError"></div>
                     </div>
                     <div class="mb-3">
@@ -54,21 +54,8 @@
                         <input type="date" class="form-control" id="fecha" name="fecha">
                         <div class="invalid-feedback" id="fechaError"></div>
                     </div>
-                    <div class="mb-3">
-                        <label for="destino" class="form-label">Destino</label>
-                        <input type="txt" class="form-control" id="destino" name="destino">
-                        <div class="invalid-feedback" id="origenError"></div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="estatus" class="form-label">Estatus</label><br>
-                        <select id="estatus" name="estatus" class="form-control">
-                            <option value="" id="salidas">Selecciona una opción</option>
-                            <option>Realizado</option>
-                            <option>No realizado</option>
-                            
-                        </select> 
-                        <div class="invalid-feedback" id="estatusError"></div>
-                    </div>
+                    
+                   
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                         <button type="submit" class="btn btn-danger" id="Registrar" name="Registrar">Registrar</button>
@@ -77,4 +64,4 @@
             </div>
         </div>
     </div>
-  </div>
+</div>

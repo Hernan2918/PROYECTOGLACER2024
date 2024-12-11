@@ -1,9 +1,11 @@
 from flask import Blueprint, current_app
-from app.models import Producto, Proveedor, Categoria, Usuario, db, Salida, Muro, Adhesivo, Sanitario, Tinaco, Vitroblock
+from app.models import Producto, Proveedor, Categoria, Usuario, Entrada, db, Salida, Muro, Adhesivo, Sanitario, Tinaco, Vitroblock
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask import request, session, redirect, url_for, render_template, flash, make_response
 from app import db
 from flask import jsonify
+
+from datetime import datetime
 from werkzeug.utils import secure_filename
 import os
 from fpdf import FPDF
@@ -147,8 +149,36 @@ def eliminar_usuario(usuario_id):
 @login_required
 @no_cache
 def salidas():
-    salidas = Salida.query.all()
-    return render_template('/salidas/salidas.html', salidas=salidas)
+    page = request.args.get('page', 1, type=int)  
+    per_page = request.args.get('per_page', 6, type=int)  
+    search = request.args.get('search', '', type=str) 
+
+    salidas_query = Salida.query.add_columns(
+        Salida.id_salida,
+        Salida.nombre,
+        Salida.salida,
+        Salida.fecha,
+        Salida.destino,
+        Salida.estatus
+    )
+
+    if search:
+        salidas_query = salidas_query.filter(
+            Salida.nombre.ilike(f"%{search}%") |
+            Salida.salida.ilike(f"%{search}%") |
+            Salida.fecha.ilike(f"%{search}%") |
+            Salida.destino.ilike(f"%{search}%") |
+            Salida.estatus.ilike(f"%{search}%")
+        )
+
+    salidas_paginated = salidas_query.paginate(page=page, per_page=per_page, error_out=False)
+
+    return render_template(
+        '/salidas/salidas.html',
+        salidas=salidas_paginated.items,  
+        pagination=salidas_paginated,  
+        search=search  
+    )
 
 @apps.route('/registro_productos_salidas', methods=['POST'])
 def registro_productos_salidas():
@@ -197,6 +227,53 @@ def registro_productos_salidas():
 
 
 
+@apps.route('/registro_muros_salidas', methods=['POST'])
+def registro_muros_salidas():
+    try:
+        id_producto = request.form.get('id_producto')  
+        cantidad_salida = int(request.form.get('salida'))  
+        fecha = request.form.get('fecha')
+        destino = request.form.get('destino')
+        estatus = request.form.get('estatus')
+
+        muro = Muro.query.get(id_producto)
+        if not muro:
+            flash("Producto no encontrado", "warning")
+            return redirect(url_for('main.consulta_muros'))
+
+        medida = muro.medidas
+        proveedor = muro.proveedor_rel.nombre if muro.proveedor_rel else "Sin proveedor"
+        categoria = muro.categoria_rel.nombre if muro.categoria_rel else "Sin categoría"
+        calidad = muro.calidad
+        nombre_producto = muro.producto
+
+        nombre_salida = f"{medida}   {proveedor}   {nombre_producto}   {calidad}   {categoria} "
+
+        if muro.existencias < cantidad_salida:
+            flash("No hay suficientes existencias para realizar la salida", "error")
+            return redirect(url_for('main.consulta_muros'))
+
+        muro.existencias -= cantidad_salida
+
+        nueva_salida = Salida(
+            nombre=nombre_salida,  
+            salida=cantidad_salida,
+            fecha=fecha,
+            destino=destino,
+            estatus=estatus
+        )
+
+        db.session.add(nueva_salida)
+        db.session.commit()
+
+        flash("Salida registrada exitosamente", "success")
+        return redirect(url_for('main.consulta_muros'))
+    except Exception as e:
+        flash(f"Error al registrar salida: {e}", "danger")
+        return redirect(url_for('main.consulta_muros'))
+
+
+
 @apps.route('/eliminar_producto_salidas/<int:salida_id>', methods=['POST'])
 def eliminar_producto_salidas(salida_id):
     if request.method == 'POST':
@@ -205,7 +282,7 @@ def eliminar_producto_salidas(salida_id):
         if salida:
             db.session.delete(salida)
             db.session.commit()
-            flash('Producto eliminado correctamente!', 'error')
+            flash('Salida eliminada correctamente!', 'error')
         else:
             flash('Producto no encontrado.', 'danger')
     
@@ -225,7 +302,7 @@ def registro_adhesivos_salidas():
         adhesivo = Adhesivo.query.get(id_adhesivo)
         if not adhesivo:
             flash("Producto no encontrado", "warning")
-            return redirect(url_for('main.consulta_productos'))
+            return redirect(url_for('main.consulta_adhesivos'))
 
         nombre = adhesivo.nombre
         proveedor = adhesivo.proveedor_rel.nombre if adhesivo.proveedor_rel else "Sin proveedor"
@@ -393,14 +470,403 @@ def registro_vitroblock_salidas():
     except Exception as e:
         flash(f"Error al registrar salida: {e}", "danger")
         return redirect(url_for('main.consulta_vitroblocks'))
+    
+
+@apps.route('/actualizar_salida', methods=['POST'])
+def actualizar_salida():
+    if request.method == 'POST':
+        id_salida = request.form['id_salida']
+        nombre = request.form['nombreA']
+        salida = request.form['salidaA']
+        fecha = request.form['fechaA']
+        destino = request.form['destinoA']
+        estatus = request.form['estatusA']
+        
+
+        salida_actualizar = Salida.query.get(id_salida)
+        
+        if salida_actualizar:
+            salida_actualizar.nombre = nombre
+            salida_actualizar.salida = salida
+            salida_actualizar.fecha = fecha
+            salida_actualizar.destino = destino
+            salida_actualizar.estatus = estatus
+            
+
+            db.session.commit()
+
+            flash('Salida actualizada exitosamente!', 'info')
+            return redirect(url_for('main.salidas'))
+
+        else:
+            flash('Salida no encontrado.', 'danger')
+            return redirect(url_for('main.salidas'))
+
+@apps.route('/obtener_todas_las_salidas')
+
+def obtener_todas_las_salidas():
+    
+    salidas = Salida.query \
+        .add_columns(Salida.nombre, 
+                     Salida.salida,
+                     Salida.fecha, 
+                    Salida.destino, 
+                    Salida.estatus 
+                    ) \
+                    .all()
+
+    Todas_salidas = [
+        {
+            'nombre': s.nombre,
+            'salida': s.salida,
+            'fecha': s.fecha,
+            'destino': s.destino,
+            'estatus': s.estatus,
+
+            
+        }
+        for s in salidas
+    ]
+
+    return jsonify(Todas_salidas)
+
+
+
+
+
+@apps.route('/obtener_salidas_por_fechas')
+def obtener_salidas_por_fechas():
+    inicio = request.args.get('inicio')
+    fin = request.args.get('fin')
+
+    try:
+        if not inicio or not fin:
+            return jsonify({"error": "Faltan las fechas de inicio o fin"}), 400
+
+        fecha_inicio = datetime.strptime(inicio, '%Y-%m-%d').date()
+        fecha_fin = datetime.strptime(fin, '%Y-%m-%d').date()
+
+        if fecha_inicio > fecha_fin:
+            return jsonify({"error": "La fecha de inicio no puede ser mayor que la fecha de fin"}), 400
+
+        registros = Salida.query.filter(
+            Salida.fecha >= str(fecha_inicio),  
+            Salida.fecha <= str(fecha_fin)
+        ).all()
+
+        resultados = [
+            {
+                "nombre": registro.nombre,
+                "salida": registro.salida,
+                "fecha": registro.fecha,
+                "destino": registro.destino,
+                "estatus": registro.estatus,
+            }
+            for registro in registros
+        ]
+
+        return jsonify(resultados)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
 
 
 @apps.route('/entradas')
 @login_required
 @no_cache
 def entradas():
-    return render_template('/entradas/entradas.html')
+    page = request.args.get('page', 1, type=int)  
+    per_page = request.args.get('per_page', 6, type=int)  
+    search = request.args.get('search', '', type=str) 
 
+    entradas_query = Entrada.query.add_columns(
+        Entrada.id_entrada,
+        Entrada.nombre,
+        Entrada.entrada,
+        Entrada.fecha
+        
+    )
+
+    if search:
+        entradas_query = entradas_query.filter(
+            Entrada.nombre.ilike(f"%{search}%") |
+            Entrada.entrada.ilike(f"%{search}%") |
+            Entrada.fecha.ilike(f"%{search}%") 
+            
+            
+        )
+
+    entradas_paginated = entradas_query.paginate(page=page, per_page=per_page, error_out=False)
+
+    return render_template(
+        '/entradas/entradas.html',
+        entradas=entradas_paginated.items,  
+        pagination=entradas_paginated,  
+        search=search  
+    )
+
+
+@apps.route('/registro_productos_entradas', methods=['POST'])
+def registro_productos_entradas():
+    try:
+        id_producto = request.form.get('id_producto')  
+        cantidad_entrada = int(request.form.get('entrada'))  
+        fecha = request.form.get('fecha')
+
+        producto = Producto.query.get(id_producto)
+        if not producto:
+            flash("Producto no encontrado", "warning")
+            return redirect(url_for('main.consulta_productos'))
+
+        medida = producto.medidas
+        proveedor = producto.proveedor_rel.nombre if producto.proveedor_rel else "Sin proveedor"
+        categoria = producto.categoria_rel.nombre if producto.categoria_rel else "Sin categoría"
+        calidad = producto.calidad
+        nombre_producto = producto.producto
+
+        nombre_entrada = f"{medida}   {proveedor}   {nombre_producto}   {calidad}   {categoria} "
+
+        
+
+        producto.existencias += cantidad_entrada
+
+        nueva_entrada = Entrada(
+            nombre=nombre_entrada,  
+            entrada=cantidad_entrada,
+            fecha=fecha
+        
+        )
+
+        db.session.add(nueva_entrada)
+        db.session.commit()
+
+        flash("Entrada registrada exitosamente", "success")
+        return redirect(url_for('main.consulta_productos'))
+    except Exception as e:
+        flash(f"Error al registrar entrada: {e}", "danger")
+        return redirect(url_for('main.consulta_productos'))
+
+
+@apps.route('/registro_muros_entradas', methods=['POST'])
+def registro_muros_entradas():
+    try:
+        id_muro = request.form.get('id_producto')  
+        cantidad_entrada = int(request.form.get('entrada'))  
+        fecha = request.form.get('fecha')
+
+        muro = Muro.query.get(id_muro)
+        if not muro:
+            flash("Producto no encontrado", "warning")
+            return redirect(url_for('main.consulta_muros'))
+
+        medida = muro.medidas
+        proveedor = muro.proveedor_rel.nombre if muro.proveedor_rel else "Sin proveedor"
+        categoria = muro.categoria_rel.nombre if muro.categoria_rel else "Sin categoría"
+        calidad = muro.calidad
+        nombre_producto = muro.producto
+
+        nombre_entrada = f"{medida}   {proveedor}   {nombre_producto}   {calidad}   {categoria} "
+
+        
+
+        muro.existencias += cantidad_entrada
+
+        nueva_entrada = Entrada(
+            nombre=nombre_entrada,  
+            entrada=cantidad_entrada,
+            fecha=fecha
+        
+        )
+
+        db.session.add(nueva_entrada)
+        db.session.commit()
+
+        flash("Entrada registrada exitosamente", "success")
+        return redirect(url_for('main.consulta_muros'))
+    except Exception as e:
+        flash(f"Error al registrar entrada: {e}", "danger")
+        return redirect(url_for('main.consulta_muros'))
+
+
+
+@apps.route('/registro_adhesivos_entradas', methods=['POST'])
+def registro_adhesivos_entradas():
+    try:
+        id_adhesivo = request.form.get('id_producto')  
+        cantidad_entrada = int(request.form.get('entrada')) 
+        fecha = request.form.get('fecha')
+        
+
+        adhesivo = Adhesivo.query.get(id_adhesivo)
+        if not adhesivo:
+            flash("Producto no encontrado", "warning")
+            return redirect(url_for('main.consulta_adhesivos'))
+
+        nombre = adhesivo.nombre
+        proveedor = adhesivo.proveedor_rel.nombre if adhesivo.proveedor_rel else "Sin proveedor"
+        categoria = adhesivo.categoria_rel.nombre if adhesivo.categoria_rel else "Sin categoría"
+        kilogramos = adhesivo.kilogramos
+
+        nombre_salida = f"{proveedor}   {nombre}     {kilogramos}   {categoria} "
+
+        
+
+        adhesivo.existencia += cantidad_entrada
+
+        nueva_entrada = Entrada(
+            nombre=nombre_salida, 
+            entrada=cantidad_entrada,
+            fecha=fecha
+            
+        )
+
+        db.session.add(nueva_entrada)
+        db.session.commit()
+
+        flash("Entrada registrada exitosamente", "success")
+        return redirect(url_for('main.consulta_adhesivos'))
+    except Exception as e:
+        flash(f"Error al registrar entrada: {e}", "danger")
+        return redirect(url_for('main.consulta_adhesivos'))
+
+
+
+@apps.route('/registro_sanitarios_entradas', methods=['POST'])
+def registro_sanitarios_entradas():
+    try:
+        id_sanitario = request.form.get('id_producto')  
+        cantidad_entrada = int(request.form.get('entrada')) 
+        fecha = request.form.get('fecha')
+        
+
+        sanitario = Sanitario.query.get(id_sanitario)
+        if not sanitario:
+            flash("Producto no encontrado", "warning")
+            return redirect(url_for('main.consulta_sanitarios'))
+
+        nombre = sanitario.nombre
+        proveedor = sanitario.proveedor_rel.nombre if sanitario.proveedor_rel else "Sin proveedor"
+        categoria = sanitario.categoria_rel.nombre if sanitario.categoria_rel else "Sin categoría"
+
+        nombre_salida = f"{proveedor}   {nombre}        {categoria} "
+
+        
+
+        sanitario.existencias += cantidad_entrada
+
+        nueva_entrada = Entrada(
+            nombre=nombre_salida, 
+            entrada=cantidad_entrada,
+            fecha=fecha
+        )
+
+        db.session.add(nueva_entrada)
+        db.session.commit()
+
+        flash("Entrada registrada exitosamente", "success")
+        return redirect(url_for('main.consulta_sanitarios'))
+    except Exception as e:
+        flash(f"Error al registrar entrada: {e}", "danger")
+        return redirect(url_for('main.consulta_sanitarios'))
+    
+@apps.route('/registro_tinacos_entradas', methods=['POST'])
+def registro_tinacos_entradas():
+    try:
+        id_tinaco = request.form.get('id_producto')  
+        cantidad_entrada = int(request.form.get('entrada')) 
+        fecha = request.form.get('fecha')
+        
+
+        tinaco = Tinaco.query.get(id_tinaco)
+        if not tinaco:
+            flash("Producto no encontrado", "warning")
+            return redirect(url_for('main.consulta_tinacos'))
+
+        nombre = tinaco.nombre
+        proveedor = tinaco.proveedor_rel.nombre if tinaco.proveedor_rel else "Sin proveedor"
+        categoria = tinaco.categoria_rel.nombre if tinaco.categoria_rel else "Sin categoría"
+        litros = tinaco.litros
+        color = tinaco.color
+
+        nombre_salida = f"{proveedor}   {nombre}    {litros}   {color}  {categoria} "
+
+        
+
+        tinaco.existencias += cantidad_entrada
+
+        nueva_entrada = Entrada(
+            nombre=nombre_salida, 
+            entrada=cantidad_entrada,
+            fecha=fecha,
+            
+        )
+
+        db.session.add(nueva_entrada)
+        db.session.commit()
+
+        flash("Entrada registrada exitosamente", "success")
+        return redirect(url_for('main.consulta_tinacos'))
+    except Exception as e:
+        flash(f"Error al registrar entrada: {e}", "danger")
+        return redirect(url_for('main.consulta_tinacos'))
+    
+
+@apps.route('/registro_vitroblock_entradas', methods=['POST'])
+def registro_vitroblock_entradas():
+    try:
+        id_vitroblock = request.form.get('id_vitroblock')  
+        cantidad_entrada = int(request.form.get('entrada')) 
+        fecha = request.form.get('fecha')
+        
+
+        vitroblock = Vitroblock.query.get(id_vitroblock)
+        if not vitroblock:
+            flash("Producto no encontrado", "warning")
+            return redirect(url_for('main.consulta_vitroblocks'))
+
+        nombre = vitroblock.nombre
+        proveedor = vitroblock.proveedor_rel.nombre if vitroblock.proveedor_rel else "Sin proveedor"
+        categoria = vitroblock.categoria_rel.nombre if vitroblock.categoria_rel else "Sin categoría"
+        tipo = vitroblock.tipo
+        medidas = vitroblock.medidas
+
+        nombre_entrada = f"{proveedor}    {tipo}   {medidas}   {nombre}     {categoria} "
+
+        
+
+        vitroblock.existencias += cantidad_entrada
+
+        nueva_entrada = Entrada(
+            nombre=nombre_entrada, 
+            entrada=cantidad_entrada,
+            fecha=fecha
+        )
+
+        db.session.add(nueva_entrada)
+        db.session.commit()
+
+        flash("Entrada registrada exitosamente", "success")
+        return redirect(url_for('main.consulta_vitroblocks'))
+    except Exception as e:
+        flash(f"Error al registrar entrada: {e}", "danger")
+        return redirect(url_for('main.consulta_vitroblocks'))
+    
+
+
+@apps.route('/eliminar_producto_entradas/<int:entrada_id>', methods=['POST'])
+def eliminar_producto_entradas(entrada_id):
+    if request.method == 'POST':
+        entrada = Entrada.query.get(entrada_id)
+
+        if entrada:
+            db.session.delete(entrada)
+            db.session.commit()
+            flash('Entrada eliminada correctamente!', 'error')
+        else:
+            flash('Producto no encontrado.', 'danger')
+    
+    return redirect(url_for('main.entradas'))
 
 
 @apps.route('/consulta_productos')
@@ -824,14 +1290,22 @@ def consulta_muros():
     per_page = request.args.get('per_page', 6, type=int)  
     search_term = request.args.get('search', '', type=str)  
 
-    query = Muro.query.join(Proveedor, Muro.proveedor == Proveedor.id_proveedor) \
-                      .join(Categoria, Muro.categoria == Categoria.id_categoria) \
-                      .add_columns(
-                          Muro.id_producto, Muro.medidas, Muro.producto, Muro.calidad,
-                          Muro.existencias, Muro.rotas, Muro.precio, Muro.embalaje,
-                          Muro.ubicacion, Proveedor.nombre.label('proveedor_nombre'),
-                          Categoria.nombre.label('categoria_nombre')
-                      )
+    query = Muro.query \
+        .join(Proveedor, Muro.proveedor == Proveedor.id_proveedor) \
+        .join(Categoria, Muro.categoria == Categoria.id_categoria) \
+        .add_columns(
+            Muro.id_producto, 
+            Muro.medidas, 
+            Muro.producto, 
+            Muro.calidad,
+            Muro.existencias, 
+            Muro.rotas, 
+            Muro.precio, 
+            Muro.embalaje,
+            Muro.ubicacion, 
+            Proveedor.nombre.label('proveedor_nombre'), Proveedor.id_proveedor,
+            Categoria.nombre.label('categoria_nombre'), Categoria.id_categoria
+        )
 
     if search_term:
         query = query.filter(
@@ -992,7 +1466,7 @@ def registro_muros():
 @apps.route('/actualizar_muros', methods=['POST'])
 def actualizar_muros():
     if request.method == 'POST':
-        id_producto = request.form['id_producto']
+        id_producto = request.form['id_productoMuro']
         
         muro = Muro.query.get(id_producto)
         if not muro:
@@ -1000,7 +1474,7 @@ def actualizar_muros():
             return redirect(url_for('consulta_muros'))
         
         muro.medidas = request.form['medidaeditar']
-        muro.proveedor = request.form['proveedoreseditar']
+        muro.proveedor = request.form['proveedoreditar']
         muro.producto = request.form['productoeditar']
         muro.calidad = request.form['calidadeditar']
         muro.existencias = request.form['existenciaeditar']
@@ -1008,7 +1482,7 @@ def actualizar_muros():
         muro.precio = request.form['precioeditar']
         muro.embalaje = request.form['embalajeeditar']
         muro.ubicacion = request.form['ubicacioneditar']
-        muro.categoria = request.form['categoriaseditar']
+        muro.categoria = request.form['categoriaeditar']
 
         db.session.commit()
 
@@ -1590,7 +2064,10 @@ def consulta_vitroblocks():
     per_page = request.args.get('per_page', 6, type=int) 
     search = request.args.get('search', '', type=str)  
 
-    vitroblocks_query = Vitroblock.query.join(Proveedor).join(Categoria).add_columns(
+    vitroblocks_query = Vitroblock.query \
+        .join(Proveedor, Vitroblock.proveedor ==  Proveedor.id_proveedor) \
+        .join(Categoria, Vitroblock.categoria == Categoria.id_categoria) \
+        .add_columns(
         Vitroblock.id_vitroblock,
         Vitroblock.tipo,
         Vitroblock.medidas,
@@ -1599,8 +2076,8 @@ def consulta_vitroblocks():
         Vitroblock.rotas,
         Vitroblock.precio,
         Vitroblock.ubicacion,
-        Proveedor.nombre.label('proveedor_nombre'),
-        Categoria.nombre.label('categoria_nombre')
+        Proveedor.nombre.label('proveedor_nombre'), Proveedor.id_proveedor,
+        Categoria.nombre.label('categoria_nombre'), Categoria.id_categoria
     )
 
     if search:

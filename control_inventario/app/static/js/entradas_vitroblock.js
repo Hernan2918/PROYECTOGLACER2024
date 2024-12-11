@@ -1,13 +1,13 @@
-function abrirModalRegistroVitroblockSalidas() {
-    var modal = new bootstrap.Modal(document.getElementById('modalRegistroSalidas'));
+function abrirModalRegistroVitroblockEntradas() {
+    var modal = new bootstrap.Modal(document.getElementById('Entradas'));
     modal.show();
   }
-  document.getElementById('btnsalidas').addEventListener('click', function() {
-    abrirModalRegistroVitroblockSalidas();
+  document.getElementById('btnentradas').addEventListener('click', function() {
+    abrirModalRegistroVitroblockEntradas();
   });
 
   document.addEventListener('DOMContentLoaded', function () {
-    const modalSalidas = document.getElementById('Salidas');
+    const modalSalidas = document.getElementById('Entradas');
 
     modalSalidas.addEventListener('show.bs.modal', function (event) {
         const button = event.relatedTarget;

@@ -1,0 +1,49 @@
+<div class="modal fade" id="editarModalSalida" tabindex="-1" aria-labelledby="modalActualizarLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalRegistroLabel">Actualizar salida</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/actualizar_salida" method="post" onsubmit="return validarFormularioproductoA()">
+                    <input type="hidden" id="editarSalidaId" name="id_salida">
+                    <div class="mb-3">
+                        <label for="nombreA" class="form-label">Nombre</label>
+                        <input type="txt" class="form-control" id="nombreA" name="nombreA" readonly>
+                        <div class="invalid-feedback" id="entradaError"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="salidaA" class="form-label">Cantidad de salida</label>
+                        <input type="txt" class="form-control" id="salidaA" name="salidaA" readonly>
+                        <div class="invalid-feedback" id="entradaError"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="fechaA" class="form-label">Fecha</label>
+                        <input type="date" class="form-control" id="fechaA" name="fechaA" readonly>
+                        <div class="invalid-feedback" id="fechaAError"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="destinoA" class="form-label">Destino</label>
+                        <input type="txt" class="form-control" id="destinoA" name="destinoA" readonly>
+                        <div class="invalid-feedback" id="fechaAError"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="estatusA" class="form-label">Estatus</label><br>
+                        <select id="estatusA" name="estatusA" class="form-control">
+                            <option value="">Selecciona una opción</option>
+                            <option>Realizado</option>
+                            <option>No realizado</option>
+                            
+                        </select> 
+                        <div class="invalid-feedback" id="estatusAError"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-danger" id="Registrar" name="Registrar">Actualizar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+  </div>

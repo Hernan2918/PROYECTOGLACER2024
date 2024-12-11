@@ -7,7 +7,7 @@
             </div>
             <div class="modal-body">
                 <form action="/actualizar_muros" method="post" onsubmit="return validarFormularioproductoAct()">
-                    <input type="hidden" id="editarproductoId" name="editarproductoId">
+                    <input type="hidden" id="editarproductoId" name="id_productoMuro">
                     <div class="mb-3">
                         <label for="medidaeditar" class="form-label">Media</label>
 
@@ -15,10 +15,10 @@
                         <div class="invalid-feedback" id="medidaErrorA"></div>
                     </div>
                     <div class="mb-3">
-                        <label for="proveedoreseditar" class="form-label">Proveedor</label><br>
-                        <select id="proveedoreseditar" name="proveedoreseditar" class="form-control">
+                        <label for="proveedoreditar" class="form-label">Proveedor</label><br>
+                        <select id="proveedoreditar" name="proveedoreditar" class="form-control" required>
                             {% for proveedor in proveedores %}
-                            <option value="{{ proveedor.id_proveedor }}">{{ proveedor.nombre }}</option>
+                                <option value="{{ proveedor.id_proveedor }}">{{ proveedor.nombre }}</option>
                             {% endfor %}
                         </select> 
                         <div class="invalid-feedback" id="proveedoresErrorA"></div>
@@ -57,8 +57,8 @@
                         <div class="invalid-feedback" id="ubicacionErrorA"></div>
                     </div>
                     <div class="mb-3">
-                        <label for="categoriaseditar" class="form-label">Categoría</label><br>
-                        <select id="categoriaseditar" name="categoriaseditar" class="form-control">
+                        <label for="categoriaeditar" class="form-label">Categoría</label><br>
+                        <select id="categoriaeditar" name="categoriaeditar" class="form-control">
                             {% for categoria in categorias %}
                             <option value="{{ categoria.id_categoria }}">{{ categoria.nombre }}</option>
                             {% endfor %}

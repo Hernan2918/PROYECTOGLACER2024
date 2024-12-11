@@ -136,3 +136,11 @@ class Salida(db.Model):
     destino = db.Column(db.String(50),  nullable=False)
     estatus = db.Column(db.String(50),  nullable=False)
     
+class Entrada(db.Model):
+    __tablename__ = 'entradas'
+    id_entrada = db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.String(100), nullable=False)
+    entrada = db.Column(db.Integer, nullable=False)
+    fecha = db.Column(db.String(100), nullable=False)
+    
+    

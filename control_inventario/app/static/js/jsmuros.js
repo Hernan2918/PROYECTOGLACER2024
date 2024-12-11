@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function () {
         
                 var inputId = editarProductoModal.querySelector('#editarproductoId');
                 var inputMedida = editarProductoModal.querySelector('#medidaeditar');
-                var inputProveedor = editarProductoModal.querySelector('#proveedoreseditar');
+                var inputProveedor = editarProductoModal.querySelector('#proveedoreditar');
                 var inputproducto = editarProductoModal.querySelector('#productoeditar');
                 var inputCalidad = editarProductoModal.querySelector('#calidadeditar');
                 var inputExistencias = editarProductoModal.querySelector('#existenciaeditar');
@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 var inputPrecio = editarProductoModal.querySelector('#precioeditar');
                 var inputEmbalaje = editarProductoModal.querySelector('#embalajeeditar');
                 var inputUbicacion = editarProductoModal.querySelector('#ubicacioneditar');
-                var inputCategoria = editarProductoModal.querySelector('#categoriaseditar');
+                var inputCategoria = editarProductoModal.querySelector('#categoriaeditar');
         
                 inputId.value = id;
                 inputMedida.value = medida;
