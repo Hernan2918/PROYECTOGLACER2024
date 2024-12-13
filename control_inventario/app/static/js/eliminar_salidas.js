@@ -22,7 +22,6 @@ document.addEventListener('DOMContentLoaded', function() {
         var destino = button.getAttribute('data-destino');
         var estatus = button.getAttribute('data-estatus');
         
-
         var inputId = editarProductoModal.querySelector('#editarSalidaId');
         var inputNombre = editarProductoModal.querySelector('#nombreA');
         var inputSalida = editarProductoModal.querySelector('#salidaA');
@@ -30,18 +29,13 @@ document.addEventListener('DOMContentLoaded', function() {
         var inputDestino = editarProductoModal.querySelector('#destinoA');
         var inputEstatus = editarProductoModal.querySelector('#estatusA');
         
-
         inputId.value = id;
         inputNombre.value = nombre;
         inputSalida.value = salida;
         inputFecha.value = fecha;
         inputDestino.value = destino;
         inputEstatus.value = estatus;
-
-
         
-        
-    
     });
 });
 
@@ -55,17 +49,14 @@ document.getElementById('DescargarPorFechas').addEventListener('click', async fu
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
 
-    // Obtener los valores de los inputs de fecha
     const fechaInicioInput = document.getElementById('fechaInicio').value;
     const fechaFinInput = document.getElementById('fechaFin').value;
 
-    // Validar que se hayan ingresado ambas fechas
     if (!fechaInicioInput || !fechaFinInput) {
         alert('Por favor, selecciona las fechas de inicio y fin.');
         return;
     }
 
-    // Convertir las fechas a formato ISO para la comparación
     const fechaInicio = new Date(fechaInicioInput);
     const fechaFin = new Date(fechaFinInput);
 
@@ -74,11 +65,9 @@ document.getElementById('DescargarPorFechas').addEventListener('click', async fu
         return;
     }
 
-    // URL de tu ruta Flask que devuelve las salidas
     const url = `/obtener_salidas_por_fechas?inicio=${fechaInicioInput}&fin=${fechaFinInput}`;
 
     try {
-        // Realizar la solicitud al servidor
         const response = await fetch(url);
         if (!response.ok) {
             console.error('Error en la solicitud:', response.statusText);
@@ -88,7 +77,6 @@ document.getElementById('DescargarPorFechas').addEventListener('click', async fu
 
         const productos = await response.json();
 
-        // Formatear los datos de las fechas
         function formatFecha(fecha) {
             const date = new Date(fecha);
             const year = date.getUTCFullYear();
@@ -97,7 +85,6 @@ document.getElementById('DescargarPorFechas').addEventListener('click', async fu
             return `${year}-${month}-${day}`;
         }
 
-        // Crear las filas para la tabla del PDF
         const rows = productos.map((salida) => [
             salida.nombre,
             salida.salida,
@@ -106,21 +93,18 @@ document.getElementById('DescargarPorFechas').addEventListener('click', async fu
             salida.estatus,
         ]);
 
-        // Añadir la imagen de encabezado
         const imgUrl = '/static/img/logov.jpeg';
         const imgData = await getBase64ImageFromUrl(imgUrl);
         if (imgData) {
             doc.addImage(imgData, 'JPEG', 13, 6, 20, 20);
         }
 
-        // Añadir el texto del encabezado
         doc.setFontSize(13);
         doc.text('LISTA DE SALIDAS', 105, 15, { align: 'center' });
         doc.text('GLACER Glamur Cerámico', 195, 15, { align: 'right' });
         doc.setTextColor(220, 0, 0);
         doc.text('Atlacomulco Vías', 195, 23, { align: 'right' });
 
-        // Añadir la tabla al PDF
         doc.autoTable({
             head: [['Nombre', 'Salida', 'Fecha', 'Destino', 'Estatus']],
             body: rows,
@@ -130,7 +114,6 @@ document.getElementById('DescargarPorFechas').addEventListener('click', async fu
             startY: 30,
         });
 
-        // Descargar el archivo PDF
         doc.save(`salidas_${fechaInicioInput}_a_${fechaFinInput}.pdf`);
     } catch (error) {
         console.error('Error al generar el PDF:', error);
@@ -138,7 +121,6 @@ document.getElementById('DescargarPorFechas').addEventListener('click', async fu
     }
 });
 
-// Función para convertir una URL de imagen a Base64
 async function getBase64ImageFromUrl(url) {
     try {
         const res = await fetch(url);

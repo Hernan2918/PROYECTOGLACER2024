@@ -11,7 +11,7 @@ import os
 from fpdf import FPDF
 from io import BytesIO
 from functools import wraps
-
+from sqlalchemy import case
 
 
 apps = Blueprint('main', __name__)
@@ -160,7 +160,13 @@ def salidas():
         Salida.fecha,
         Salida.destino,
         Salida.estatus
-    )
+    ).order_by(
+    case(
+        (Salida.estatus == 'No realizado', 1),
+        (Salida.estatus == 'Realizado', 2)
+    ),
+    Salida.fecha.desc()  
+)
 
     if search:
         salidas_query = salidas_query.filter(
@@ -586,15 +592,16 @@ def entradas():
         Entrada.entrada,
         Entrada.fecha
         
+    ).order_by(
+    
+    Entrada.fecha.desc()  
     )
 
     if search:
         entradas_query = entradas_query.filter(
             Entrada.nombre.ilike(f"%{search}%") |
             Entrada.entrada.ilike(f"%{search}%") |
-            Entrada.fecha.ilike(f"%{search}%") 
-            
-            
+            Entrada.fecha.ilike(f"%{search}%")  
         )
 
     entradas_paginated = entradas_query.paginate(page=page, per_page=per_page, error_out=False)

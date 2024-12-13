@@ -16,12 +16,12 @@
                             <option value="{{ proveedor.id_proveedor }}">{{ proveedor.nombre }}</option>
                             {% endfor %}
                         </select> 
-                        <div class="invalid-feedback" id="proveedoresError"></div>
+                        <div class="invalid-feedback" id="proveedoresEntradaError"></div>
                     </div>
                     <div class="mb-3">
                         <label for="producto" class="form-label">Nombre</label>
                         <input type="txt" class="form-control" id="producto" name="producto" readonly>
-                        <div class="invalid-feedback" id="productoError"></div>
+                        <div class="invalid-feedback" id="productoEntradaError"></div>
                     </div>
                     <div class="mb-3">
                         <label for="categorias" class="form-label">Categoría</label><br>
@@ -31,7 +31,7 @@
                             <option value="{{ categoria.id_categoria }}">{{ categoria.nombre }}</option>
                             {% endfor %}
                         </select> 
-                        <div class="invalid-feedback" id="categoriasError"></div>
+                        <div class="invalid-feedback" id="categoriasEntradaError"></div>
                     </div>
                     <div class="mb-3">
                         <label for="entrada" class="form-label">Cantidad de entrada</label>
@@ -41,7 +41,7 @@
                     <div class="mb-3">
                         <label for="fecha" class="form-label">Fecha</label>
                         <input type="date" class="form-control" id="fecha" name="fecha">
-                        <div class="invalid-feedback" id="fechaError"></div>
+                        <div class="invalid-feedback" id="fechaEntradaError"></div>
                     </div>
                     
                     

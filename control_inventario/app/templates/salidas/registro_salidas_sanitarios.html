@@ -16,12 +16,12 @@
                             <option value="{{ proveedor.id_proveedor }}">{{ proveedor.nombre }}</option>
                             {% endfor %}
                         </select> 
-                        <div class="invalid-feedback" id="proveedoresError"></div>
+                        <div class="invalid-feedback" id="proveedoresSalidaError"></div>
                     </div>
                     <div class="mb-3">
                         <label for="producto" class="form-label">Nombre</label>
                         <input type="txt" class="form-control" id="producto" name="producto" readonly>
-                        <div class="invalid-feedback" id="productoError"></div>
+                        <div class="invalid-feedback" id="productoSalidaError"></div>
                     </div>
                     <div class="mb-3">
                         <label for="categorias" class="form-label">Categoría</label><br>
@@ -31,22 +31,22 @@
                             <option value="{{ categoria.id_categoria }}">{{ categoria.nombre }}</option>
                             {% endfor %}
                         </select> 
-                        <div class="invalid-feedback" id="categoriasError"></div>
+                        <div class="invalid-feedback" id="categoriasSalidaError"></div>
                     </div>
                     <div class="mb-3">
                         <label for="salida" class="form-label">Cantidad de salida</label>
                         <input type="txt" class="form-control" id="salida" name="salida">
-                        <div class="invalid-feedback" id="entradaError"></div>
+                        <div class="invalid-feedback" id="SalidaError"></div>
                     </div>
                     <div class="mb-3">
                         <label for="fecha" class="form-label">Fecha</label>
                         <input type="date" class="form-control" id="fecha" name="fecha">
-                        <div class="invalid-feedback" id="fechaError"></div>
+                        <div class="invalid-feedback" id="fechaSalidaError"></div>
                     </div>
                     <div class="mb-3">
                         <label for="destino" class="form-label">Destino</label>
                         <input type="txt" class="form-control" id="destino" name="destino">
-                        <div class="invalid-feedback" id="origenError"></div>
+                        <div class="invalid-feedback" id="destinoSalidaError"></div>
                     </div>
                     <div class="mb-3">
                         <label for="estatus" class="form-label">Estatus</label><br>
@@ -56,7 +56,7 @@
                             <option>No realizado</option>
                             
                         </select> 
-                        <div class="invalid-feedback" id="estatusError"></div>
+                        <div class="invalid-feedback" id="estatusSalidaError"></div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>

@@ -1,4 +1,4 @@
-<div class="modal fade" id="Entradas" tabindex="-1" aria-labelledby="modalRegistroLabel" aria-hidden="true">
+<div class="modal fade" id="EntradasAdhesivos" tabindex="-1" aria-labelledby="modalRegistroLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -17,7 +17,7 @@
                             <option value="{{ proveedor.id_proveedor }}">{{ proveedor.nombre }}</option>
                             {% endfor %}
                         </select> 
-                        <div class="invalid-feedback" id="proveedoresError"></div>
+                        <div class="invalid-feedback" id="proveedoresEntradaError"></div>
                     </div>
                     <div class="mb-3">
                         <label for="color" class="form-label">Color</label>
@@ -27,7 +27,7 @@
                     <div class="mb-3">
                         <label for="Kilogramos" class="form-label">Kilogramos</label>
                         <input type="txt" class="form-control" id="Kilogramos" name="Kilogramos" readonly>
-                        <div class="invalid-feedback" id="productoError"></div>
+                        <div class="invalid-feedback" id="productoEntradaError"></div>
                     </div>
                     
                     <div class="mb-3">
@@ -38,7 +38,7 @@
                             <option value="{{ categoria.id_categoria }}">{{ categoria.nombre }}</option>
                             {% endfor %}
                         </select> 
-                        <div class="invalid-feedback" id="categoriasError"></div>
+                        <div class="invalid-feedback" id="categoriasEntradaError"></div>
                     </div>
                     <div class="mb-3">
                         <label for="entrada" class="form-label">Cantidad de entrada</label>
@@ -48,7 +48,7 @@
                     <div class="mb-3">
                         <label for="fecha" class="form-label">Fecha</label>
                         <input type="date" class="form-control" id="fecha" name="fecha">
-                        <div class="invalid-feedback" id="fechaError"></div>
+                        <div class="invalid-feedback" id="fechaEntradaError"></div>
                     </div>
                     
                     <div class="modal-footer">

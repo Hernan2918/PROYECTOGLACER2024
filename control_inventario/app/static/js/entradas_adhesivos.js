@@ -1,5 +1,5 @@
 function abrirModalRegistroAdsivosEntradas() {
-    var modal = new bootstrap.Modal(document.getElementById('Entradas'));
+    var modal = new bootstrap.Modal(document.getElementById('EntradasAdhesivos'));
     modal.show();
   }
   document.getElementById('btnentradas').addEventListener('click', function() {
@@ -8,25 +8,29 @@ function abrirModalRegistroAdsivosEntradas() {
 
 
   document.addEventListener('DOMContentLoaded', function () {
-    const modalSalidas = document.getElementById('Entradas');
+    const modalEntradas = document.getElementById('EntradasAdhesivos');
 
     // Evento que se dispara cuando se abre el modal
-    modalSalidas.addEventListener('show.bs.modal', function (event) {
+    modalEntradas.addEventListener('show.bs.modal', function (event) {
         // Botón que dispara el modal
         const button = event.relatedTarget;
 
 
-        const id_producto = button.getAttribute('data-id');
-        const medida = button.getAttribute('data-color');
-        const proveedor = button.getAttribute('data-proveedor');
-        const kilogramos = button.getAttribute('data-kilogramos');
-        const categoria = button.getAttribute('data-categoria');
-        console.log("Proveedor:", proveedor);
-        console.log("Categoría:", categoria);
-        modalSalidas.querySelector('#id_producto').value = id_producto;
-        modalSalidas.querySelector('#color').value = medida;
-        modalSalidas.querySelector('#proveedores').value = proveedor;
-        modalSalidas.querySelector('#Kilogramos').value = kilogramos;
-        modalSalidas.querySelector('#categorias').value = categoria;
+        if (button){
+          const id_productoEntrada = button.getAttribute('data-idEntrada');
+          const medidaEntrada = button.getAttribute('data-colorEntrada');
+          const proveedorEntrada = button.getAttribute('data-proveedorEntrada');
+          const kilogramosEntrada = button.getAttribute('data-kilogramosEntrada');
+          const categoriaEntrada = button.getAttribute('data-categoriaEntrada');
+        
+          modalEntradas.querySelector('#id_producto').value = id_productoEntrada;
+          modalEntradas.querySelector('#color').value = medidaEntrada;
+          modalEntradas.querySelector('#proveedores').value = proveedorEntrada;
+          modalEntradas.querySelector('#Kilogramos').value = kilogramosEntrada;
+          modalEntradas.querySelector('#categorias').value = categoriaEntrada;
+
+        }
+
+        
     });
 });

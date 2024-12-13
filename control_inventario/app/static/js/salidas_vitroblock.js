@@ -1,5 +1,5 @@
 function abrirModalRegistroVitroblockSalidas() {
-    var modal = new bootstrap.Modal(document.getElementById('modalRegistroSalidas'));
+    var modal = new bootstrap.Modal(document.getElementById('Salidas'));
     modal.show();
   }
   document.getElementById('btnsalidas').addEventListener('click', function() {
