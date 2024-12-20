@@ -79,7 +79,6 @@ document.addEventListener('DOMContentLoaded', function () {
             editarProductoModal.addEventListener('show.bs.modal', function(event) {
                 var button = event.relatedTarget;
                 
-                // Obtener los datos del botón clicado
                 var id = button.getAttribute('data-id');
                 var proveedor = button.getAttribute('data-proveedor');
                 var tipo = button.getAttribute('data-tipo');
@@ -91,7 +90,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 var ubicacion = button.getAttribute('data-ubicacion');
                 var categoria = button.getAttribute('data-categoria');
         
-                // Asignar los valores a los inputs y selects del modal
                 var inputId = editarProductoModal.querySelector('#editarproductoId');
                 var inputTipo = editarProductoModal.querySelector('#tipoeditar');
                 var inputMedidas = editarProductoModal.querySelector('#medidaseditar');
@@ -101,7 +99,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 var inputPrecio = editarProductoModal.querySelector('#precioeditar');
                 var inputUbicacion = editarProductoModal.querySelector('#ubicacioneditar');
                 
-                // Asignar valores a los campos
                 inputId.value = id;
                 inputTipo.value = tipo;
                 inputMedidas.value = medidas;
@@ -114,13 +111,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 console.log('proveedor', proveedor),
                 console.log('categoria', categoria)
-                // Asignar valor seleccionado al select de proveedores
                 var inputProveedor = editarProductoModal.querySelector('#proveedoreseditar');
                 Array.from(inputProveedor.options).forEach(option => {
                     option.selected = (option.value == proveedor);
                 });
                 
-                // Asignar valor seleccionado al select de categorías
                 var inputCategoria = editarProductoModal.querySelector('#categoriaseditar');
                 Array.from(inputCategoria.options).forEach(option => {
                     option.selected = (option.value == categoria);
@@ -144,7 +139,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     const { jsPDF } = window.jspdf;
                     const doc = new jsPDF();
                 
-                    // Agregar el logo
                     const imgUrl1 = '/static/img/logov.jpeg';
                 
                     async function getBase64ImageFromUrl(url) {
@@ -158,8 +152,8 @@ document.addEventListener('DOMContentLoaded', function () {
                             const reader = new FileReader();
                 
                             return new Promise((resolve, reject) => {
-                                reader.onloadend = () => resolve(reader.result); // Resuelve con el resultado Base64
-                                reader.onerror = reject; // Rechaza si hay un error
+                                reader.onloadend = () => resolve(reader.result); 
+                                reader.onerror = reject; 
                                 reader.readAsDataURL(blob);
                             });
                         } catch (error) {
@@ -171,9 +165,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     const imgData1 = await getBase64ImageFromUrl(imgUrl1);
                 
                     if (imgData1) {
-                        doc.addImage(imgData1, 'JPEG', 13, 6, 20, 20); // Añadir imagen al PDF
+                        doc.addImage(imgData1, 'JPEG', 13, 6, 20, 20); 
                 
-                        // Obtener los productos y agregarlos al PDF
                         const response = await fetch('/obtener_todos_vitroblocks');
                         const productos = await response.json();
                 
@@ -203,11 +196,10 @@ document.addEventListener('DOMContentLoaded', function () {
                             body: rows,
                             theme: 'grid',
                             styles: { halign: 'center' },
-                            headStyles: { fillColor: [220, 0, 0] }, // Color verde
+                            headStyles: { fillColor: [220, 0, 0] }, 
                             startY: 30 
                         });
                 
-                        // Guardar el archivo PDF
                         doc.save('tabla_vitroblocks.pdf');
                     } else {
                         console.error("No se pudo cargar la imagen correctamente.");
@@ -378,4 +370,34 @@ document.addEventListener('DOMContentLoaded', function () {
                         })
                         .catch(error => console.error('Error al realizar la búsqueda:', error));
                 });
+
+
+                // ESTILOS DE ICON
                 
+                document.addEventListener("DOMContentLoaded", function () {
+                    const rutaActual = window.location.pathname; 
+                    const menuIcon = document.getElementById("menu-icon");
+                    const menuLinks = document.querySelectorAll(".menu-item"); 
+                
+                    menuLinks.forEach(link => {
+                        link.addEventListener("click", function () {
+                            menuIcon.classList.add("active");
+                        });
+                    });
+                
+                    const rutasValidas = [
+                        "/consulta_productos",
+                        "/consulta_muros",
+                        "/consulta_adhesivos",
+                        "/consulta_sanitarios",
+                        "/consulta_tinacos",
+                        "/consulta_vitroblocks"
+                    ];
+                
+                    if (rutasValidas.includes(rutaActual)) {
+                        menuIcon.classList.add("active");
+                    }
+                });
+                
+
+                    

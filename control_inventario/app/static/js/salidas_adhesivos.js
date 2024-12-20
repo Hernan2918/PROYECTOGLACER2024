@@ -10,9 +10,7 @@ function abrirModalRegistroAdhesivosSalida() {
   document.addEventListener('DOMContentLoaded', function () {
     const modalSalidas = document.getElementById('SalidasAdhesivos');
 
-    // Evento que se dispara cuando se abre el modal
     modalSalidas.addEventListener('show.bs.modal', function (event) {
-        // Botón que dispara el modal
         const button = event.relatedTarget;
 
         if (button){
@@ -32,4 +30,14 @@ function abrirModalRegistroAdhesivosSalida() {
         }
         
     });
+});
+
+
+document.addEventListener("DOMContentLoaded", function () {
+  const modalElement = document.getElementById("SalidasAdhesivos");
+
+  modalElement.addEventListener("hidden.bs.modal", function () {
+    const backdrops = document.querySelectorAll(".modal-backdrop");
+    backdrops.forEach((backdrop) => backdrop.remove());
+  });
 });

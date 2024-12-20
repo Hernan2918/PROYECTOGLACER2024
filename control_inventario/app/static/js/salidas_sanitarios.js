@@ -10,9 +10,7 @@ function abrirModalRegistroSanitariosSalidas() {
   document.addEventListener('DOMContentLoaded', function () {
     const modalSalidas = document.getElementById('Salidas');
 
-    // Evento que se dispara cuando se abre el modal
     modalSalidas.addEventListener('show.bs.modal', function (event) {
-        // Botón que dispara el modal
         const button = event.relatedTarget;
 
 
@@ -28,4 +26,14 @@ function abrirModalRegistroSanitariosSalidas() {
         modalSalidas.querySelector('#producto').value = nombre;
         modalSalidas.querySelector('#categorias').value = categoria;
     });
+});
+
+
+document.addEventListener("DOMContentLoaded", function () {
+  const modalElement = document.getElementById("Salidas");
+
+  modalElement.addEventListener("hidden.bs.modal", function () {
+    const backdrops = document.querySelectorAll(".modal-backdrop");
+    backdrops.forEach((backdrop) => backdrop.remove());
+  });
 });

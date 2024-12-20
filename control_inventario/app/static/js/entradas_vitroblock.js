@@ -28,3 +28,12 @@ function abrirModalRegistroVitroblockEntradas() {
         modalSalidas.querySelector('#categorias').value = categoria;
     });
 })
+
+document.addEventListener("DOMContentLoaded", function () {
+  const modalElement = document.getElementById("Entradas");
+
+  modalElement.addEventListener("hidden.bs.modal", function () {
+    const backdrops = document.querySelectorAll(".modal-backdrop");
+    backdrops.forEach((backdrop) => backdrop.remove());
+  });
+});

@@ -2,16 +2,16 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalRegistroLabel">Nueva Entrada</h5>
+                <h5 class="modal-title" id="modalRegistroEntradas">Nueva Entrada</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="/registro_adhesivos_entradas" method="post" >
+                <form action="/registro_adhesivos_entradas" method="post" onsubmit="return validarFormularioEntradasAdhesivos()" >
                     <input type="hidden" id="id_producto" name="id_producto">
                     
                     <div class="mb-3">
                         <label for="proveedores" class="form-label">Proveedor</label><br>
-                        <select id="proveedores" name="proveedores" class="form-control" >
+                        <select id="proveedores" name="proveedores" class="form-control" disabled>
                             <option value="" id="proveedores">Selecciona una opción</option>
                             {% for proveedor in proveedores %}
                             <option value="{{ proveedor.id_proveedor }}">{{ proveedor.nombre }}</option>
@@ -32,7 +32,7 @@
                     
                     <div class="mb-3">
                         <label for="categorias" class="form-label">Categoría</label><br>
-                        <select id="categorias" name="categorias" class="form-control" readonly>
+                        <select id="categorias" name="categorias" class="form-control" disabled>
                             <option value="" id="categorias">Selecciona una opción</option>
                             {% for categoria in categorias %}
                             <option value="{{ categoria.id_categoria }}">{{ categoria.nombre }}</option>
@@ -43,12 +43,12 @@
                     <div class="mb-3">
                         <label for="entrada" class="form-label">Cantidad de entrada</label>
                         <input type="txt" class="form-control" id="entrada" name="entrada">
-                        <div class="invalid-feedback" id="entradaError"></div>
+                        <div class="invalid-feedback" id="entradasErrorAD"></div>
                     </div>
                     <div class="mb-3">
-                        <label for="fecha" class="form-label">Fecha</label>
-                        <input type="date" class="form-control" id="fecha" name="fecha">
-                        <div class="invalid-feedback" id="fechaEntradaError"></div>
+                        <label for="fecfechaADha" class="form-label">Fecha</label>
+                        <input type="date" class="form-control" id="fechaAD" name="fechaAD">
+                        <div class="invalid-feedback" id="fechaEntradaErrorAD"></div>
                     </div>
                     
                     <div class="modal-footer">
@@ -60,3 +60,48 @@
         </div>
     </div>
   </div>
+
+
+<script>
+    function validarFormularioEntradasAdhesivos() {
+        var isValid = true;
+      
+        var entrada = document.getElementById('entrada').value;
+        var entradaError = document.getElementById('entradasErrorAD');
+        var expresionent = /^[0-9]{1,10}$/;
+      
+         if (!expresionent.test(entrada)) {
+            entradaError.textContent = 'Por favor, ingresa un número. Sin espacios.';
+            entradaError.style.display = 'block';
+            isValid = false;
+        } else {
+            entradaError.textContent = '';
+            entradaError.style.display = 'none';
+        }
+      
+        var fecha = document.getElementById('fechaAD').value;
+        var fechaError = document.getElementById('fechaEntradaErrorAD');
+        var fechaActual = new Date().toISOString().split('T')[0];
+        
+        if (fecha === "") {
+            fechaError.textContent = 'Por favor, selecciona una fecha.';
+            fechaError.style.display = 'block';
+            isValid = false;
+        } else if (fecha < fechaActual) {
+            fechaError.textContent = 'La fecha no puede ser menor a la fecha actual.';
+            fechaError.style.display = 'block';
+            isValid = false;
+        } else if (fecha > fechaActual) {
+            fechaError.textContent = 'La fecha no puede ser mayor a la fecha actual.';
+            fechaError.style.display = 'block';
+            isValid = false;
+        }else {
+            fechaError.textContent = '';
+            fechaError.style.display = 'none';
+        }
+      
+      
+        return isValid;
+      }
+</script>
+  

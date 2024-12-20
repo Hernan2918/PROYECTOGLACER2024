@@ -42,3 +42,15 @@ document.addEventListener('DOMContentLoaded', function() {
         formEliminar.action = '/eliminar_producto_entradas/' + productoId;
     });
   });
+
+
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const rutaActual = window.location.pathname; 
+    const iconoEntradas = document.getElementById("icono-entradas");
+    
+    if (rutaActual === "/entradas") {
+      iconoEntradas.classList.add("active");
+    }
+  });
+  

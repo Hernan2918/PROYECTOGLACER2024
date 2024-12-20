@@ -131,7 +131,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             });
         
-            // Manejador para la vista previa de la nueva imagen
             document.getElementById('fotoeditar').addEventListener('change', function(event) {
                 const file = event.target.files[0];
                 const previeweditar = document.getElementById('previeweditar');
@@ -139,13 +138,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (file) {
                     const reader = new FileReader();
                     reader.onload = function(e) {
-                        previeweditar.src = e.target.result; // Establece la fuente de la imagen a la cargada
-                        previeweditar.style.display = 'block'; // Muestra la imagen
+                        previeweditar.src = e.target.result; 
+                        previeweditar.style.display = 'block'; 
                     }
-                    reader.readAsDataURL(file); // Lee el archivo como una URL de datos
+                    reader.readAsDataURL(file); 
                 } else {
-                    previeweditar.src = ""; // Reinicia la fuente si no hay archivo
-                    previeweditar.style.display = 'none'; // Oculta la imagen
+                    previeweditar.src = ""; 
+                    previeweditar.style.display = 'none'; 
                 }
             });
         });
@@ -335,4 +334,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 .catch(error => console.error('Error al realizar la búsqueda:', error));
         });
         
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const rutaActual = window.location.pathname; 
+            const iconoEntradas = document.getElementById("icon-proveedor");
+            
+            if (rutaActual === "/consulta_proveedores") {
+              iconoEntradas.classList.add("active");
+            }
+          });
                 

@@ -83,7 +83,6 @@
                 function validarFormulario() {
                     var isValid = true;
                 
-                    // Validar el nombre con expresión regular (permitiendo letras, espacios y guiones)
                     var nombre = document.getElementById('registarnombre').value;
                     var nombreError = document.getElementById('nombreError');
                     var nombreRegex = /^[A-ZÁÉÍÓÚÜÑ][a-záéíóúüñ]+(?:\s+[A-ZÁÉÍÓÚÜÑ][a-záéíóúüñ]+)?(?:\s+[A-ZÁÉÍÓÚÜÑ][a-záéíóúüñ]+)?$/;

@@ -31,3 +31,13 @@ function abrirModalRegistroTinacosSalidas() {
         modalSalidas.querySelector('#categorias').value = categoria;
     });
 });
+
+
+document.addEventListener("DOMContentLoaded", function () {
+  const modalElement = document.getElementById("Salidas");
+
+  modalElement.addEventListener("hidden.bs.modal", function () {
+    const backdrops = document.querySelectorAll(".modal-backdrop");
+    backdrops.forEach((backdrop) => backdrop.remove());
+  });
+});

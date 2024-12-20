@@ -531,7 +531,32 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
 
 
-
+                document.addEventListener("DOMContentLoaded", function () {
+                    const rutaActual = window.location.pathname; 
+                    const menuIcon = document.getElementById("menu-icon");
+                    const menuLinks = document.querySelectorAll(".menu-item"); 
+                
+                    menuLinks.forEach(link => {
+                        link.addEventListener("click", function () {
+                            menuIcon.classList.add("active");
+                        });
+                    });
+                
+                    const rutasValidas = [
+                        "/consulta_productos",
+                        "/consulta_muros",
+                        "/consulta_adhesivos",
+                        "/consulta_sanitarios",
+                        "/consulta_tinacos",
+                        "/consulta_vitroblocks"
+                    ];
+                
+                    if (rutasValidas.includes(rutaActual)) {
+                        menuIcon.classList.add("active");
+                    }
+                });
+                
+                  
 
 
                 

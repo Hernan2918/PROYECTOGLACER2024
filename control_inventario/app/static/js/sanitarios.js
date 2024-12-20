@@ -107,12 +107,12 @@ document.addEventListener('DOMContentLoaded', function () {
         
                 var inputproveedor = editarProductoModal.querySelector('#proveedoreseditar');
                 Array.from(inputproveedor.options).forEach(option => {
-                    option.selected = (option.value == proveedor); // Asegúrate de que `proveedor` tiene el valor correcto
+                    option.selected = (option.value == proveedor); 
                 });
                 
                 var inputCategoria = editarProductoModal.querySelector('#categoriaseditar');
                 Array.from(inputCategoria.options).forEach(option => {
-                    option.selected = (option.value == categoria); // Asegúrate de que `categoria` tiene el valor correcto
+                    option.selected = (option.value == categoria); 
                 });
             });
         });
@@ -149,8 +149,8 @@ document.addEventListener('DOMContentLoaded', function () {
                             const reader = new FileReader();
                 
                             return new Promise((resolve, reject) => {
-                                reader.onloadend = () => resolve(reader.result); // Resuelve con el resultado Base64
-                                reader.onerror = reject; // Rechaza si hay un error
+                                reader.onloadend = () => resolve(reader.result);
+                                reader.onerror = reject; 
                                 reader.readAsDataURL(blob);
                             });
                         } catch (error) {
@@ -162,9 +162,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     const imgData1 = await getBase64ImageFromUrl(imgUrl1);
                 
                     if (imgData1) {
-                        doc.addImage(imgData1, 'JPEG', 13, 6, 20, 20); // Añadir imagen al PDF
+                        doc.addImage(imgData1, 'JPEG', 13, 6, 20, 20); 
                 
-                        // Obtener los productos y agregarlos al PDF
                         const response = await fetch('/obtener_todos_sanitarios');
                         const productos = await response.json();
                 
@@ -192,11 +191,10 @@ document.addEventListener('DOMContentLoaded', function () {
                             body: rows,
                             theme: 'grid',
                             styles: { halign: 'center' },
-                            headStyles: { fillColor: [220, 0, 0] }, // Color verde
+                            headStyles: { fillColor: [220, 0, 0] }, 
                             startY: 30 
                         });
                 
-                        // Guardar el archivo PDF
                         doc.save('tabla_sanitarios.pdf');
                     } else {
                         console.error("No se pudo cargar la imagen correctamente.");
@@ -451,3 +449,29 @@ document.addEventListener('DOMContentLoaded', function () {
                         .catch(error => console.error('Error al realizar la búsqueda:', error));
                 });
                 
+
+                // ESTILOS DE ICONOS
+                document.addEventListener("DOMContentLoaded", function () {
+                    const rutaActual = window.location.pathname; 
+                    const menuIcon = document.getElementById("menu-icon");
+                    const menuLinks = document.querySelectorAll(".menu-item"); 
+                
+                    menuLinks.forEach(link => {
+                        link.addEventListener("click", function () {
+                            menuIcon.classList.add("active");
+                        });
+                    });
+                
+                    const rutasValidas = [
+                        "/consulta_productos",
+                        "/consulta_muros",
+                        "/consulta_adhesivos",
+                        "/consulta_sanitarios",
+                        "/consulta_tinacos",
+                        "/consulta_vitroblocks"
+                    ];
+                
+                    if (rutasValidas.includes(rutaActual)) {
+                        menuIcon.classList.add("active");
+                    }
+                });

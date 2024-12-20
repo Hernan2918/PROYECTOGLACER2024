@@ -193,9 +193,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     const imgData1 = await getBase64ImageFromUrl(imgUrl1);
                 
                     if (imgData1) {
-                        doc.addImage(imgData1, 'JPEG', 13, 6, 20, 20); // Añadir imagen al PDF
+                        doc.addImage(imgData1, 'JPEG', 13, 6, 20, 20); 
                 
-                        // Obtener los productos y agregarlos al PDF
                         const response = await fetch('/obtener_todos_tinacos');
                         const productos = await response.json();
                 
@@ -225,11 +224,10 @@ document.addEventListener('DOMContentLoaded', function () {
                             body: rows,
                             theme: 'grid',
                             styles: { halign: 'center' },
-                            headStyles: { fillColor: [220, 0, 0] }, // Color verde
+                            headStyles: { fillColor: [220, 0, 0] }, 
                             startY: 30 
                         });
                 
-                        // Guardar el archivo PDF
                         doc.save('tabla_tinacos.pdf');
                     } else {
                         console.error("No se pudo cargar la imagen correctamente.");
@@ -533,3 +531,31 @@ document.addEventListener('DOMContentLoaded', function () {
                         .catch(error => console.error('Error al realizar la búsqueda:', error));
                 });
                 
+
+                document.addEventListener("DOMContentLoaded", function () {
+                    const rutaActual = window.location.pathname; 
+                    const menuIcon = document.getElementById("menu-icon");
+                    const menuLinks = document.querySelectorAll(".menu-item"); 
+                
+                    menuLinks.forEach(link => {
+                        link.addEventListener("click", function () {
+                            menuIcon.classList.add("active");
+                        });
+                    });
+                
+                    const rutasValidas = [
+                        "/consulta_productos",
+                        "/consulta_muros",
+                        "/consulta_adhesivos",
+                        "/consulta_sanitarios",
+                        "/consulta_tinacos",
+                        "/consulta_vitroblocks"
+                    ];
+                
+                    if (rutasValidas.includes(rutaActual)) {
+                        menuIcon.classList.add("active");
+                    }
+                });
+                
+
+                    

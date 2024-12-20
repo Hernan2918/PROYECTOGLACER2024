@@ -2,11 +2,11 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalRegistroLabel">Nueva salida</h5>
+                <h5 class="modal-title" id="modalRegistroSalidas">Nueva salida</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="/registro_vitroblock_salidas" method="post" >
+                <form action="/registro_vitroblock_salidas" method="post" onsubmit="return SalidasVitroblockFormulario()" >
                     <input type="hidden" id="id_vitroblock" name="id_vitroblock">
                     
                     <div class="mb-3">
@@ -55,17 +55,17 @@
                     <div class="mb-3">
                         <label for="salida" class="form-label">Cantidad de salida</label>
                         <input type="txt" class="form-control" id="salida" name="salida">
-                        <div class="invalid-feedback" id="entradaSalidaError"></div>
+                        <div class="invalid-feedback" id="SalidaErrorVI"></div>
                     </div>
                     <div class="mb-3">
                         <label for="fecha" class="form-label">Fecha</label>
                         <input type="date" class="form-control" id="fecha" name="fecha">
-                        <div class="invalid-feedback" id="fechaSalidaError"></div>
+                        <div class="invalid-feedback" id="fechaSalidaErrorVI"></div>
                     </div>
                     <div class="mb-3">
                         <label for="destino" class="form-label">Destino</label>
                         <input type="txt" class="form-control" id="destino" name="destino">
-                        <div class="invalid-feedback" id="destinoSalidaError"></div>
+                        <div class="invalid-feedback" id="destinoSalidaErrorVI"></div>
                     </div>
                     <div class="mb-3">
                         <label for="estatus" class="form-label">Estatus</label><br>
@@ -75,7 +75,7 @@
                             <option>No realizado</option>
                             
                         </select> 
-                        <div class="invalid-feedback" id="estatusSalidaError"></div>
+                        <div class="invalid-feedback" id="estatusSalidaErrorVI"></div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -86,3 +86,74 @@
         </div>
     </div>
   </div>
+
+
+
+  <script>
+    function SalidasVitroblockFormulario() {
+        var isValid = true;
+      
+        var entrada = document.getElementById('salida').value;
+        var entradaError = document.getElementById('SalidaErrorVI');
+        var expresionent = /^[0-9]{1,10}$/;
+      
+         if (!expresionent.test(entrada)) {
+            entradaError.textContent = 'Por favor, ingresa un número. Sin espacios.';
+            entradaError.style.display = 'block';
+            isValid = false;
+        } else {
+            entradaError.textContent = '';
+            entradaError.style.display = 'none';
+        }
+      
+        var fecha = document.getElementById('fecha').value;
+        var fechaError = document.getElementById('fechaSalidaErrorVI');
+        var fechaActual = new Date().toISOString().split('T')[0];
+        
+        if (fecha === "") {
+            fechaError.textContent = 'Por favor, selecciona una fecha.';
+            fechaError.style.display = 'block';
+            isValid = false;
+        } else if (fecha < fechaActual) {
+            fechaError.textContent = 'La fecha no puede ser menor a la fecha actual.';
+            fechaError.style.display = 'block';
+            isValid = false;
+        } else if (fecha > fechaActual) {
+            fechaError.textContent = 'La fecha no puede ser mayor a la fecha actual.';
+            fechaError.style.display = 'block';
+            isValid = false;
+        }
+        else {
+            fechaError.textContent = '';
+            fechaError.style.display = 'none';
+        }
+      
+        var destino = document.getElementById('destino').value;
+        var destinoError = document.getElementById('destinoSalidaErrorVI');
+        var expresiondes = /^[A-Z](?:[a-zA-Z0-9áéíóúüñ]+(?:\s[a-zA-Z0-9áéíóúüñ]+)*)?$/;
+
+         if (!expresiondes.test(destino)) {
+            destinoError.textContent = 'Por favor, ingresa un destino correcto. Sin múltiples espacios.';
+            destinoError.style.display = 'block';
+            isValid = false;
+        } else {
+            destinoError.textContent = '';
+            destinoError.style.display = 'none';
+        }
+
+
+
+        var estatus = document.getElementById('estatus').value;
+        var estatusError = document.getElementById('estatusSalidaErrorVI');
+        if (estatus === "") {
+            estatusError.textContent = 'Por favor, selecciona un estatus.';
+            estatusError.style.display = 'block';
+            isValid = false;
+        } else {
+            estatusError.textContent = '';
+            estatusError.style.display = 'none';
+        }
+      
+        return isValid;
+      }
+</script>

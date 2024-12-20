@@ -2,12 +2,12 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalRegistroLabel">Nueva salida</h5>
+                <h5 class="modal-title" id="modalRegistroSalidas">Nueva salida</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="/registro_tinacos_salidas" method="post" >
-                    <input type="hidden" id="id_producto" name="id_producto">
+                <form action="/registro_tinacos_salidas" method="post" onsubmit="return SalidasTinacoFormulario()" >
+                    <input type="hidden" id="id_producto" name="id_producto" >
                     
                     <div class="mb-3">
                         <label for="proveedores" class="form-label">Proveedor</label><br>
@@ -46,29 +46,29 @@
                         <div class="invalid-feedback" id="categoriasSalidaError"></div>
                     </div>
                     <div class="mb-3">
-                        <label for="salida" class="form-label">Cantidad de salida</label>
-                        <input type="txt" class="form-control" id="salida" name="salida">
-                        <div class="invalid-feedback" id="SalidaError"></div>
+                        <label for="salidaTINACO" class="form-label">Cantidad de salida</label>
+                        <input type="txt" class="form-control" id="salidaTINACO" name="salidaTINACO">
+                        <div class="invalid-feedback" id="SalidaErrorTINACO"></div>
                     </div>
                     <div class="mb-3">
-                        <label for="fecha" class="form-label">Fecha</label>
-                        <input type="date" class="form-control" id="fecha" name="fecha">
-                        <div class="invalid-feedback" id="fechaSalidaError"></div>
+                        <label for="fechaTI" class="form-label">Fecha</label>
+                        <input type="date" class="form-control" id="fechaTI" name="fechaTI">
+                        <div class="invalid-feedback" id="fechaSalidaErrorTINACO"></div>
                     </div>
                     <div class="mb-3">
-                        <label for="destino" class="form-label">Destino</label>
-                        <input type="txt" class="form-control" id="destino" name="destino">
-                        <div class="invalid-feedback" id="destinoSalidaError"></div>
+                        <label for="destinoTINACO" class="form-label">Destino</label>
+                        <input type="txt" class="form-control" id="destinoTINACO" name="destinoTINACO">
+                        <div class="invalid-feedback" id="destinoSalidaErrorTINACO"></div>
                     </div>
                     <div class="mb-3">
-                        <label for="estatus" class="form-label">Estatus</label><br>
-                        <select id="estatus" name="estatus" class="form-control">
+                        <label for="estatusTINACO" class="form-label">Estatus</label><br>
+                        <select id="estatusTINACO" name="estatusTINACO" class="form-control">
                             <option value="" id="salidas">Selecciona una opción</option>
                             <option>Realizado</option>
                             <option>No realizado</option>
                             
                         </select> 
-                        <div class="invalid-feedback" id="estatusSalidaError"></div>
+                        <div class="invalid-feedback" id="estatusSalidaErrorTINACO"></div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -79,3 +79,72 @@
         </div>
     </div>
   </div>
+
+  <script>
+    function SalidasTinacoFormulario() {
+        var isValid = true;
+      
+        var entrada = document.getElementById('salidaTINACO').value;
+        var entradaError = document.getElementById('SalidaErrorTINACO');
+        var expresionent = /^[0-9]{1,10}$/;
+      
+         if (!expresionent.test(entrada)) {
+            entradaError.textContent = 'Por favor, ingresa un número. Sin espacios.';
+            entradaError.style.display = 'block';
+            isValid = false;
+        } else {
+            entradaError.textContent = '';
+            entradaError.style.display = 'none';
+        }
+      
+        var fecha = document.getElementById('fechaTI').value;
+        var fechaError = document.getElementById('fechaSalidaErrorTINACO');
+        var fechaActual = new Date().toISOString().split('T')[0];
+        
+        if (fecha === "") {
+            fechaError.textContent = 'Por favor, selecciona una fecha.';
+            fechaError.style.display = 'block';
+            isValid = false;
+        } else if (fecha < fechaActual) {
+            fechaError.textContent = 'La fecha no puede ser menor a la fecha actual.';
+            fechaError.style.display = 'block';
+            isValid = false;
+        } else if (fecha > fechaActual) {
+            fechaError.textContent = 'La fecha no puede ser mayor a la fecha actual.';
+            fechaError.style.display = 'block';
+            isValid = false;
+        }
+        else {
+            fechaError.textContent = '';
+            fechaError.style.display = 'none';
+        }
+      
+        var destino = document.getElementById('destinoTINACO').value;
+        var destinoError = document.getElementById('destinoSalidaErrorTINACO');
+        var expresiondes = /^[A-Z](?:[a-zA-Z0-9áéíóúüñ]+(?:\s[a-zA-Z0-9áéíóúüñ]+)*)?$/;
+
+         if (!expresiondes.test(destino)) {
+            destinoError.textContent = 'Por favor, ingresa un destino correcto. Sin múltiples espacios.';
+            destinoError.style.display = 'block';
+            isValid = false;
+        } else {
+            destinoError.textContent = '';
+            destinoError.style.display = 'none';
+        }
+
+
+
+        var estatus = document.getElementById('estatusTINACO').value;
+        var estatusError = document.getElementById('estatusSalidaErrorTINACO');
+        if (estatus === "") {
+            estatusError.textContent = 'Por favor, selecciona un estatus.';
+            estatusError.style.display = 'block';
+            isValid = false;
+        } else {
+            estatusError.textContent = '';
+            estatusError.style.display = 'none';
+        }
+      
+        return isValid;
+      }
+</script>

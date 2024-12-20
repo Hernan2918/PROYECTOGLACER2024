@@ -42,7 +42,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-
 // DESCARGAR POR FECHAS
 
 document.getElementById('DescargarPorFechas').addEventListener('click', async function () {
@@ -80,8 +79,8 @@ document.getElementById('DescargarPorFechas').addEventListener('click', async fu
         function formatFecha(fecha) {
             const date = new Date(fecha);
             const year = date.getUTCFullYear();
-            const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // Mes UTC
-            const day = String(date.getUTCDate()).padStart(2, '0'); // Día UTC
+            const month = String(date.getUTCMonth() + 1).padStart(2, '0'); 
+            const day = String(date.getUTCDate()).padStart(2, '0'); 
             return `${year}-${month}-${day}`;
         }
 
@@ -173,3 +172,11 @@ document.getElementById('search-input').addEventListener('input', function () {
         .catch(error => console.error('Error al realizar la búsqueda:', error));
 });
 
+document.addEventListener("DOMContentLoaded", function () {
+    const rutaActual = window.location.pathname; 
+    const iconoEntradas = document.getElementById("icono-salidas");
+    
+    if (rutaActual === "/salidas") {
+      iconoEntradas.classList.add("active");
+    }
+  });

@@ -11,6 +11,13 @@
     font-family: 'Montserrat';
     
 }
+
+
+
+
+body {
+    background-color: #069619;
+}
 #tabla_productos button{
     
     width: 33px;
@@ -496,6 +503,14 @@ thead tr:nth-child(odd){
     margin-left: 28%;
 }
 
+#modalRegistroSalidas{
+    margin-left: 35%;
+}
+
+#modalRegistroEntradas{
+    margin-left: 32%;
+}
+
 #Registrar{
     background-color: #d61313 ;
 }
@@ -709,5 +724,46 @@ thead tr:nth-child(odd){
     translate: 1000px -40px;
 }
     
+/* ANIMACION DE LOS OCONOS */
+
+.scroll.active {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .scroll.active i {
+    border-radius: 50%; /* Hace el borde redondo */
+    padding: 5px; /* Espaciado interno para formar el círculo */
+    transition: all 0.3s ease; /* Animación suave */
+    color: #d61313;
+    font-size: 1.2em;
+    
+  }
+  
+ 
+  #menu-icon.active {
+    color: #d61313; 
+    transition: color 0.3s ease; 
+    transform: scale(1.2);
+    padding: 5px;
+    
+}
+
+
+#menu-icon.active {
+    position: relative;
+    display: inline-block;
+  }
+  
+  #menu-icon.active i {
+    border-radius: 50%; 
+    padding: 5px; 
+    transition: all 0.3s ease;
+    color: #d61313;
+    font-size: 1.2em;
+    
+  }
+  
+
 
 

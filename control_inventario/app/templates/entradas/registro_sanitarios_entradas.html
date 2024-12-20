@@ -2,11 +2,11 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalRegistroLabel">Nueva entrada</h5>
+                <h5 class="modal-title" id="modalRegistroEntradas">Nueva entrada</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="/registro_sanitarios_entradas" method="post" >
+                <form action="/registro_sanitarios_entradas" method="post" onsubmit="return validarFormularioEntradasSanitarios()">
                     <input type="hidden" id="id_producto" name="id_producto">
                     <div class="mb-3">
                         <label for="proveedores" class="form-label">Proveedor</label><br>
@@ -36,7 +36,7 @@
                     <div class="mb-3">
                         <label for="entrada" class="form-label">Cantidad de entrada</label>
                         <input type="txt" class="form-control" id="entrada" name="entrada">
-                        <div class="invalid-feedback" id="entradaError"></div>
+                        <div class="invalid-feedback" id="entradaErrorSA"></div>
                     </div>
                     <div class="mb-3">
                         <label for="fecha" class="form-label">Fecha</label>
@@ -54,3 +54,5 @@
         </div>
     </div>
   </div>
+
+

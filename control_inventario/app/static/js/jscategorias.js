@@ -99,12 +99,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 var editarProveedorModal = document.getElementById('editarModalCategoria');
             
                 editarProveedorModal.addEventListener('show.bs.modal', function(event) {
-                    var button = event.relatedTarget; // Botón que activó el modal
+                    var button = event.relatedTarget; 
                     var id = button.getAttribute('data-id');
                     var nombre = button.getAttribute('data-nombre');
                     var descripcion = button.getAttribute('data-descripcion');
                     
-                    // Asigna los valores a los campos del formulario
                     editarProveedorModal.querySelector('#editarcategoriaId').value = id;
                     editarProveedorModal.querySelector('#nombreeditar').value = nombre;
                     editarProveedorModal.querySelector('#descripcioneditar').value = descripcion;
@@ -227,3 +226,12 @@ document.addEventListener('DOMContentLoaded', function () {
                         })
                         .catch(error => console.error('Error al realizar la búsqueda:', error));
                 });
+
+                document.addEventListener("DOMContentLoaded", function () {
+                    const rutaActual = window.location.pathname; 
+                    const iconoEntradas = document.getElementById("icon-categorias");
+                    
+                    if (rutaActual === "/consulta_categorias") {
+                      iconoEntradas.classList.add("active");
+                    }
+                  });

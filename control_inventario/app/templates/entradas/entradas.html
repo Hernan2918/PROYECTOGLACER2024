@@ -9,7 +9,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-   
+    <link rel="icon" href="/static/img/GLACER.png" type="image/png">
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
@@ -23,11 +24,7 @@
             <img class="Logovista" src="/static/img/logov.jpeg" alt="">
             <li>GLACER Glamur Cerámico S.A de C.V <p class="titulo">Atlacomulco-Vías</p>  </li>
             
-            <!-- <div class="contenido-buscar">
-                
-                <input type="search" id="search-input" name="search" placeholder="Buscar producto..." >
-                <i id="buscar" class="bi bi-search"></i> 
-            </div> -->
+        
 
             <div class="search-container">
                 <input type="text" id="search-input" class="" placeholder="Buscar..."><label for="search-input" class="jjj"><div class="lupa"><i id="buscar" class="bi bi-search"></i> </div></label>
@@ -80,7 +77,7 @@
                 <a href="/consulta_categorias" class="scroll"><i class="bi bi-bookmark-fill"></i></a>
                 {% endif %}
 
-                <a href="/entradas" class="scroll"><i class="bi bi-cart-plus-fill"></i></a>
+                <a href="/entradas" class="scroll" id="icono-entradas"><i class="bi bi-cart-plus-fill"></i></a>
                 <a href="/salidas" class="scroll"><i class="bi bi-cart-check-fill"></i></a>
 
                 {% if session.get('privilegio') == 'Administrador' %}

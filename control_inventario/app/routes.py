@@ -59,10 +59,11 @@ def acceso():
             session['nombre'] = acceder.nombre
             session['privilegio'] = acceder.privilegio
 
-            # Registrar usuario en las sesiones activas
             usuarios_en_sesion.add(acceder.id_usuario)
+            salidas_pendientes = db.session.query(Salida).filter_by(estatus='No realizado').count()
+            flash(f'Tienes {salidas_pendientes} salidas no realizadas.', 'error')
 
-            return redirect(url_for('main.consulta_productos'))
+            return redirect(url_for('main.consulta_productos', ))
         else:
             return render_template('login.html', mensaje='Usuario o contraseña incorrectos.')
 
@@ -72,9 +73,9 @@ def acceso():
 @apps.route('/logout')
 def logout():
     usuario_id = session.pop('id_usuario', None)
-    session.clear()  # Limpiar la sesión
+    session.clear() 
     if usuario_id:
-        usuarios_en_sesion.discard(usuario_id)  # Eliminar de las sesiones activas
+        usuarios_en_sesion.discard(usuario_id)  
     flash('Sesión cerrada correctamente.', 'success')
     return redirect(url_for('main.home'))
 
@@ -128,12 +129,10 @@ usuarios_en_sesion = set()
 @apps.route('/eliminar_usuario/<int:usuario_id>', methods=['POST'])
 def eliminar_usuario(usuario_id):
     if request.method == 'POST':
-        # Verificar si el usuario está en sesión activa
         if usuario_id in usuarios_en_sesion:
             flash('No puedes eliminar a un usuario que está en sesión activa.', 'danger')
             return redirect(url_for('main.consulta_usuarios'))
 
-        # Buscar el usuario en la base de datos
         usuario = Usuario.query.get(usuario_id)
         if usuario:
             db.session.delete(usuario)
@@ -191,7 +190,7 @@ def registro_productos_salidas():
     try:
         id_producto = request.form.get('id_producto')  
         cantidad_salida = int(request.form.get('salida'))  
-        fecha = request.form.get('fecha')
+        fecha = request.form.get('fechapRO')
         destino = request.form.get('destino')
         estatus = request.form.get('estatus')
 
@@ -238,7 +237,7 @@ def registro_muros_salidas():
     try:
         id_producto = request.form.get('id_producto')  
         cantidad_salida = int(request.form.get('salida'))  
-        fecha = request.form.get('fecha')
+        fecha = request.form.get('fechaMU')
         destino = request.form.get('destino')
         estatus = request.form.get('estatus')
 
@@ -346,7 +345,7 @@ def registro_sanitarios_salidas():
     try:
         id_sanitario = request.form.get('id_producto')  
         cantidad_salida = int(request.form.get('salida')) 
-        fecha = request.form.get('fecha')
+        fecha = request.form.get('fechaSA')
         destino = request.form.get('destino')
         estatus = request.form.get('estatus')
 
@@ -389,10 +388,10 @@ def registro_sanitarios_salidas():
 def registro_tinacos_salidas():
     try:
         id_tinaco = request.form.get('id_producto')  
-        cantidad_salida = int(request.form.get('salida')) 
-        fecha = request.form.get('fecha')
-        destino = request.form.get('destino')
-        estatus = request.form.get('estatus')
+        cantidad_salida = int(request.form.get('salidaTINACO')) 
+        fecha = request.form.get('fechaTINACO')
+        destino = request.form.get('destinoTINACO')
+        estatus = request.form.get('estatusTINACO')
 
         tinaco = Tinaco.query.get(id_tinaco)
         if not tinaco:
@@ -702,7 +701,7 @@ def registro_adhesivos_entradas():
     try:
         id_adhesivo = request.form.get('id_producto')  
         cantidad_entrada = int(request.form.get('entrada')) 
-        fecha = request.form.get('fecha')
+        fecha = request.form.get('fechaAD')
         
 
         adhesivo = Adhesivo.query.get(id_adhesivo)
@@ -824,7 +823,7 @@ def registro_vitroblock_entradas():
     try:
         id_vitroblock = request.form.get('id_vitroblock')  
         cantidad_entrada = int(request.form.get('entrada')) 
-        fecha = request.form.get('fecha')
+        fecha = request.form.get('fechaVI')
         
 
         vitroblock = Vitroblock.query.get(id_vitroblock)
@@ -922,7 +921,7 @@ def consulta_productos():
     proveedores = Proveedor.query.all()
     categorias = Categoria.query.all()
 
-    
+
     return render_template(
         '/productos/productos.html',
         productos=productos_paginados.items, max=max, min=min,  
@@ -1366,7 +1365,6 @@ def obtener_todos_muros():
         Categoria.id_categoria.label('categoria_id')
     ).all()
 
-    # Convertir el resultado a un formato JSON serializable
     muros_json = [
         {
             "id_producto": m.id_producto,
@@ -2289,22 +2287,18 @@ def descargar_etiqueta_producto(producto_id):
 
 @apps.route('/descargar_etiqueta_adhesivo/<int:adhesivo_id>')
 def descargar_etiqueta_adhesivo(adhesivo_id):
-    # Obtener el adhesivo y su proveedor
     adhesivo = Adhesivo.query.get_or_404(adhesivo_id)
-    proveedor = Proveedor.query.get_or_404(adhesivo.proveedor)  # Relación con el proveedor
+    proveedor = Proveedor.query.get_or_404(adhesivo.proveedor)  
 
-    # Crear el PDF
     pdf = FPDF()
     pdf.add_page()
 
     pdf.set_line_width(1)  
     pdf.rect(10, 10, 90, 50)  
 
-    # Obtener la ruta de la imagen
     nombre_imagen = proveedor.foto
     ruta_imagen = os.path.join(os.getcwd(), 'app', 'static', 'uploads', nombre_imagen)
 
-    # Verificar si la imagen existe
     if os.path.exists(ruta_imagen):
         pdf.image(ruta_imagen, x=11, y=11, w=30)
     else:
@@ -2313,7 +2307,6 @@ def descargar_etiqueta_adhesivo(adhesivo_id):
         pdf.set_xy(11, 11)
         pdf.cell(30, 10, "Imagen no disponible", border=1, align="C")
 
-    # Agregar datos al PDF
     pdf.set_font("Arial", "B", size=15)
     pdf.set_xy(78, 15)  
     pdf.cell(0, 10, txt=f"{adhesivo.kilogramos}")
@@ -2330,7 +2323,6 @@ def descargar_etiqueta_adhesivo(adhesivo_id):
     pdf.set_xy(78, 48)  
     pdf.cell(0, 10, txt=f"{adhesivo.precio}")
 
-    # Crear el archivo PDF en memoria y devolverlo como respuesta
     output_pdf = BytesIO()
     pdf.output(output_pdf)
     output_pdf.seek(0)
@@ -2430,22 +2422,18 @@ def descargar_etiqueta_tinaco(tinaco_id):
 
 @apps.route('/descargar_etiqueta_vitroblock/<int:vitroblock_id>')
 def descargar_etiqueta_vitroblock(vitroblock_id):
-    # Obtener el vitroblock y su proveedor
     vitroblock = Vitroblock.query.get_or_404(vitroblock_id)
-    proveedor = Proveedor.query.get_or_404(vitroblock.proveedor)  # Relación con el proveedor
+    proveedor = Proveedor.query.get_or_404(vitroblock.proveedor)  
 
-    # Crear el PDF
     pdf = FPDF()
     pdf.add_page()
 
     pdf.set_line_width(1)  
     pdf.rect(10, 10, 90, 50)  
 
-    # Obtener la ruta de la imagen
     nombre_imagen = proveedor.foto
     ruta_imagen = os.path.join(os.getcwd(), 'app', 'static', 'uploads', nombre_imagen)
 
-    # Verificar si la imagen existe
     if os.path.exists(ruta_imagen):
         pdf.image(ruta_imagen, x=10, y=13, w=30)
     else:
@@ -2454,7 +2442,6 @@ def descargar_etiqueta_vitroblock(vitroblock_id):
         pdf.set_xy(10, 13)
         pdf.cell(30, 10, "Imagen no disponible", border=1, align="C")
 
-    # Agregar datos al PDF
     pdf.set_font("Arial", "B", size=18)
     pdf.set_xy(10, 25)  
     pdf.cell(90, 10, txt=vitroblock.nombre.upper(), align="C")  
@@ -2471,7 +2458,6 @@ def descargar_etiqueta_vitroblock(vitroblock_id):
     pdf.set_xy(73, 45)  
     pdf.cell(90, 10, txt=f"{vitroblock.precio}")
 
-    # Crear el archivo PDF en memoria y devolverlo como respuesta
     output_pdf = BytesIO()
     pdf.output(output_pdf)
     output_pdf.seek(0)
