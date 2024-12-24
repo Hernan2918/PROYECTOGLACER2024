@@ -21,11 +21,11 @@ document.addEventListener('DOMContentLoaded', function () {
       
      
       modalSalidas.querySelector('#id_producto').value = id_producto;
-      modalSalidas.querySelector('#medida').value = medida;
-      modalSalidas.querySelector('#proveedores').value = proveedor;
-      modalSalidas.querySelector('#producto').value = producto;
-      modalSalidas.querySelector('#calidad').value = calidad;
-      modalSalidas.querySelector('#categorias').value = categoria;
+      modalSalidas.querySelector('#medidaE').value = medida;
+      modalSalidas.querySelector('#proveedoresE').value = proveedor;
+      modalSalidas.querySelector('#productoE').value = producto;
+      modalSalidas.querySelector('#calidadE').value = calidad;
+      modalSalidas.querySelector('#categoriasE').value = categoria;
   });
 });
 

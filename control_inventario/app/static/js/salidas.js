@@ -21,11 +21,11 @@ function abrirModalRegistroProductosSalidas() {
         console.log("Proveedor:", proveedor);
         console.log("Categoría:", categoria);
         modalSalidas.querySelector('#id_producto').value = id_producto;
-        modalSalidas.querySelector('#medida').value = medida;
-        modalSalidas.querySelector('#proveedores').value = proveedor;
-        modalSalidas.querySelector('#producto').value = producto;
-        modalSalidas.querySelector('#calidad').value = calidad;
-        modalSalidas.querySelector('#categorias').value = categoria;
+        modalSalidas.querySelector('#medidaS').value = medida;
+        modalSalidas.querySelector('#proveedoresS').value = proveedor;
+        modalSalidas.querySelector('#productoS').value = producto;
+        modalSalidas.querySelector('#calidadS').value = calidad;
+        modalSalidas.querySelector('#categoriasS').value = categoria;
     });
 });
 
@@ -37,5 +37,73 @@ document.addEventListener("DOMContentLoaded", function () {
     backdrops.forEach((backdrop) => backdrop.remove());
   });
 });
+
+
+
+    function validarFormularioSalidasProductos() {
+        var isValid = true;
+      
+        var entrada = document.getElementById('salida').value;
+        var entradaError = document.getElementById('entradaSalidaError');
+        var expresionent = /^[0-9]{1,10}$/;
+      
+         if (!expresionent.test(entrada)) {
+            entradaError.textContent = 'Por favor, ingresa un número. Sin espacios.';
+            entradaError.style.display = 'block';
+            isValid = false;
+        } else {
+            entradaError.textContent = '';
+            entradaError.style.display = 'none';
+        }
+      
+        var fecha = document.getElementById('fechapRO').value;
+        var fechaError = document.getElementById('fechaSalidaErrorPRO');
+        var fechaActual = new Date().toISOString().split('T')[0];
+        
+        if (fecha === "") {
+            fechaError.textContent = 'Por favor, selecciona una fecha.';
+            fechaError.style.display = 'block';
+            isValid = false;
+        } else if (fecha < fechaActual) {
+            fechaError.textContent = 'La fecha no puede ser menor a la fecha actual.';
+            fechaError.style.display = 'block';
+            isValid = false;
+        } else if (fecha > fechaActual) {
+            fechaError.textContent = 'La fecha no puede ser mayor a la fecha actual.';
+            fechaError.style.display = 'block';
+            isValid = false;
+        }else {
+            fechaError.textContent = '';
+            fechaError.style.display = 'none';
+        }
+      
+        var destino = document.getElementById('destino').value;
+        var destinoError = document.getElementById('origenSalidaError');
+        var expresiondes = /^[A-Z](?:[a-zA-Z0-9áéíóúüñ]+(?:\s[a-zA-Z0-9áéíóúüñ]+)*)?$/;
+
+         if (!expresiondes.test(destino)) {
+            destinoError.textContent = 'Por favor, ingresa un destino correcto. Sin múltiples espacios.';
+            destinoError.style.display = 'block';
+            isValid = false;
+        } else {
+            destinoError.textContent = '';
+            destinoError.style.display = 'none';
+        }
+
+
+
+        var estatus = document.getElementById('estatus').value;
+        var estatusError = document.getElementById('estatusSalidaError');
+        if (estatus === "") {
+            estatusError.textContent = 'Por favor, selecciona un estatus.';
+            estatusError.style.display = 'block';
+            isValid = false;
+        } else {
+            estatusError.textContent = '';
+            estatusError.style.display = 'none';
+        }
+      
+        return isValid;
+      }
 
 

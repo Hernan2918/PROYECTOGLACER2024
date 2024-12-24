@@ -137,7 +137,7 @@ def eliminar_usuario(usuario_id):
         if usuario:
             db.session.delete(usuario)
             db.session.commit()
-            flash('Usuario eliminado correctamente!', 'success')
+            flash('Usuario eliminado correctamente!', 'error')
         else:
             flash('Usuario no encontrado.', 'danger')
 
@@ -1280,7 +1280,7 @@ def eliminar_categoria(categoria_id):
         db.session.delete(categoria)
         db.session.commit()
 
-        flash('Categoría eliminada correctamente!', 'success')
+        flash('Categoría eliminada correctamente!', 'error')
     except Exception:
         db.session.rollback()  
         flash(f'No puedes eliminar esta categoría ya que esta relacionado con un producto.', 'error')
@@ -2466,5 +2466,7 @@ def descargar_etiqueta_vitroblock(vitroblock_id):
     response.headers["Content-Disposition"] = f"attachment; filename={vitroblock.nombre}_etiqueta.pdf"
     response.headers["Content-Type"] = "application/pdf"
     return response
+
+
 
 

@@ -9,31 +9,31 @@
                 <form action="/registro_muros_salidas" method="post" onsubmit="return validarFormularioSalidasMuros()" >
                     <input type="hidden" id="id_producto" name="id_producto">
                     <div class="mb-3">
-                        <label for="medida" class="form-label">Media</label>
-                        <input type="txt" class="form-control" id="medida" name="medida" readonly>
+                        <label for="medidaS" class="form-label">Media</label>
+                        <input type="txt" class="form-control" id="medidaS" name="medidaS" readonly>
                     </div>
                     <div class="mb-3">
-                        <label for="proveedoresmu" class="form-label">Proveedor</label><br>
-                        <select id="proveedoresmu" name="proveedoresmu" class="form-control" disabled>
-                            <option value="" id="proveedoresmu">Selecciona una opción</option>
+                        <label for="proveedoresS" class="form-label">Proveedor</label><br>
+                        <select id="proveedoresS" name="proveedoresS" class="form-control" disabled>
+                            <option value="" id="proveedoresS">Selecciona una opción</option>
                             {% for proveedor in proveedores %}
                             <option value="{{ proveedor.id_proveedor }}">{{ proveedor.nombre }}</option>
                             {% endfor %}
                         </select> 
                     </div>
                     <div class="mb-3">
-                        <label for="producto" class="form-label">Nombre</label>
-                        <input type="txt" class="form-control" id="producto" name="producto" readonly>
+                        <label for="productoS" class="form-label">Nombre</label>
+                        <input type="txt" class="form-control" id="productoS" name="productoS" readonly>
                     </div>
                     <div class="mb-3">
-                        <label for="calidad" class="form-label">Calidad</label>
-                        <input type="txt" class="form-control" id="calidad" name="calidad" readonly>
+                        <label for="calidadS" class="form-label">Calidad</label>
+                        <input type="txt" class="form-control" id="calidadS" name="calidadS" readonly>
                     </div>
                     
                     <div class="mb-3">
-                        <label for="categoriasMuros" class="form-label">Categoría</label><br>
-                        <select id="categoriasMuros" name="categoriasMuros" class="form-control" disabled>
-                            <option value="" id="categoriasMuros">Selecciona una opción</option>
+                        <label for="categoriasS" class="form-label">Categoría</label><br>
+                        <select id="categoriasS" name="categoriasS" class="form-control" disabled>
+                            <option value="" id="categoriasS">Selecciona una opción</option>
                             {% for categoria in categorias %}
                             <option value="{{ categoria.id_categoria }}">{{ categoria.nombre }}</option>
                             {% endfor %}
@@ -75,71 +75,4 @@
   </div>
 
 
-  <script>
-    function validarFormularioSalidasMuros() {
-        var isValid = true;
-      
-        var entrada = document.getElementById('salida').value;
-        var entradaError = document.getElementById('SalidaErrorMU');
-        var expresionent = /^[0-9]{1,10}$/;
-      
-         if (!expresionent.test(entrada)) {
-            entradaError.textContent = 'Por favor, ingresa un número. Sin espacios.';
-            entradaError.style.display = 'block';
-            isValid = false;
-        } else {
-            entradaError.textContent = '';
-            entradaError.style.display = 'none';
-        }
-      
-        var fecha = document.getElementById('fechaMU').value;
-        var fechaError = document.getElementById('fechaSalidaErrorMU');
-        var fechaActual = new Date().toISOString().split('T')[0];
-        
-        if (fecha === "") {
-            fechaError.textContent = 'Por favor, selecciona una fecha.';
-            fechaError.style.display = 'block';
-            isValid = false;
-        } else if (fecha < fechaActual) {
-            fechaError.textContent = 'La fecha no puede ser menor a la fecha actual.';
-            fechaError.style.display = 'block';
-            isValid = false;
-        } else if (fecha > fechaActual) {
-            fechaError.textContent = 'La fecha no puede ser mayor a la fecha actual.';
-            fechaError.style.display = 'block';
-            isValid = false;
-        }
-        else {
-            fechaError.textContent = '';
-            fechaError.style.display = 'none';
-        }
-      
-        var destino = document.getElementById('destino').value;
-        var destinoError = document.getElementById('destinoSalidaErrorMU');
-        var expresiondes = /^[A-Z](?:[a-zA-Z0-9áéíóúüñ]+(?:\s[a-zA-Z0-9áéíóúüñ]+)*)?$/;
-
-         if (!expresiondes.test(destino)) {
-            destinoError.textContent = 'Por favor, ingresa un destino correcto. Sin múltiples espacios.';
-            destinoError.style.display = 'block';
-            isValid = false;
-        } else {
-            destinoError.textContent = '';
-            destinoError.style.display = 'none';
-        }
-
-
-
-        var estatus = document.getElementById('estatus').value;
-        var estatusError = document.getElementById('estatusSalidaErrorMU');
-        if (estatus === "") {
-            estatusError.textContent = 'Por favor, selecciona un estatus.';
-            estatusError.style.display = 'block';
-            isValid = false;
-        } else {
-            estatusError.textContent = '';
-            estatusError.style.display = 'none';
-        }
-      
-        return isValid;
-      }
-</script>
+ 

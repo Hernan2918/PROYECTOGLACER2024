@@ -9,40 +9,35 @@
                 <form action="/registro_muros_entradas" method="post" onsubmit="return validarFormularioEntradasMurosF()" >
                     <input type="hidden" id="id_producto" name="id_producto">
                     <div class="mb-3">
-                        <label for="medida" class="form-label">Media</label>
-                        <input type="txt" class="form-control" id="medida" name="medida" readonly>
-                        <div class="invalid-feedback" id="medidaEntradaError"></div>
+                        <label for="medidaE" class="form-label">Media</label>
+                        <input type="txt" class="form-control" id="medidaE" name="medidaE" readonly>
                     </div>
                     <div class="mb-3">
-                        <label for="proveedores" class="form-label">Proveedor</label><br>
-                        <select id="proveedores" name="proveedores" class="form-control" disabled >
-                            <option value="" id="proveedores">Selecciona una opción</option>
+                        <label for="proveedoresE" class="form-label">Proveedor</label><br>
+                        <select id="proveedoresE" name="proveedoresE" class="form-control" disabled >
+                            <option value="" id="proveedoresE">Selecciona una opción</option>
                             {% for proveedor in proveedores %}
                             <option value="{{ proveedor.id_proveedor }}">{{ proveedor.nombre }}</option>
                             {% endfor %}
                         </select> 
-                        <div class="invalid-feedback" id="proveedoresEntradaError"></div>
                     </div>
                     <div class="mb-3">
-                        <label for="producto" class="form-label">Nombre</label>
-                        <input type="txt" class="form-control" id="producto" name="producto" readonly>
-                        <div class="invalid-feedback" id="productoEntradaError"></div>
+                        <label for="productoE" class="form-label">Nombre</label>
+                        <input type="txt" class="form-control" id="productoE" name="productoE" readonly>
                     </div>
                     <div class="mb-3">
-                        <label for="calidad" class="form-label">Calidad</label>
-                        <input type="txt" class="form-control" id="calidad" name="calidad" readonly>
-                        <div class="invalid-feedback" id="calidadEntradaError"></div>
+                        <label for="calidadE" class="form-label">Calidad</label>
+                        <input type="txt" class="form-control" id="calidadE" name="calidadE" readonly>
                     </div>
                     
                     <div class="mb-3">
-                        <label for="categorias" class="form-label">Categoría</label><br>
-                        <select id="categorias" name="categorias" class="form-control" disabled>
-                            <option value="" id="categorias">Selecciona una opción</option>
+                        <label for="categoriasE" class="form-label">Categoría</label><br>
+                        <select id="categoriasE" name="categoriasE" class="form-control" disabled>
+                            <option value="" id="categoriasE">Selecciona una opción</option>
                             {% for categoria in categorias %}
                             <option value="{{ categoria.id_categoria }}">{{ categoria.nombre }}</option>
                             {% endfor %}
                         </select> 
-                        <div class="invalid-feedback" id="categoriasEntradaError"></div>
                     </div>
                     <div class="mb-3">
                         <label for="entrada" class="form-label">Cantidad de entrada</label>

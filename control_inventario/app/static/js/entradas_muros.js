@@ -21,11 +21,11 @@ function abrirModalRegistroMurosentradas() {
         
        
         modalEntradas.querySelector('#id_producto').value = id_producto;
-        modalEntradas.querySelector('#medida').value = medida;
-        modalEntradas.querySelector('#proveedores').value = proveedor;
-        modalEntradas.querySelector('#producto').value = producto;
-        modalEntradas.querySelector('#calidad').value = calidad;
-        modalEntradas.querySelector('#categorias').value = categoria;
+        modalEntradas.querySelector('#medidaE').value = medida;
+        modalEntradas.querySelector('#proveedoresE').value = proveedor;
+        modalEntradas.querySelector('#productoE').value = producto;
+        modalEntradas.querySelector('#calidadE').value = calidad;
+        modalEntradas.querySelector('#categoriasE').value = categoria;
     });
   });
   
