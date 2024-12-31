@@ -21,9 +21,9 @@ function abrirModalRegistroSanitariosEntradas() {
         console.log("Proveedor:", proveedor);
         console.log("Categoría:", categoria);
         modalSalidas.querySelector('#id_producto').value = id_producto;
-        modalSalidas.querySelector('#proveedores').value = proveedor;
-        modalSalidas.querySelector('#producto').value = nombre;
-        modalSalidas.querySelector('#categorias').value = categoria;
+        modalSalidas.querySelector('#proveedoresE').value = proveedor;
+        modalSalidas.querySelector('#productoE').value = nombre;
+        modalSalidas.querySelector('#categoriasE').value = categoria;
     });
 });
 

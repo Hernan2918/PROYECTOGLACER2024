@@ -21,11 +21,11 @@ function abrirModalRegistroVitroblockSalidas() {
         console.log("Proveedor:", proveedor);
         console.log("Categoría:", categoria);
         modalSalidas.querySelector('#id_vitroblock').value = id_producto;
-        modalSalidas.querySelector('#proveedoreV').value = proveedor;
-        modalSalidas.querySelector('#medida').value = medida;
-        modalSalidas.querySelector('#tipo').value = tipo;
-        modalSalidas.querySelector('#producto').value = producto;
-        modalSalidas.querySelector('#categorias').value = categoria;
+        modalSalidas.querySelector('#proveedoreS').value = proveedor;
+        modalSalidas.querySelector('#medidaS').value = medida;
+        modalSalidas.querySelector('#tipoS').value = tipo;
+        modalSalidas.querySelector('#productoS').value = producto;
+        modalSalidas.querySelector('#categoriasS').value = categoria;
     });
 })
 

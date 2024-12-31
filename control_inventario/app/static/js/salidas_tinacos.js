@@ -24,11 +24,11 @@ function abrirModalRegistroTinacosSalidas() {
         console.log("Proveedor:", proveedor);
         console.log("Categoría:", categoria);
         modalSalidas.querySelector('#id_producto').value = id_producto;
-        modalSalidas.querySelector('#proveedores').value = proveedor;
-        modalSalidas.querySelector('#producto').value = nombre;
-        modalSalidas.querySelector('#litros').value = litros;
-        modalSalidas.querySelector('#color').value = color;
-        modalSalidas.querySelector('#categorias').value = categoria;
+        modalSalidas.querySelector('#proveedoresS').value = proveedor;
+        modalSalidas.querySelector('#productoS').value = nombre;
+        modalSalidas.querySelector('#litrosS').value = litros;
+        modalSalidas.querySelector('#colorS').value = color;
+        modalSalidas.querySelector('#categoriasS').value = categoria;
     });
 });
 
@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
             entradaError.style.display = 'none';
         }
       
-        var fecha = document.getElementById('fechaTI').value;
+        var fecha = document.getElementById('fechaTINACO').value;
         var fechaError = document.getElementById('fechaSalidaErrorTINACO');
         var fechaActual = new Date().toISOString().split('T')[0];
         

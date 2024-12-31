@@ -10,18 +10,17 @@
                     <input type="hidden" id="id_vitroblock" name="id_vitroblock">
                     
                     <div class="mb-3">
-                        <label for="proveedoresV" class="form-label">Proveedor</label><br>
-                        <select id="proveedoreV" name="proveedoresV" class="form-control" disabled >
-                            <option value="" id="proveedores">Selecciona una opción</option>
+                        <label for="proveedoresE" class="form-label">Proveedor</label><br>
+                        <select id="proveedoreE" name="proveedoresE" class="form-control" disabled >
+                            <option value="" id="proveedoresE">Selecciona una opción</option>
                             {% for proveedor in proveedores %}
                             <option value="{{ proveedor.id_proveedor }}">{{ proveedor.nombre }}</option>
                             {% endfor %}
                         </select> 
-                        <div class="invalid-feedback" id="proveedoresEntradaError"></div>
                     </div>
                     <div class="mb-3">
-                        <label for="tipo" class="form-label">Tipo</label><br>
-                        <select id="tipo" name="tipo" class="form-control">
+                        <label for="tipoE" class="form-label">Tipo</label><br>
+                        <select id="tipoE" name="tipoE" class="form-control">
                             <option value="">Selecciona una opción</option>
                             <option>Shade</option>
                             <option>Transportado</option>
@@ -29,28 +28,24 @@
                             <option> </option>
                             
                         </select> 
-                        <div class="invalid-feedback" id="tiposEntradaError"></div>
                     </div>
                     <div class="mb-3">
-                        <label for="medida" class="form-label">Media</label>
-                        <input type="txt" class="form-control" id="medida" name="medida" readonly>
-                        <div class="invalid-feedback" id="medidaEntradaError"></div>
+                        <label for="medidaE" class="form-label">Media</label>
+                        <input type="txt" class="form-control" id="medidaE" name="medidaE" readonly>
                     </div>
                     <div class="mb-3">
-                        <label for="producto" class="form-label">Nombre</label>
-                        <input type="txt" class="form-control" id="producto" name="producto" readonly>
-                        <div class="invalid-feedback" id="productoEntradaError"></div>
+                        <label for="productoE" class="form-label">Nombre</label>
+                        <input type="txt" class="form-control" id="productoE" name="productoE" readonly>
                     </div>
                     
                     <div class="mb-3">
-                        <label for="categorias" class="form-label">Categoría</label><br>
-                        <select id="categorias" name="categorias" class="form-control" disabled>
-                            <option value="" id="categorias">Selecciona una opción</option>
+                        <label for="categoriasE" class="form-label">Categoría</label><br>
+                        <select id="categoriasE" name="categoriasE" class="form-control" disabled>
+                            <option value="" id="categoriasE">Selecciona una opción</option>
                             {% for categoria in categorias %}
                             <option value="{{ categoria.id_categoria }}">{{ categoria.nombre }}</option>
                             {% endfor %}
                         </select> 
-                        <div class="invalid-feedback" id="categoriasEntradaError"></div>
                     </div>
                     <div class="mb-3">
                         <label for="entrada" class="form-label">Cantidad de entrada</label>

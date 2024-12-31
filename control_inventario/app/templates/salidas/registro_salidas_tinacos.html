@@ -10,40 +10,35 @@
                     <input type="hidden" id="id_producto" name="id_producto" >
                     
                     <div class="mb-3">
-                        <label for="proveedores" class="form-label">Proveedor</label><br>
-                        <select id="proveedores" name="proveedores" class="form-control" >
-                            <option value="" id="proveedores">Selecciona una opción</option>
+                        <label for="proveedoresS" class="form-label">Proveedor</label><br>
+                        <select id="proveedoresS" name="proveedoresS" class="form-control" >
+                            <option value="" id="proveedoresS">Selecciona una opción</option>
                             {% for proveedor in proveedores %}
                             <option value="{{ proveedor.id_proveedor }}">{{ proveedor.nombre }}</option>
                             {% endfor %}
                         </select> 
-                        <div class="invalid-feedback" id="proveedoresSalidaError"></div>
                     </div>
                     <div class="mb-3">
-                        <label for="producto" class="form-label">Nombre</label>
-                        <input type="txt" class="form-control" id="producto" name="producto" readonly>
-                        <div class="invalid-feedback" id="nombreSalidaError"></div>
+                        <label for="productoS" class="form-label">Nombre</label>
+                        <input type="txt" class="form-control" id="productoS" name="productoS" readonly>
                     </div>
                     <div class="mb-3">
-                        <label for="litros" class="form-label">Litros</label>
-                        <input type="txt" class="form-control" id="litros" name="litros" readonly>
-                        <div class="invalid-feedback" id="litrosSalidaError"></div>
+                        <label for="litrosS" class="form-label">Litros</label>
+                        <input type="txt" class="form-control" id="litrosS" name="litrosS" readonly>
                     </div>
                     <div class="mb-3">
-                        <label for="color" class="form-label">Nombre</label>
-                        <input type="txt" class="form-control" id="color" name="color" readonly>
-                        <div class="invalid-feedback" id="colorSalidaError"></div>
+                        <label for="colorS" class="form-label">Nombre</label>
+                        <input type="txt" class="form-control" id="colorS" name="colorS" readonly>
                     </div>
                     
                     <div class="mb-3">
-                        <label for="categorias" class="form-label">Categoría</label><br>
-                        <select id="categorias" name="categorias" class="form-control" readonly>
-                            <option value="" id="categorias">Selecciona una opción</option>
+                        <label for="categoriasS" class="form-label">Categoría</label><br>
+                        <select id="categoriasS" name="categoriasS" class="form-control" readonly>
+                            <option value="" id="categoriasS">Selecciona una opción</option>
                             {% for categoria in categorias %}
                             <option value="{{ categoria.id_categoria }}">{{ categoria.nombre }}</option>
                             {% endfor %}
                         </select> 
-                        <div class="invalid-feedback" id="categoriasSalidaError"></div>
                     </div>
                     <div class="mb-3">
                         <label for="salidaTINACO" class="form-label">Cantidad de salida</label>
@@ -51,8 +46,8 @@
                         <div class="invalid-feedback" id="SalidaErrorTINACO"></div>
                     </div>
                     <div class="mb-3">
-                        <label for="fechaTI" class="form-label">Fecha</label>
-                        <input type="date" class="form-control" id="fechaTI" name="fechaTI">
+                        <label for="fechaTINACO" class="form-label">Fecha</label>
+                        <input type="date" class="form-control" id="fechaTINACO" name="fechaTINACO">
                         <div class="invalid-feedback" id="fechaSalidaErrorTINACO"></div>
                     </div>
                     <div class="mb-3">
