@@ -343,4 +343,9 @@ document.addEventListener('DOMContentLoaded', function () {
               iconoEntradas.classList.add("active");
             }
           });
+
+          document.addEventListener("DOMContentLoaded", function() {
+            const tabla = document.getElementById("Tabla");
+            tabla.classList.add("visible");
+        });   
                 

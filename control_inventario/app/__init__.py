@@ -17,7 +17,6 @@ def create_app():
     if not os.path.exists(UPLOAD_FOLDER):
         os.makedirs(UPLOAD_FOLDER)
 
-    # Importar y registrar el Blueprint
     from app.routes import apps
     app.register_blueprint(apps)
 

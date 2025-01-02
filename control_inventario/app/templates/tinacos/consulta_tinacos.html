@@ -124,67 +124,67 @@
             SISTEMA GLACER
         </div>
     </div>
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            {% if pagination.has_prev %}
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('main.consulta_tinacos', page=pagination.prev_num, search=search) }}">
+                    <i class="bi bi-chevron-left" style="color: #111;"></i>
+                </a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" href="#"><i class="bi bi-chevron-left" style="color: #111;"></i></a>
+            </li>
+            {% endif %}
     
+            <li class="page-item {% if pagination.page == 1 %}active{% endif %}">
+                <a class="page-link" href="{{ url_for('main.consulta_tinacos', page=1) }}">1</a>
+            </li>
+    
+            {% if pagination.page > 3 %}
+            <li class="page-item disabled">
+                <a class="page-link" href="#">...</a>
+            </li>
+            {% endif %}
+    
+            {% for page_num in range(pagination.page - 1, pagination.page + 1) %}
+                {% if page_num > 1 and page_num < pagination.pages %}
+                <li class="page-item {% if page_num == pagination.page %}active{% endif %}">
+                    <a class="page-link" href="{{ url_for('main.consulta_tinacos', page=page_num) }}">{{ page_num }}</a>
+                </li>
+                {% endif %}
+            {% endfor %}
+    
+            {% if pagination.page < pagination.pages - 2 %}
+            <li class="page-item disabled">
+                <a class="page-link" href="#">...</a>
+            </li>
+            {% endif %}
+    
+            {% if pagination.pages > 1 %}
+            <li class="page-item {% if pagination.page == pagination.pages %}active{% endif %}">
+                <a class="page-link" href="{{ url_for('main.consulta_tinacos', page=pagination.pages) }}">{{ pagination.pages }}</a>
+            </li>
+            {% endif %}
+    
+            {% if pagination.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('main.consulta_tinacos', page=pagination.next_num, search=search) }}">
+                    <i class="bi bi-chevron-right" style="color: #111;"></i>
+                </a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" href="#"><i class="bi bi-chevron-right" style="color: #111;"></i></a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
 </main>
 
 
-<nav aria-label="Page navigation">
-    <ul class="pagination">
-        {% if pagination.has_prev %}
-        <li class="page-item">
-            <a class="page-link" href="{{ url_for('main.consulta_tinacos', page=pagination.prev_num, search=search) }}">
-                <i class="bi bi-chevron-left" style="color: #111;"></i>
-            </a>
-        </li>
-        {% else %}
-        <li class="page-item disabled">
-            <a class="page-link" href="#"><i class="bi bi-chevron-left" style="color: #111;"></i></a>
-        </li>
-        {% endif %}
 
-        <li class="page-item {% if pagination.page == 1 %}active{% endif %}">
-            <a class="page-link" href="{{ url_for('main.consulta_tinacos', page=1) }}">1</a>
-        </li>
-
-        {% if pagination.page > 3 %}
-        <li class="page-item disabled">
-            <a class="page-link" href="#">...</a>
-        </li>
-        {% endif %}
-
-        {% for page_num in range(pagination.page - 1, pagination.page + 1) %}
-            {% if page_num > 1 and page_num < pagination.pages %}
-            <li class="page-item {% if page_num == pagination.page %}active{% endif %}">
-                <a class="page-link" href="{{ url_for('main.consulta_tinacos', page=page_num) }}">{{ page_num }}</a>
-            </li>
-            {% endif %}
-        {% endfor %}
-
-        {% if pagination.page < pagination.pages - 2 %}
-        <li class="page-item disabled">
-            <a class="page-link" href="#">...</a>
-        </li>
-        {% endif %}
-
-        {% if pagination.pages > 1 %}
-        <li class="page-item {% if pagination.page == pagination.pages %}active{% endif %}">
-            <a class="page-link" href="{{ url_for('main.consulta_tinacos', page=pagination.pages) }}">{{ pagination.pages }}</a>
-        </li>
-        {% endif %}
-
-        {% if pagination.has_next %}
-        <li class="page-item">
-            <a class="page-link" href="{{ url_for('main.consulta_tinacos', page=pagination.next_num, search=search) }}">
-                <i class="bi bi-chevron-right" style="color: #111;"></i>
-            </a>
-        </li>
-        {% else %}
-        <li class="page-item disabled">
-            <a class="page-link" href="#"><i class="bi bi-chevron-right" style="color: #111;"></i></a>
-        </li>
-        {% endif %}
-    </ul>
-</nav>
 
 <style>
 

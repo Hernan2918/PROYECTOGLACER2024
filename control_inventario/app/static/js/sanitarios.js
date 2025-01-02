@@ -476,3 +476,9 @@ document.addEventListener('DOMContentLoaded', function () {
                         menuIcon.classList.add("active");
                     }
                 });
+
+
+                document.addEventListener("DOMContentLoaded", function() {
+                    const tabla = document.getElementById("TablaProductos");
+                    tabla.classList.add("visible");
+                });   

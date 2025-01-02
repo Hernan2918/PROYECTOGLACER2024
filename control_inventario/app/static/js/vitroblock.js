@@ -400,4 +400,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
                 
 
+                document.addEventListener("DOMContentLoaded", function() {
+                    const tabla = document.getElementById("TablaProductos");
+                    tabla.classList.add("visible");
+                });   
+
                     

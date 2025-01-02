@@ -739,6 +739,31 @@ thead tr:nth-child(odd){
     font-size: 1.2em;
     
   }
+
+ 
+#TablaProductos {
+    opacity: 0; 
+    transition: opacity 0.8s ease; 
+}
+
+#Tabla.visible {
+    opacity: 1; 
+}
+
+
+#Tabla {
+    opacity: 0; 
+    transition: opacity 0.8s ease; 
+}
+
+#TablaProductos.visible {
+    opacity: 1; 
+}
+
+
+
+
+
   
  
   #menu-icon.active {

@@ -132,3 +132,9 @@ document.addEventListener('DOMContentLoaded', function () {
                   iconoEntradas.classList.add("active");
                 }
               });  
+
+
+              document.addEventListener("DOMContentLoaded", function() {
+                const tabla = document.getElementById("TablaProductos");
+                tabla.classList.add("visible");
+            });   
