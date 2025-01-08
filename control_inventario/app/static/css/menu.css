@@ -166,24 +166,33 @@ body{
 }
 
 .menu #buscar{
-    color: #111;
-    width: 2.5%;
-    height: 31px;
-    border-radius: 5px;
-    translate: 1080px -43px;
-    display: flex;
-    text-align: center;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.2em;
+  position: absolute;
+  bottom: 35px;
+  left: 1073px; /* Espaciado desde la izquierda */
+  transform: translateY(-50%);
+  font-size: 1.2rem; /* Tamaño del ícono */
+  color: #141313;
+  pointer-events: none;
     
     
 }
 
-.menu #search-input{
-    padding-left: 40px;
-    height: 3px;
+.menu .search-container{
+    position: relative;
+    width: 100%; 
+    max-width: 300px; 
 }
+
+.menu #search-input{
+  width: 90%;
+  height: 2em;
+  padding: 10px 10px 10px 40px; 
+  margin: 10px 0 0 1060px; 
+  border-radius: 10px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
 
 .menu ul i{
     width: 5px;

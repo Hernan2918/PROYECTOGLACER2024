@@ -9,10 +9,26 @@
             
         {% endif %}
         </div>
-        <div id="bienvenidoUduario">
-            <div class="elemento2">
-                <i id="Descargar" class="bi bi-download"></i>
+        <div id="Fechas">
+
+            <div class="inicio">
+                <label for="fechaInicio" class="form-label">Fecha inicio: </label>
+                <input type="date" class="form-control" id="fechaInicio" name="fechaInicio">
             </div>
+
+            
+            <div class="final" >
+                <label for="fechaFin" class="form-label">Fecha final: </label>
+                <input type="date" class="form-control" id="fechaFin" name="fechaFin">
+            </div>
+            
+            
+            <div class="descragarF">
+                <button type="button" class="btn btn-danger" id="DescargarPorFechas" >
+                    <i class="bi bi-download"></i>
+                </button>
+            </div>
+
             
         </div>
     </div>

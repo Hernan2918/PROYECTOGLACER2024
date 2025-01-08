@@ -81,12 +81,54 @@ def logout():
 
 
 
+
+
+
 @apps.route('/consulta_usuarios')
 @login_required
 @no_cache
 def consulta_usuarios():
-    usuarios = Usuario.query.all()
-    return render_template('/usuarios/usuarios.html', usuarios=usuarios, usuarios_activos=usuarios_en_sesion)
+    page = request.args.get('page', 1, type=int)
+    per_page = request.args.get('per_page', 6, type=int)
+    search_term = request.args.get('search', '', type=str).strip()
+
+    usuarios_query = Usuario.query \
+        .add_columns(
+            Usuario.id_usuario,
+            Usuario.nombre,
+            Usuario.apellidos,
+
+            Usuario.apellidos,
+            Usuario.genero,
+            Usuario.privilegio,
+            Usuario.usuario,
+            
+    
+        )
+
+    if search_term:
+        usuarios_query = usuarios_query.filter(
+            db.or_(
+                Usuario.nombre.ilike(f"%{search_term}%"),
+                Usuario.apellidos.ilike(f"%{search_term}%"),
+                Usuario.genero.ilike(f"%{search_term}%"),
+                Usuario.privilegio.ilike(f"%{search_term}%"),
+                Usuario.usuario.ilike(f"%{search_term}%"),
+                
+            )
+        )
+
+    usuarios_paginados = usuarios_query.paginate(page=page, per_page=per_page, error_out=False)
+
+    
+
+
+    return render_template(
+        '/usuarios/usuarios.html',
+        usuarios=usuarios_paginados.items,  
+        pagination=usuarios_paginados,  
+        search=search_term,   
+    )
 
 @apps.route('/registro_usuariosModal', methods=['POST'])
 def registro_usuariosModal():
@@ -130,7 +172,7 @@ usuarios_en_sesion = set()
 def eliminar_usuario(usuario_id):
     if request.method == 'POST':
         if usuario_id in usuarios_en_sesion:
-            flash('No puedes eliminar a un usuario que está en sesión activa.', 'danger')
+            flash('No puedes eliminar a un usuario que está en sesión activa.', 'error')
             return redirect(url_for('main.consulta_usuarios'))
 
         usuario = Usuario.query.get(usuario_id)
@@ -611,6 +653,40 @@ def entradas():
         pagination=entradas_paginated,  
         search=search  
     )
+
+@apps.route('/obtener_entradas_por_fechas')
+def obtener_entradas_por_fechas():
+    inicio = request.args.get('inicio')
+    fin = request.args.get('fin')
+
+    try:
+        if not inicio or not fin:
+            return jsonify({"error": "Faltan las fechas de inicio o fin"}), 400
+
+        fecha_inicio = datetime.strptime(inicio, '%Y-%m-%d').date()
+        fecha_fin = datetime.strptime(fin, '%Y-%m-%d').date()
+
+        if fecha_inicio > fecha_fin:
+            return jsonify({"error": "La fecha de inicio no puede ser mayor que la fecha de fin"}), 400
+
+        registros = Entrada.query.filter(
+            Entrada.fecha >= str(fecha_inicio),  
+            Entrada.fecha <= str(fecha_fin)
+        ).all()
+
+        resultados = [
+            {
+                "nombre": registro.nombre,
+                "entrada": registro.entrada,
+                "fecha": registro.fecha,
+                
+            }
+            for registro in registros
+        ]
+
+        return jsonify(resultados)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
 @apps.route('/registro_productos_entradas', methods=['POST'])
