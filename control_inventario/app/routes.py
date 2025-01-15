@@ -40,7 +40,9 @@ def no_cache(view):
 def home():
     return render_template('login.html')
 
-
+@apps.route('/New_user')
+def New_user():
+    return render_template('registro_usuario.html')
 usuarios_en_sesion = set()
 
 
@@ -85,8 +87,7 @@ def logout():
 
 
 @apps.route('/consulta_usuarios')
-@login_required
-@no_cache
+
 def consulta_usuarios():
     page = request.args.get('page', 1, type=int)
     per_page = request.args.get('per_page', 6, type=int)

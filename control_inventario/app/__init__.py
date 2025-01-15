@@ -6,7 +6,7 @@ db = SQLAlchemy()
 
 def create_app():
     app = Flask(__name__)
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:@localhost/glacer'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Inventario_Glacer@34.51.16.30:3306/glacer'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     db.init_app(app)
