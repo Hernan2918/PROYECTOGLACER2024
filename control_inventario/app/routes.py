@@ -141,6 +141,8 @@ def registro_usuariosModal():
             privilegio = request.form['registrarprivilegio']
             usuario = request.form['registrarusuario']
             contrasena = request.form['registrarcontraseña']
+            c_contraseña = request.form['registrarcontraseñaC']
+
             
             hashed_contrasena = generate_password_hash(contrasena)
             print(f"Hash almacenado: {hashed_contrasena}")  
@@ -151,7 +153,8 @@ def registro_usuariosModal():
                 genero=genero,
                 privilegio=privilegio,
                 usuario=usuario,
-                contrasena=hashed_contrasena
+                contrasena=hashed_contrasena,
+                c_contraseña=c_contraseña
             )
             
             db.session.add(nuevo_usuario)
@@ -163,7 +166,7 @@ def registro_usuariosModal():
         except Exception as e:
             db.session.rollback()  
             flash(f"Error al registrar el usuario: {str(e)}", 'danger')
-            return redirect('/registro')
+            return redirect('/consulta_usuarios')
     
     return redirect(url_for('main.consulta_usuarios'))
 

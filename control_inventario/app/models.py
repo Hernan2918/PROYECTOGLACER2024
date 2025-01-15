@@ -43,6 +43,8 @@ class Usuario(db.Model):
     privilegio = db.Column(db.String(20), unique=True, nullable=False)
     usuario = db.Column(db.String(100), unique=True, nullable=False)
     contrasena = db.Column(db.String(255), nullable=False)
+    c_contraseña = db.Column(db.String(255), nullable=False)
+
     
 
 
