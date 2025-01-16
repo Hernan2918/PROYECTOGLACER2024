@@ -37,6 +37,7 @@ def no_cache(view):
 
 
 @apps.route('/')
+@no_cache
 def home():
     return render_template('login.html')
 
@@ -87,7 +88,8 @@ def logout():
 
 
 @apps.route('/consulta_usuarios')
-
+@login_required
+@no_cache
 def consulta_usuarios():
     page = request.args.get('page', 1, type=int)
     per_page = request.args.get('per_page', 6, type=int)
@@ -1495,8 +1497,8 @@ def descargar_etiqueta_muro(muro_id):
     pdf.set_xy(10, 30)
     pdf.cell(90, 10, txt=muro.producto.upper(), align="C")
     pdf.set_font("Arial", "B", size=15)
-    pdf.set_xy(78, 48)
-    pdf.cell(0, 10, txt=f"${muro.precio}")
+    pdf.set_xy(68, 48)
+    pdf.cell(0, 10, txt=f"{muro.precio}")
     pdf.set_font("Arial", "B", size=15)
     pdf.set_xy(15, 48)
     pdf.cell(0, 10, txt=f"{muro.embalaje}")
@@ -2347,7 +2349,7 @@ def descargar_etiqueta_producto(producto_id):
     pdf.cell(90, 10, txt=producto.producto.upper(), align="C")
 
     pdf.set_font("Arial", "B", size=15)
-    pdf.set_xy(78, 48)
+    pdf.set_xy(70, 48)
     pdf.cell(0, 10, txt=f"{producto.precio}")
 
     pdf.set_font("Arial", "B", size=15)
@@ -2434,7 +2436,7 @@ def descargar_etiqueta_sanitario(sanitario_id):
         pdf.set_xy(40, 13)
         pdf.cell(30, 10, "Imagen no disponible", border=1, align="C")
 
-    pdf.set_font("Arial", "B", size=18)
+    pdf.set_font("Arial", "B", size=14)
     pdf.set_xy(10, 30)  
     pdf.cell(90, 10, txt=sanitario.nombre.upper(), align="C")  
 

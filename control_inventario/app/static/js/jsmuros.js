@@ -200,7 +200,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         doc.text('Atlacomulco Vías', 195, 23, { align: 'right' });
                 
                         doc.autoTable({
-                            head: [['Medida', 'Proveedor', 'Nombre', 'Calidad', 'Existencia', 'Rotas', 'Precio', 'Embalaje', 'Ubicacion', 'Categoria']],
+                            head: [['Medida', 'Proveedor', 'Nombre', 'Calidad', 'Existencia', 'Rotas', 'Precio', 'Embalaje', 'Ubicación', 'Categoria']],
                             body: rows,
                             theme: 'grid',
                             styles: { halign: 'center' },
@@ -573,7 +573,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 
  
                 document.addEventListener("DOMContentLoaded", function() {
-                    // Añade la clase "visible" a la tabla para activar la transición
                     const tabla = document.getElementById("TablaProductos");
                     tabla.classList.add("visible");
                 });

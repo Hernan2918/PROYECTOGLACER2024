@@ -250,7 +250,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 
                     var medida = document.getElementById('medida').value;
                     var medidaError = document.getElementById('medidaError');
-                    var expresionme = /^\d{2}x\d{2,3}$/;
+                    var expresionme = /^\d{1,3}(\.\d+)?x\d{1,3}(\.\d+)?$/;
             
             
                      if (!expresionme.test(medida)) {
@@ -395,7 +395,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 
                     var medidaA = document.getElementById('medidaeditar').value;
                     var medidaErrorA = document.getElementById('medidaErrorA');
-                    var expresionmeA = /^\d{2}x\d{2,3}$/;
+                    var expresionmeA = /^\d{1,3}(\.\d+)?x\d{1,3}(\.\d+)?$/;
             
             
                      if (!expresionmeA.test(medidaA)) {
@@ -557,7 +557,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
                 
                 document.addEventListener("DOMContentLoaded", function() {
-                    // Añade la clase "visible" a la tabla para activar la transición
                     const tabla = document.getElementById("TablaProductos");
                     tabla.classList.add("visible");
                 });      

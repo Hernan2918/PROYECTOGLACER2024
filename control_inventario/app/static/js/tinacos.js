@@ -258,7 +258,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     var litros = document.getElementById('litros').value;
                     var litrosError = document.getElementById('litrosError');
-                    var expresionlit = /^\d{2,6}\sLtrs$/;
+                    var expresionlit = /^\d{1,6}\sLtrs$/;
 
                     if (!expresionlit.test(litros)) {
                         litrosError.textContent = 'Por favor, ingresa una cantida en litros.';
@@ -389,7 +389,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     var litrosA = document.getElementById('litroseditar').value;
                     var litrosErrorA = document.getElementById('litrosErrorA');
-                    var expresionlitA = /^\d{2,6}\sLtrs$/;
+                    var expresionlitA = /^\d{1,6}\sLtrs$/;
 
                     if (!expresionlitA.test(litrosA)) {
                         litrosErrorA.textContent = 'Por favor, ingresa una cantida en litros.Ejrmplo 1200 Ltrs';
