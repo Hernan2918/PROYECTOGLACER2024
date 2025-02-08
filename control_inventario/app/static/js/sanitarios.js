@@ -190,7 +190,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             head: [['Proveedor', 'Nombre', 'Existencia', 'Rotas', 'Precio', 'Ubicación', 'Categoría']],
                             body: rows,
                             theme: 'grid',
-                            styles: { halign: 'center' },
+                            styles: { halign: 'center', fontSize: 7 },
                             headStyles: { fillColor: [220, 0, 0] }, 
                             startY: 30 
                         });

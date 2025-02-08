@@ -108,7 +108,7 @@ document.getElementById('DescargarPorFechas').addEventListener('click', async fu
             head: [['Nombre', 'Salida', 'Fecha', 'Destino', 'Estatus']],
             body: rows,
             theme: 'grid',
-            styles: { halign: 'center' },
+            styles: { halign: 'center', fontSize: 7 },
             headStyles: { fillColor: [220, 0, 0] },
             startY: 30,
         });

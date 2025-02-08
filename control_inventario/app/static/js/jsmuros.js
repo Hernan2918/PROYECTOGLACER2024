@@ -203,7 +203,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             head: [['Medida', 'Proveedor', 'Nombre', 'Calidad', 'Existencia', 'Rotas', 'Precio', 'Embalaje', 'Ubicación', 'Categoria']],
                             body: rows,
                             theme: 'grid',
-                            styles: { halign: 'center' },
+                            styles: { halign: 'center', fontSize: 7 },
                             headStyles: { fillColor: [220, 0, 0] }, // Color verde
                             startY: 30 
                         });
@@ -230,7 +230,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 
                     var medida = document.getElementById('medida').value;
                     var medidaError = document.getElementById('medidaError');
-                    var expresionme = /^\d{2}x\d{2,3}$/;
+                    var expresionme = /^\d{1,3}(\.\d{1,3})?x\d{1,3}(\.\d{1,3})?$/;
+                    
+
             
             
                      if (!expresionme.test(medida)) {
@@ -376,7 +378,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 
                     var medidaA = document.getElementById('medidaeditar').value;
                     var medidaErrorA = document.getElementById('medidaErrorA');
-                    var expresionmeA = /^\d{2}x\d{2,3}$/;
+                    var expresionmeA = /^\d{1,3}(\.\d{1,3})?x\d{1,3}(\.\d{1,3})?$/;
             
             
                      if (!expresionmeA.test(medidaA)) {

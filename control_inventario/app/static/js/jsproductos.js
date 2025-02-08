@@ -224,7 +224,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             head: [['Medida', 'Proveedor', 'Nombre', 'Calidad', 'Existencia', 'Rotas', 'Precio', 'Embalaje', 'Ubicación', 'Categoría']],
                             body: rows,
                             theme: 'grid',
-                            styles: { halign: 'center' },
+                            styles: { halign: 'center', fontSize: 7 },
                             headStyles: { fillColor: [220, 0, 0] },
                             startY: 30
                         });

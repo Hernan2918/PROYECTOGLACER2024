@@ -234,7 +234,7 @@ body{
     padding: 0;
     background-color: white;
     width: 5%;
-    height: 588px;
+    height: 587px;
     font-family: 'Droid Sans';
     font-weight: bold;
     box-shadow: 3px 3px 5px rgb(0 0 0 / 50%);
@@ -492,7 +492,7 @@ thead tr:nth-child(odd){
     
 }
 #botonUsr{
-    margin-left: 45%;
+    margin-left: 40%;
 }
 
 

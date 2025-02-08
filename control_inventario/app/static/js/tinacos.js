@@ -223,7 +223,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             head: [['Proveedor', 'Nombre', 'Litros', 'Color', 'Existencia', 'Rotas', 'Precio', 'Ubicación', 'Categoría']],
                             body: rows,
                             theme: 'grid',
-                            styles: { halign: 'center' },
+                            styles: { halign: 'center', fontSize: 7 },
                             headStyles: { fillColor: [220, 0, 0] }, 
                             startY: 30 
                         });
@@ -272,7 +272,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     var color = document.getElementById('color').value;
                     var colorError = document.getElementById('colorError');
-                    var expresioncol = /^[A-ZÁÉÍÓÚÜÑ][a-záéíóúüñ]+(?:\s[a-záéíóúüñ]+)?$/;
+                    var expresioncol = /^[A-ZÁÉÍÓÚÜÑ][a-záéíóúüñ]*(?:\s[A-Za-záéíóúüñ]+)*$/;
 
                     if (!expresioncol.test(color)) {
                         colorError.textContent = 'Por favor, ingresa una nombre de color valido.';
@@ -403,7 +403,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     var colorA = document.getElementById('coloreditar').value;
                     var colorErrorA = document.getElementById('colorErrorA');
-                    var expresioncolA = /^[A-ZÁÉÍÓÚÜÑ][a-záéíóúüñ]+(?:\s[a-záéíóúüñ]+)?$/;
+                    var expresioncolA = /^[A-ZÁÉÍÓÚÜÑ][a-záéíóúüñ]*(?:\s[A-Za-záéíóúüñ]+)*$/;
 
                     if (!expresioncolA.test(colorA)) {
                         colorErrorA.textContent = 'Por favor, ingresa una nombre de color valido.';

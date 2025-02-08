@@ -1476,8 +1476,8 @@ def descargar_etiqueta_muro(muro_id):
 
     pdf = FPDF()
     pdf.add_page()
-    pdf.set_line_width(1)
-    pdf.rect(10, 10, 90, 50)
+    pdf.set_line_width(1.2)
+    pdf.rect(10, 10, 80, 40)
 
     nombre_imagen = proveedor.foto
     ruta_imagen = os.path.join(os.getcwd(), 'app', 'static', 'uploads', nombre_imagen)
@@ -1490,17 +1490,24 @@ def descargar_etiqueta_muro(muro_id):
         pdf.set_xy(11, 11)
         pdf.cell(30, 10, "Imagen no disponible", border=1, align="C")
 
-    pdf.set_font("Arial", "B", size=15)
-    pdf.set_xy(75, 15)
+    pdf.set_font("Arial", "B", size=16)
+    pdf.set_xy(64, 14)
     pdf.cell(0, 10, txt=f"{muro.medidas}")
-    pdf.set_font("Arial", "B", size=18)
-    pdf.set_xy(10, 30)
+
+    pdf.set_font("Arial", "B", size=17)
+    pdf.set_xy(5, 25)
     pdf.cell(90, 10, txt=muro.producto.upper(), align="C")
-    pdf.set_font("Arial", "B", size=15)
-    pdf.set_xy(68, 48)
+
+    pdf.set_font("Arial", "B", size=14)
+    pdf.set_xy(45, 32)
+    pdf.cell(0, 10, txt=f"{muro.calidad}")
+
+    pdf.set_font("Arial", "B", size=16)
+    pdf.set_xy(62, 38)
     pdf.cell(0, 10, txt=f"{muro.precio}")
-    pdf.set_font("Arial", "B", size=15)
-    pdf.set_xy(15, 48)
+
+    pdf.set_font("Arial", "B", size=16)
+    pdf.set_xy(15, 38)
     pdf.cell(0, 10, txt=f"{muro.embalaje}")
 
     output_pdf = BytesIO()
@@ -2326,8 +2333,8 @@ def descargar_etiqueta_producto(producto_id):
 
     pdf = FPDF()
     pdf.add_page()
-    pdf.set_line_width(1)
-    pdf.rect(10, 10, 90, 50)
+    pdf.set_line_width(1.2)
+    pdf.rect(10, 10, 80, 40)
 
     nombre_imagen = proveedor.foto
     ruta_imagen = os.path.join(os.getcwd(), 'app', 'static', 'uploads', nombre_imagen)
@@ -2340,20 +2347,26 @@ def descargar_etiqueta_producto(producto_id):
         pdf.set_xy(11, 11)
         pdf.cell(30, 10, "Imagen no disponible", border=1, align="C")
 
-    pdf.set_font("Arial", "B", size=15)
-    pdf.set_xy(75, 15)
+    pdf.set_font("Arial", "B", size=16)
+    pdf.set_xy(68, 14)
     pdf.cell(0, 10, txt=f"{producto.medidas}")
 
     pdf.set_font("Arial", "B", size=18)
-    pdf.set_xy(10, 30)
+    pdf.set_xy(5, 25)
     pdf.cell(90, 10, txt=producto.producto.upper(), align="C")
 
-    pdf.set_font("Arial", "B", size=15)
-    pdf.set_xy(70, 48)
+
+    pdf.set_font("Arial", "B", size=14)
+    pdf.set_xy(45, 32)
+    pdf.cell(0, 10, txt=f"{producto.calidad}")
+    
+
+    pdf.set_font("Arial", "B", size=16)
+    pdf.set_xy(62, 38)
     pdf.cell(0, 10, txt=f"{producto.precio}")
 
-    pdf.set_font("Arial", "B", size=15)
-    pdf.set_xy(15, 48)
+    pdf.set_font("Arial", "B", size=16)
+    pdf.set_xy(15, 38)
     pdf.cell(0, 10, txt=f"{producto.embalaje}")
 
     output_pdf = BytesIO()
@@ -2389,19 +2402,19 @@ def descargar_etiqueta_adhesivo(adhesivo_id):
         pdf.set_xy(11, 11)
         pdf.cell(30, 10, "Imagen no disponible", border=1, align="C")
 
-    pdf.set_font("Arial", "B", size=15)
+    pdf.set_font("Arial", "B", size=16)
     pdf.set_xy(78, 15)  
     pdf.cell(0, 10, txt=f"{adhesivo.kilogramos}")
     
-    pdf.set_font("Arial", "B", size=18)
+    pdf.set_font("Arial", "B", size=15.5)
     pdf.set_xy(10, 25)  
     pdf.cell(90, 10, txt=proveedor.nombre.upper(), align="C")  
 
-    pdf.set_font("Arial", "B", size=18)
+    pdf.set_font("Arial", "B", size=15.5)
     pdf.set_xy(10, 35)  
     pdf.cell(90, 10, txt=adhesivo.nombre.upper(), align="C")  
 
-    pdf.set_font("Arial", "B", size=15)
+    pdf.set_font("Arial", "B", size=16)
     pdf.set_xy(78, 48)  
     pdf.cell(0, 10, txt=f"{adhesivo.precio}")
 
@@ -2423,13 +2436,13 @@ def descargar_etiqueta_sanitario(sanitario_id):
     pdf.add_page()
 
     pdf.set_line_width(1)  
-    pdf.rect(10, 10, 90, 50)  
+    pdf.rect(10, 10, 115, 50)  
 
     nombre_imagen = proveedor.foto
     ruta_imagen = os.path.join(os.getcwd(), 'app', 'static', 'uploads', nombre_imagen)
 
     if os.path.exists(ruta_imagen):
-        pdf.image(ruta_imagen, x=40, y=13, w=30)
+        pdf.image(ruta_imagen, x=55, y=13, w=30)
     else:
         print(f"La imagen no se encuentra en la ruta especificada: {ruta_imagen}")
         pdf.set_font("Arial", size=10)
@@ -2437,11 +2450,11 @@ def descargar_etiqueta_sanitario(sanitario_id):
         pdf.cell(30, 10, "Imagen no disponible", border=1, align="C")
 
     pdf.set_font("Arial", "B", size=14)
-    pdf.set_xy(10, 30)  
+    pdf.set_xy(23, 30)  
     pdf.cell(90, 10, txt=sanitario.nombre.upper(), align="C")  
 
     pdf.set_font("Arial", "B", size=18)
-    pdf.set_xy(50, 48)  
+    pdf.set_xy(60, 48)  
     pdf.cell(90, 10, txt=f"{sanitario.precio}")
 
     output_pdf = BytesIO()
@@ -2470,7 +2483,7 @@ def descargar_etiqueta_tinaco(tinaco_id):
     ruta_imagen = os.path.join(os.getcwd(), 'app', 'static', 'uploads', nombre_imagen)
 
     if os.path.exists(ruta_imagen):
-        pdf.image(ruta_imagen, x=40, y=13, w=30)
+        pdf.image(ruta_imagen, x=35, y=11, w=40)
     else:
         print(f"La imagen no se encuentra en la ruta especificada: {ruta_imagen}")
         pdf.set_font("Arial", size=10)
@@ -2478,18 +2491,18 @@ def descargar_etiqueta_tinaco(tinaco_id):
         pdf.cell(30, 10, "Imagen no disponible", border=1, align="C")
 
     pdf.set_font("Arial", "B", size=18)
-    pdf.set_xy(0, 30)  
+    pdf.set_xy(15, 27)  
     pdf.cell(78, 10, txt=tinaco.nombre.upper(), align="C")  
 
-    pdf.set_font("Arial", "B", size=15)
+    pdf.set_font("Arial", "B", size=16)
     pdf.set_xy(15, 45)  
     pdf.cell(90, 10, txt=f"{tinaco.litros}")
 
     pdf.set_font("Arial", "B", size=18)
-    pdf.set_xy(20, 30)  
-    pdf.cell(98, 10, txt=tinaco.color.upper(), align="C")
+    pdf.set_xy(10, 35)  
+    pdf.cell(88, 10, txt=tinaco.color.upper(), align="C")
 
-    pdf.set_font("Arial", "B", size=15)
+    pdf.set_font("Arial", "B", size=16)
     pdf.set_xy(73, 45)  
     pdf.cell(90, 10, txt=f"{tinaco.precio}")
 
@@ -2511,33 +2524,37 @@ def descargar_etiqueta_vitroblock(vitroblock_id):
     pdf.add_page()
 
     pdf.set_line_width(1)  
-    pdf.rect(10, 10, 90, 50)  
+    pdf.rect(10, 10, 80, 40)  
 
     nombre_imagen = proveedor.foto
     ruta_imagen = os.path.join(os.getcwd(), 'app', 'static', 'uploads', nombre_imagen)
 
     if os.path.exists(ruta_imagen):
-        pdf.image(ruta_imagen, x=10, y=13, w=30)
+        pdf.image(ruta_imagen, x=11, y=11, w=18)
     else:
         print(f"La imagen no se encuentra en la ruta especificada: {ruta_imagen}")
         pdf.set_font("Arial", size=10)
         pdf.set_xy(10, 13)
         pdf.cell(30, 10, "Imagen no disponible", border=1, align="C")
 
+    pdf.set_font("Arial", "B", size=14)
+    pdf.set_xy(51, 10)  
+    pdf.cell(90, 10, txt=f" VITROBLOCK")
+
     pdf.set_font("Arial", "B", size=18)
-    pdf.set_xy(10, 25)  
+    pdf.set_xy(5, 25)  
     pdf.cell(90, 10, txt=vitroblock.nombre.upper(), align="C")  
 
-    pdf.set_font("Arial", "B", size=15)
-    pdf.set_xy(15, 45)  
+    pdf.set_font("Arial", "B", size=16)
+    pdf.set_xy(12, 40)  
     pdf.cell(90, 10, txt=f"{vitroblock.medidas}")
 
     pdf.set_font("Arial", "B", size=18)
-    pdf.set_xy(10, 35)  
+    pdf.set_xy(5, 32)  
     pdf.cell(90, 10, txt=vitroblock.tipo.upper(), align="C")
 
-    pdf.set_font("Arial", "B", size=15)
-    pdf.set_xy(73, 45)  
+    pdf.set_font("Arial", "B", size=16)
+    pdf.set_xy(73, 40)  
     pdf.cell(90, 10, txt=f"{vitroblock.precio}")
 
     output_pdf = BytesIO()
