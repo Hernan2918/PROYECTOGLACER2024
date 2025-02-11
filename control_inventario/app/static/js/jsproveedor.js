@@ -212,7 +212,7 @@ document.addEventListener('DOMContentLoaded', function () {
     
             var direccion = document.getElementById('direccion').value;
             var direccionError = document.getElementById('direccionError');
-            var expresiondic = /^[a-zA-Z0-9\s.,#-]+,\s?\d+(,\s?\d+)?\s*,\s?\d{5}$/;
+            var expresiondic = /^[\w\W]+$/;
     
             if (!expresiondic.test(direccion)){
                 direccionError.textContent = 'Por favor ingresa una dirección correcta, ejemplo Av. Insurgentes Sur 123, Col. Roma, 06760.';
@@ -288,7 +288,7 @@ document.addEventListener('DOMContentLoaded', function () {
     
             var direccionA = document.getElementById('direccioneditar').value;
             var direccionErrorA = document.getElementById('direccionErrorA');
-            var expresiondicA = /^[a-zA-Z0-9\s.,#-]+,\s?\d+(,\s?\d+)?\s*,\s?\d{5}$/;
+            var expresiondicA = /^[\w\W]+$/;
     
             if (!expresiondicA.test(direccionA)){
                 direccionErrorA.textContent = 'Por favor ingresa una dirección correcta, ejemplo Av. Insurgentes Sur 123, Col. Roma, 06760.';
